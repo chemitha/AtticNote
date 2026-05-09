@@ -40,7 +40,8 @@ export async function POST(
   const { blocks } = await req.json();
 
   // Transaction to update all blocks
-  await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+  await prisma.$transaction(async (tx: any) => {
+    // We could delete and recreate for simplicity
     await tx.block.deleteMany({
       where: { note_id: id }
     });
