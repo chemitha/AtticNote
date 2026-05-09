@@ -1,45 +1,24 @@
-import { getNote } from "@/app/actions/notes";
-import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
-import Editor from "@/components/Editor";
-import { Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default async function NotePage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const note = await getNote(id);
-
-  if (!note) {
-    notFound();
-  }
-
-  const initialBlocks = await prisma.block.findMany({
-    where: { note_id: id },
-    orderBy: { position: "asc" }
-  });
-
+export default function NotePage(props: { params: Promise<{ id: string }> }) {
   return (
-    <div className="min-h-full">
-      {note.banner_url ? (
-        <div className="h-64 w-full relative group">
-          <img src={note.banner_url} alt="Banner" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-            <Button variant="secondary" size="sm" className="gap-2">
-              <ImageIcon className="h-4 w-4" />
-              Change Cover
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <div className="h-48 w-full group relative transition-colors hover:bg-white/5 flex items-end px-8 pb-4">
-          <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity gap-2 text-gray-400 hover:text-white">
-            <ImageIcon className="h-4 w-4" />
+    <div className="flex-1 flex flex-col relative w-full h-full text-[#F5F7FA] p-10 max-w-4xl mx-auto">
+      <div className="h-48 w-full group relative transition-colors bg-[#181A20] border border-[#2A2E37] rounded-xl flex items-center justify-center -mt-4 mb-10 overflow-hidden group">
+         <div className="absolute inset-0 opacity-40 bg-gradient-to-r from-blue-500/20 to-purple-500/20"></div>
+         <Button variant="outline" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity gap-2 relative z-10">
             Add Cover
-          </Button>
-        </div>
-      )}
-
-      <Editor noteId={id} initialBlocks={initialBlocks} initialTitle={note.title} />
+         </Button>
+      </div>
+      
+      <input
+        type="text"
+        defaultValue="Draft Note"
+        className="w-full bg-transparent text-4xl font-bold border-none outline-none mb-8 placeholder-[#4B5563] focus:ring-0 text-[#F5F7FA]"
+      />
+      <div className="text-[#9CA3AF] text-sm">
+        <p>Editor instance would be mounted here.</p>
+        <p className="mt-4">Type '/' for commands</p>
+      </div>
     </div>
   );
 }
