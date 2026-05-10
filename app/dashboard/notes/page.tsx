@@ -3,9 +3,10 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { FileText, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Note } from "@prisma/client";
 
 export default async function AllNotesPage() {
-  const notes = await getAllNotes();
+  const notes: Note[] = await getAllNotes();
 
   return (
     <div className="max-w-5xl mx-auto px-8 py-12">

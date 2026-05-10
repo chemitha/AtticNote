@@ -29,7 +29,7 @@ export async function registerAction(formData: FormData) {
     },
   });
 
-  const token = await signToken(user.id);
+  const token = await signToken({ id: user.id });
   const cookieStore = await cookies();
   cookieStore.set("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
 
@@ -54,7 +54,7 @@ export async function loginAction(formData: FormData) {
     return { error: "Invalid credentials" };
   }
 
-  const token = await signToken(user.id);
+  const token = await signToken({ id: user.id });
   const cookieStore = await cookies();
   cookieStore.set("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
 
