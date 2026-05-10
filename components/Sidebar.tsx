@@ -3,17 +3,14 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Plus, Home, FileText, Clock, Trash2, Settings, LogOut, Search, Star } from "lucide-react";
+import { logoutAction } from "@/app/actions/auth";
 
 export default function Sidebar({ user }: { user: any }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  async function handleCreateNote() {
-    // mock
-  }
-
   async function handleLogout() {
-    // mock
+    await logoutAction();
     router.push("/");
   }
 
@@ -45,7 +42,6 @@ export default function Sidebar({ user }: { user: any }) {
             <div className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md cursor-pointer group">
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
               <span className="text-sm">Google Drive</span>
-              <span className="ml-auto text-[10px] bg-blue-900/30 text-blue-400 px-1.5 py-0.5 rounded">Syncing</span>
             </div>
             <div className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md cursor-pointer group">
               <span className="w-2 h-2 rounded-full bg-white"></span>
@@ -64,10 +60,21 @@ export default function Sidebar({ user }: { user: any }) {
           <Settings className="w-4 h-4" />
           <span>Settings</span>
         </div>
-        <div className="flex items-center gap-3 px-3 py-2 bg-[#7C5CFF15] rounded-xl">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#7C5CFF] to-blue-400"></div>
+        
+        <button 
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-red-500/10 hover:text-red-400 rounded-md cursor-pointer text-sm transition-colors text-left"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Logout</span>
+        </button>
+
+        <div className="flex items-center gap-3 px-3 py-2 bg-[#7C5CFF15] rounded-xl mt-4">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#7C5CFF] to-blue-400 flex items-center justify-center text-white font-medium text-xs">
+            {user?.name?.charAt(0) || "U"}
+          </div>
           <div className="flex-1 overflow-hidden">
-            <p className="text-xs font-semibold truncate text-[#F5F7FA]">Chemitha D.</p>
+            <p className="text-xs font-semibold truncate text-[#F5F7FA]">{user?.name || "User"}</p>
             <p className="text-[10px] text-[#9CA3AF] truncate">Personal Pro Plan</p>
           </div>
         </div>
