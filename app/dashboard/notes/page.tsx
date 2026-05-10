@@ -5,6 +5,8 @@ import { FileText, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Note } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export default async function AllNotesPage() {
   const notes: Note[] = await getAllNotes();
 
