@@ -4,7 +4,7 @@
 
 Built for speed and simplicity — focused on delightful note-taking with a powerful block editor and seamless export/sync options.
 
-![Attic Banner](https://via.placeholder.com/800x400/7C5CFF/FFFFFF?text=Attic+-+Notion+Style+Notes)  
+![Attic Banner](https://placeholder.co/800x400/7C5CFF/FFFFFF?text=Attic+-+Notion+Style+Notes)  
 *(Replace with actual screenshot once deployed)*
 
 ## ✨ Features
