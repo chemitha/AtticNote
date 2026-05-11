@@ -1,20 +1,105 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Attic
 
-# Run and deploy your AI Studio app
+**A lightweight, keyboard-first Notion alternative.**
 
-This contains everything you need to run your app locally.
+Built for speed and simplicity — focused on delightful note-taking with a powerful block editor and seamless export/sync options.
 
-View your app in AI Studio: https://ai.studio/apps/bc79d8b0-e8ea-412f-b272-500800fdc5e5
+![Attic Banner](https://via.placeholder.com/800x400/7C5CFF/FFFFFF?text=Attic+-+Notion+Style+Notes)  
+*(Replace with actual screenshot once deployed)*
 
-## Run Locally
+## ✨ Features
 
-**Prerequisites:**  Node.js
+- ⚡ **Lightning-fast block editor** (Notion-like experience)
+- ⌨️ **Keyboard-first** — everything accessible via shortcuts
+- 📝 **Full Markdown support**
+- 🖼️ **File & image attachments** with drag & drop
+- 🔍 **Global search** (Cmd/Ctrl + K)
+- 📤 **Export & Sync** to Google Drive, Notion, and GitHub
+- 🎨 **Beautiful dark UI** with glassmorphism touch
+- 📱 **Responsive design** (desktop-first)
 
+## Tech Stack
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- **Frontend**: Next.js 15 (App Router), TypeScript, Tailwind CSS, shadcn/ui
+- **Editor**: BlockNote (Notion-style blocks)
+- **State**: Zustand + TanStack Query
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL + Prisma
+- **Auth**: JWT + bcrypt
+- **Storage**: Local → Cloudflare R2 / AWS S3 (planned)
+
+## Screenshots
+
+*(Add screenshots here — especially the editor and dashboard)*
+
+## Quick Start
+
+### Prerequisites
+- Node.js 20+
+- PostgreSQL database
+
+### Setup
+
+```bash
+# Clone the repo
+git clone https://github.com/chemitha/attic.git
+cd attic
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+```
+
+Then fill in your `.env.local`:
+
+```env
+DATABASE_URL="postgresql://..."
+NEXTAUTH_SECRET=...
+# Add your OAuth credentials for Google, Notion, GitHub
+```
+
+```bash
+# Run migrations
+npx prisma migrate dev
+
+# Start development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to start using Attic.
+
+## Project Status
+
+**MVP Complete** — Built in one day (May 2026)
+
+**Currently Working:**
+- Full authentication (email/password)
+- Dashboard with sidebar
+- Block-based editor with slash commands
+- File uploads & attachments
+- Basic integrations UI
+
+**In Progress / Planned:**
+- Full OAuth integrations (Google Drive, Notion, GitHub)
+- Mobile responsiveness
+- Advanced search & tagging
+- Block drag & drop improvements
+
+## Roadmap
+
+- [ ] Polish editor experience
+- [ ] Complete OAuth integrations
+- [ ] Export notes as clean Markdown + assets
+- [ ] Command palette enhancements
+- [ ] Dark/light mode toggle
+- [ ] Public sharing
+
+## Contributing
+
+This is currently a personal project. Feel free to open issues or PRs if you have suggestions!
+
+## License
+
+MIT © [Chemitha](https://github.com/chemitha)
