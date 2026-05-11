@@ -1,6 +1,0 @@
-{
-  "name": "Notion-Style MVP",
-  "description": "A lightweight Notion-style workspace with a block editor, Markdown support, file attachments, and third-party sync capabilities.",
-  "requestFramePermissions": [],
-  "majorCapabilities": []
-}
