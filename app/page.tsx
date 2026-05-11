@@ -108,6 +108,7 @@ function HeroSection() {
         >
           <div className="absolute -inset-1 bg-gradient-to-tr from-[#7C5CFF]/30 to-transparent rounded-2xl blur-xl opacity-50" />
           <div className="relative bg-[#12151C] border border-[#232734] rounded-2xl shadow-2xl overflow-hidden shadow-[#000]/50 transform md:-rotate-y-6 md:rotate-x-2">
+            {/* Editor TopBar */}
             <div className="h-12 border-b border-[#232734] flex items-center px-4 justify-between bg-[#12151C]">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#ED6A5E]" />
@@ -120,6 +121,7 @@ function HeroSection() {
                 <div className="px-2 py-1 text-[10px] uppercase font-bold text-[#fff] bg-[#7C5CFF] rounded">GitHub</div>
               </div>
             </div>
+            {/* Editor Content */}
             <div className="p-8 pb-12 font-sans bg-[#0B0D12]">
               <h2 className="text-3xl font-bold mb-6">Product Roadmap</h2>
               <div className="space-y-3 text-[#E2E8F0]">
@@ -340,6 +342,7 @@ function WorkflowSection() {
     <section className="py-24 bg-[#12151C]/20 border-y border-[#232734]/50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-12 text-center md:text-left relative">
+          {/* Timeline Line */}
           <div className="hidden md:block absolute top-[28px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-transparent via-[#232734] text-transparent to-transparent -z-10" />
           
           <div className="relative">
@@ -451,6 +454,7 @@ function DashboardPreview() {
         <h2 className="text-3xl font-semibold mb-12">A workspace that gets out of your way</h2>
         
         <div className="rounded-2xl border border-[#232734] bg-[#12151C] overflow-hidden shadow-2xl relative">
+          {/* Header */}
           <div className="h-14 border-b border-[#232734] flex items-center px-4 justify-between bg-[#0B0D12]">
             <div className="flex items-center gap-4">
               <div className="w-8 h-8 rounded bg-[#7C5CFF]/10 flex items-center justify-center text-[#7C5CFF] font-bold">U</div>
@@ -463,7 +467,9 @@ function DashboardPreview() {
             </div>
           </div>
           
+          {/* Content area mock */}
           <div className="flex h-[400px]">
+             {/* Sidebar */}
              <div className="w-56 border-r border-[#232734] bg-[#0B0D12] hidden md:block p-4 space-y-1">
                <div className="text-xs font-semibold text-[#98A2B3] mb-3 mt-2 px-2 tracking-wider">NOTES</div>
                <div className="px-2 py-1.5 text-sm rounded bg-[#232734] text-[#F4F7FA]">📝 All Notes</div>
@@ -480,6 +486,7 @@ function DashboardPreview() {
                </div>
              </div>
              
+             {/* Main */}
              <div className="flex-1 p-8 bg-[#12151C] overflow-hidden text-left relative">
                <h1 className="text-3xl font-bold mb-6">All Notes</h1>
                
