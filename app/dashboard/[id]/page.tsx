@@ -17,7 +17,7 @@ export default function NotePage(props: { params: Promise<{ id: string }> }) {
       />
       <div className="text-[#9CA3AF] text-sm">
         <p>Editor instance would be mounted here.</p>
-        <p className="mt-4">Type '/' for commands</p>
+        <p className="mt-4">Type &apos;/&apos; for commands</p>
       </div>
     </div>
   );

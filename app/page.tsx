@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Box, CheckCircle2, ChevronRight, Cloud, Command, Cpu, File, FileText, FileUp, FolderGit2, Github, HardDrive, Keyboard, Layout, Search, Sparkles, TerminalSquare, UploadCloud, Zap } from "lucide-react";
+import { ArrowRight, Box, CheckCircle2, Cloud, File, FileText, FolderGit2, Github, HardDrive, Keyboard, Layout, Search, Sparkles, TerminalSquare, UploadCloud, Menu, Link as LinkIcon, Youtube, Image as ImageIcon } from "lucide-react";
 import * as motion from "motion/react-client";
 
 export default function LandingPage() {
@@ -13,7 +13,7 @@ export default function LandingPage() {
         <EditorDemo />
         <IntegrationsSection />
         <WorkflowSection />
-        <FileUploadSection />
+        <EmbedSection />
         <KeyboardFirstSection />
         <DashboardPreview />
         <PricingSection />
@@ -45,9 +45,12 @@ function Navbar() {
         </div>
         <div className="flex items-center gap-4 text-sm font-medium">
           <Link href="/login" className="hidden sm:inline-block text-[#98A2B3] hover:text-[#F4F7FA] transition-colors">Log in</Link>
-          <Link href="/register" className="bg-[#F4F7FA] text-[#0B0D12] px-4 py-2 rounded-lg hover:bg-white transition-colors">
+          <Link href="/register" className="hidden sm:inline-block bg-[#F4F7FA] text-[#0B0D12] px-4 py-2 rounded-lg hover:bg-white transition-colors">
             Get Started
           </Link>
+          <button className="md:hidden text-[#98A2B3] hover:text-[#F4F7FA]">
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </header>
@@ -70,7 +73,7 @@ function HeroSection() {
               <Sparkles className="w-3.5 h-3.5 text-[#7C5CFF]" />
               <span>Markdown-first workspace</span>
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6">
               A fast workspace <br />
               for notes, files, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C5CFF] to-[#A890FF]">and workflows.</span>
@@ -88,8 +91,8 @@ function HeroSection() {
               </Link>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 text-sm text-[#98A2B3]">
-              {['Markdown Native', 'Block Editor', 'File Uploads', 'GitHub Sync'].map((feature) => (
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-[#98A2B3]">
+              {['Markdown Native', 'Block Editor', 'Rich Embeds', 'GitHub Sync'].map((feature) => (
                 <div key={feature} className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
                   <span>{feature}</span>
@@ -136,17 +139,17 @@ function HeroSection() {
                 <div className="flex items-start gap-2">
                   <span className="text-[#98A2B3] select-none mt-1">-</span>
                   <div className="relative">
-                    <p className="border-r-2 border-[#7C5CFF] pr-1 animate-pulse">File uploads</p>
+                    <p className="border-r-2 border-[#7C5CFF] pr-1 animate-pulse">Rich embeds</p>
                   </div>
                 </div>
               </div>
               <div className="mt-8 p-3 rounded-lg border border-[#232734] bg-[#12151C] flex items-center gap-3">
                 <div className="w-8 h-8 rounded bg-[#232734] flex items-center justify-center">
-                  <File className="w-4 h-4 text-[#98A2B3]" />
+                  <LinkIcon className="w-4 h-4 text-[#98A2B3]" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium">assets.zip</div>
-                  <div className="text-xs text-[#98A2B3]">1.2 MB</div>
+                  <div className="text-sm font-medium">Figma Prototype</div>
+                  <div className="text-xs text-[#98A2B3]">figma.com/file/...</div>
                 </div>
               </div>
             </div>
@@ -193,9 +196,9 @@ function FeaturesGrid() {
       icon: <FolderGit2 className="w-5 h-5" />
     },
     {
-      title: "File Uploads",
-      desc: "Attach PDFs, images, videos, and ZIP files.",
-      icon: <FileUp className="w-5 h-5" />
+      title: "Rich Embeds",
+      desc: "Embed PDFs, images, YouTube videos, and links naturally.",
+      icon: <LinkIcon className="w-5 h-5" />
     },
     {
       title: "Keyboard First",
@@ -244,9 +247,9 @@ function EditorDemo() {
           <div className="h-10 bg-[#0B0D12] border-b border-[#232734] flex items-center px-4">
              <div className="text-xs text-[#98A2B3] font-mono">Weekly Planning.md</div>
           </div>
-          <div className="p-10 font-sans space-y-4 min-h-[300px]">
-             <h1 className="text-4xl font-bold mb-4 text-[#F4F7FA]">Weekly Planning</h1>
-             <div className="flex items-center gap-3 text-lg text-[#E2E8F0]">
+          <div className="p-6 md:p-10 font-sans space-y-4 min-h-[300px]">
+             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-[#F4F7FA]">Weekly Planning</h1>
+             <div className="flex items-center gap-3 text-base md:text-lg text-[#E2E8F0]">
                <input type="checkbox" className="w-4 h-4 rounded border-[#232734] bg-[#0B0D12] accent-[#7C5CFF]" readOnly />
                <span>Finalize dashboard</span>
              </div>
@@ -328,7 +331,7 @@ function IntegrationsSection() {
             <p className="text-[#98A2B3] mb-8 flex-1">Push Markdown notes directly into your repositories.</p>
             <div className="p-4 rounded-lg bg-[#0B0D12] border border-[#232734] shadow-inner text-sm text-[#F4F7FA]">
                <div className="text-xs text-[#98A2B3] mb-2 font-mono">git commit -m</div>
-               <div className="flex items-center gap-2 text-sm text-[#7C5CFF]">"Update docs"</div>
+               <div className="flex items-center gap-2 text-sm text-[#7C5CFF]">&quot;Update docs&quot;</div>
             </div>
           </div>
         </div>
@@ -368,24 +371,24 @@ function WorkflowSection() {
   );
 }
 
-function FileUploadSection() {
+function EmbedSection() {
   return (
     <section className="py-24 bg-[#0B0D12]">
       <div className="max-w-4xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row gap-12 items-center">
-           <div className="flex-1">
-              <h2 className="text-3xl font-semibold mb-4">Powerful file handling</h2>
-              <p className="text-[#98A2B3] text-lg mb-6">Attach PDFs, images, videos, and ZIPs directly into your notes. Your files export neatly alongside your Markdown.</p>
-              <div className="space-y-3">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+           <div className="flex-1 w-full text-center md:text-left">
+              <h2 className="text-3xl font-semibold mb-4">Powerful link embedding</h2>
+              <p className="text-[#98A2B3] text-lg mb-6 max-w-sm mx-auto md:mx-0">Keep your database light. Embed PDFs, Figma files, YouTube videos, and rich links directly into your notes without uploading large files.</p>
+              <div className="space-y-3 max-w-sm mx-auto md:mx-0">
                  <div className="flex items-center gap-3 p-3 bg-[#12151C] rounded-lg border border-[#232734]">
-                    <div className="w-8 h-8 rounded bg-red-500/10 flex items-center justify-center"><FileText className="w-4 h-4 text-red-400" /></div>
-                    <div className="flex-1 text-sm font-medium">roadmap.pdf</div>
-                    <div className="text-xs text-[#98A2B3]">2.4 MB</div>
+                    <div className="w-8 h-8 rounded bg-red-500/10 flex items-center justify-center"><Youtube className="w-4 h-4 text-red-400" /></div>
+                    <div className="flex-1 text-sm font-medium text-left">Product Demo</div>
+                    <div className="text-xs text-[#98A2B3]">youtube.com</div>
                  </div>
                  <div className="flex items-center gap-3 p-3 bg-[#12151C] rounded-lg border border-[#232734]">
-                    <div className="w-8 h-8 rounded bg-blue-500/10 flex items-center justify-center"><File className="w-4 h-4 text-blue-400" /></div>
-                    <div className="flex-1 text-sm font-medium">ui-mockup.png</div>
-                    <div className="text-xs text-[#98A2B3]">4.1 MB</div>
+                    <div className="w-8 h-8 rounded bg-blue-500/10 flex items-center justify-center"><ImageIcon className="w-4 h-4 text-blue-400" /></div>
+                    <div className="flex-1 text-sm font-medium text-left">UI Mockup</div>
+                    <div className="text-xs text-[#98A2B3]">imgur.com</div>
                  </div>
               </div>
            </div>
@@ -393,10 +396,10 @@ function FileUploadSection() {
            <div className="w-full md:w-[400px]">
              <div className="aspect-square rounded-2xl border-2 border-dashed border-[#232734] bg-[#12151C]/50 flex flex-col items-center justify-center p-8 text-center hover:border-[#7C5CFF]/50 transition-colors">
                 <div className="w-16 h-16 rounded-full bg-[#232734] flex items-center justify-center mb-6">
-                  <UploadCloud className="w-8 h-8 text-[#98A2B3]" />
+                  <LinkIcon className="w-8 h-8 text-[#98A2B3]" />
                 </div>
-                <h3 className="text-lg font-medium mb-2">Drop files here</h3>
-                <p className="text-sm text-[#98A2B3]">or click to upload</p>
+                <h3 className="text-lg font-medium mb-2">Paste any URL</h3>
+                <p className="text-sm text-[#98A2B3]">Formats automatically</p>
              </div>
            </div>
         </div>
@@ -408,7 +411,7 @@ function FileUploadSection() {
 function KeyboardFirstSection() {
   return (
     <section className="py-24 bg-[#12151C] border-y border-[#232734]">
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
         <div>
           <h2 className="text-3xl font-semibold mb-4">Built for people who think faster than they click.</h2>
           <p className="text-[#98A2B3] text-lg">Keyboard shortcuts for everything. Never take your hands off the keys while writing, structuring, or searching.</p>
@@ -458,7 +461,7 @@ function DashboardPreview() {
           <div className="h-14 border-b border-[#232734] flex items-center px-4 justify-between bg-[#0B0D12]">
             <div className="flex items-center gap-4">
               <div className="w-8 h-8 rounded bg-[#7C5CFF]/10 flex items-center justify-center text-[#7C5CFF] font-bold">U</div>
-              <div className="font-medium text-sm">User's Workspace</div>
+              <div className="font-medium text-sm">User&apos;s Workspace</div>
             </div>
             <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#12151C] border border-[#232734] text-xs text-[#98A2B3] w-64">
               <Search className="w-4 h-4" />
@@ -468,7 +471,7 @@ function DashboardPreview() {
           </div>
           
           {/* Content area mock */}
-          <div className="flex h-[400px]">
+          <div className="flex flex-col md:flex-row h-[500px] md:h-[400px]">
              {/* Sidebar */}
              <div className="w-56 border-r border-[#232734] bg-[#0B0D12] hidden md:block p-4 space-y-1">
                <div className="text-xs font-semibold text-[#98A2B3] mb-3 mt-2 px-2 tracking-wider">NOTES</div>
@@ -487,10 +490,10 @@ function DashboardPreview() {
              </div>
              
              {/* Main */}
-             <div className="flex-1 p-8 bg-[#12151C] overflow-hidden text-left relative">
-               <h1 className="text-3xl font-bold mb-6">All Notes</h1>
+             <div className="flex-1 p-6 md:p-8 bg-[#12151C] overflow-hidden text-left relative flex flex-col">
+               <h1 className="text-2xl md:text-3xl font-bold mb-6">All Notes</h1>
                
-               <div className="space-y-3">
+               <div className="space-y-3 flex-1 overflow-y-auto pb-20 md:pb-0 hide-scrollbar">
                  <div className="bg-[#0B0D12] border border-[#232734] p-4 rounded-xl flex items-center justify-between group cursor-pointer hover:border-[#7C5CFF]/30 transition-colors">
                     <div className="flex items-center gap-4">
                        <FileText className="w-5 h-5 text-[#7C5CFF]" />
@@ -517,8 +520,31 @@ function DashboardPreview() {
                  </div>
                </div>
                
-               <div className="absolute bottom-8 right-8 w-12 h-12 bg-[#7C5CFF] rounded-full shadow-lg flex items-center justify-center shadow-[#7C5CFF]/30">
+               <div className="hidden md:flex absolute bottom-8 right-8 w-12 h-12 bg-[#7C5CFF] rounded-full shadow-lg items-center justify-center shadow-[#7C5CFF]/30 cursor-pointer">
                   <div className="text-white text-2xl font-light">+</div>
+               </div>
+
+               {/* Mobile Bottom Nav */}
+               <div className="md:hidden absolute bottom-0 left-0 right-0 h-16 border-t border-[#232734] bg-[#0B0D12]/90 backdrop-blur-md flex items-center justify-around px-4 z-10">
+                 <div className="flex flex-col items-center gap-1 text-[#F4F7FA]">
+                   <Layout className="w-5 h-5" />
+                   <span className="text-[10px]">Home</span>
+                 </div>
+                 <div className="flex flex-col items-center gap-1 text-[#98A2B3]">
+                   <Search className="w-5 h-5" />
+                   <span className="text-[10px]">Search</span>
+                 </div>
+                 <div className="w-12 h-12 rounded-full bg-[#7C5CFF] shadow-lg shadow-[#7C5CFF]/30 flex items-center justify-center -translate-y-4">
+                   <div className="text-white text-2xl font-light">+</div>
+                 </div>
+                 <div className="flex flex-col items-center gap-1 text-[#98A2B3]">
+                   <FileText className="w-5 h-5" />
+                   <span className="text-[10px]">Notes</span>
+                 </div>
+                 <div className="flex flex-col items-center gap-1 text-[#98A2B3]">
+                   <div className="w-5 h-5 rounded-full bg-[#232734] flex items-center justify-center text-[10px] text-white">U</div>
+                   <span className="text-[10px]">Me</span>
+                 </div>
                </div>
              </div>
           </div>
@@ -546,7 +572,7 @@ function PricingSection() {
             <ul className="space-y-4 mb-8 text-sm text-[#F4F7FA]">
               <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Unlimited notes</li>
               <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Markdown export</li>
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Basic uploads</li>
+              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Basic embeds</li>
               <li className="flex items-center gap-3 opacity-50"><CheckCircle2 className="w-4 h-4 text-[#98A2B3]"/> GitHub Sync</li>
               <li className="flex items-center gap-3 opacity-50"><CheckCircle2 className="w-4 h-4 text-[#98A2B3]"/> Drive Sync</li>
             </ul>
@@ -584,7 +610,7 @@ function FAQSection() {
     },
     {
       q: "Are files supported?",
-      a: "Yes. You can upload and embed images, PDFs, ZIPs, and video files directly into your notes. They export securely with your Markdown."
+      a: "To keep things fast and structured, we stick to embeds. Paste links for PDFs, images, videos, and Figma prototypes and they'll render inline automatically."
     },
     {
       q: "Can I sync with GitHub?",
