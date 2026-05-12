@@ -1,102 +1,101 @@
-"use client";
-import { FileText, MoreVertical, Github, Box, HardDrive, Filter, Clock } from "lucide-react";
+import Link from "next/link";
+import { formatDistanceToNow } from "date-fns";
+import { FileText, MoreVertical, Search, Plus } from "lucide-react";
+import { getUser } from "@/lib/auth";
+import { getAllNotes, getRecentNotes } from "@/app/actions/notes";
+import CreateNoteButton from "@/components/CreateNoteButton";
 
-export default function DashboardHome() {
+export default async function DashboardPage() {
+  const user = await getUser();
+  const recentNotes = await getRecentNotes();
+  const allNotes = await getAllNotes();
+
   return (
-    <div className="flex flex-col min-h-full">
-      {/* Banner */}
-      <div className="relative h-40 md:h-[320px] bg-gradient-to-br from-[#7C5CFF]/20 to-[#0B0D12] overflow-hidden shrink-0">
-         <div className="absolute inset-0 bg-[#7C5CFF]/5 backdrop-blur-[100px]" />
-         <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8">
-            <h1 className="text-2xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-[#98A2B3]">
-              Welcome back
-            </h1>
-            <p className="text-sm md:text-base text-[#98A2B3] mt-1 md:mt-2">2 notes edited today.</p>
-         </div>
-         <button className="absolute top-4 right-4 md:top-8 md:right-8 p-2 rounded-full bg-[#12151C]/50 border border-[#232734] text-white hover:bg-[#232734]">
-            <MoreVertical className="w-5 h-5" />
-         </button>
+    <div className="flex-1 flex flex-col relative w-full h-full text-[#F5F7FA]">
+      <section className="h-40 relative overflow-hidden shrink-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1F1D2B] to-[#0F1115]"></div>
+        <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "radial-gradient(#7C5CFF 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
+        <div className="absolute bottom-8 left-10">
+          <h1 className="text-3xl font-bold tracking-tight text-white">Welcome back, {user?.name || "User"}</h1>
+          <p className="text-[#9CA3AF] text-sm mt-1">You have {allNotes.length} note{allNotes.length !== 1 ? 's' : ''} in your workspace.</p>
+        </div>
+      </section>
+
+      <div className="px-10 -mt-6 z-10 shrink-0">
+        <div className="bg-[#181A20] rounded-xl border border-[#2A2E37] flex items-center gap-3 px-4 py-3 shadow-2xl">
+          <Search className="w-5 h-5 text-[#9CA3AF]" />
+          <input 
+            type="text" 
+            placeholder="Search notes, tags, and blocks..." 
+            className="bg-transparent border-none outline-none text-sm w-full placeholder:text-[#4B5563] text-white focus:ring-0" 
+          />
+          <div className="flex items-center gap-1 bg-[#0F1115] border border-[#2A2E37] px-2 py-0.5 rounded text-[10px] font-mono text-[#9CA3AF]">
+            <span className="text-[12px]">⌘</span> K
+          </div>
+        </div>
       </div>
 
-      <div className="flex-1 p-4 md:p-8 bg-[#0B0D12]">
-         {/* Desktop Only header / filters */}
-         <div className="hidden md:flex items-center justify-between mb-8">
-            <div className="flex items-center gap-4 text-sm font-medium">
-               <button className="text-[#F4F7FA] border-b-2 border-[#7C5CFF] pb-1">All Notes</button>
-               <button className="text-[#98A2B3] hover:text-[#F4F7FA] pb-1">Favorites</button>
-               <button className="text-[#98A2B3] hover:text-[#F4F7FA] pb-1">Recent</button>
-            </div>
-            <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#232734] text-sm text-[#98A2B3] hover:bg-[#12151C]">
-              <Filter className="w-4 h-4" /> Filter
-            </button>
-         </div>
+      {recentNotes.length > 0 && (
+        <div className="px-10 mt-8 shrink-0">
+          <h3 className="text-xs uppercase font-bold tracking-widest text-[#4B5563] mb-4">Recent Workspace</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {recentNotes.map((note) => (
+              <Link href={`/dashboard/notes/${note.id}`} key={note.id} className="block">
+                <div className="bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-[#7C5CFF66] transition-colors cursor-pointer group">
+                  <div className="flex items-start justify-between mb-3">
+                    <span className="text-2xl">📄</span>
+                    <span className="text-[10px] bg-[#0F1115] text-[#9CA3AF] px-2 py-0.5 rounded-full border border-[#2A2E37] whitespace-nowrap">
+                      {formatDistanceToNow(new Date(note.updated_at))} ago
+                    </span>
+                  </div>
+                  <p className="font-medium text-sm truncate group-hover:text-[#F5F7FA]">{note.title || "Untitled"}</p>
+                  <p className="text-xs text-[#4B5563] mt-1 truncate">Click to view note</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
-         {/* Mobile Recent indicator */}
-         <div className="md:hidden flex items-center justify-between mb-4 mt-2">
-            <h2 className="text-lg font-semibold flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#7C5CFF]" /> Recent Files
-            </h2>
-         </div>
-
-         {/* Notes Grid / List */}
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-            {/* Desktop and Mobile Note Card */}
-            <div className="group bg-[#12151C] border border-[#232734] rounded-xl p-4 flex flex-col hover:border-[#7C5CFF]/30 transition-all cursor-pointer">
-               <div className="flex items-start justify-between mb-8 md:mb-12">
-                  <div className="flex items-center gap-3">
-                     <div className="w-10 h-10 rounded-lg bg-[#232734] flex items-center justify-center">
-                        <FileText className="w-5 h-5 text-[#F4F7FA]" />
-                     </div>
-                     <div>
-                        <h3 className="font-medium text-base text-[#F4F7FA]">Project Roadmap</h3>
-                        <p className="text-xs text-[#98A2B3]">2h ago</p>
-                     </div>
+      <div className="px-10 mt-10 shrink-0 mb-20 overflow-visible">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xs uppercase font-bold tracking-widest text-[#4B5563]">All Notes</h3>
+        </div>
+        
+        {allNotes.length === 0 ? (
+          <div className="text-center py-10 bg-[#181A20] border border-[#2A2E37] rounded-xl">
+             <p className="text-[#9CA3AF] text-sm mb-4">No notes yet. Create your first note!</p>
+             <CreateNoteButton />
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {allNotes.map((note) => (
+              <Link href={`/dashboard/notes/${note.id}`} key={note.id}>
+                <div className="group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl flex items-center gap-4 hover:border-[#7C5CFF] transition-all cursor-pointer mb-2">
+                  <div className="text-xl shrink-0">📝</div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
+                    <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
                   </div>
-                  {/* Mobile Actions: Kebab, Desktop Actions: Buttons */}
-                  <div className="md:hidden">
-                    <button className="p-2 -mr-2 text-[#98A2B3] active:bg-[#232734] rounded-full">
-                       <MoreVertical className="w-5 h-5" />
-                    </button>
+                  
+                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button className="px-3 py-1 bg-[#0F1115] border border-[#2A2E37] text-[10px] font-bold uppercase tracking-wider rounded-lg hover:text-white hover:border-blue-500 transition-colors">G-Drive</button>
+                      <button className="px-3 py-1 bg-[#0F1115] border border-[#2A2E37] text-[10px] font-bold uppercase tracking-wider rounded-lg hover:text-white hover:border-gray-300 transition-colors">Notion</button>
+                      <button className="px-3 py-1 bg-[#7C5CFF] text-[10px] font-bold uppercase tracking-wider rounded-lg text-white shadow-lg shadow-[#7C5CFF44]">GitHub</button>
+                      <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors">
+                          <MoreVertical className="w-4 h-4" />
+                      </button>
                   </div>
-                  <div className="hidden md:flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                     <div className="w-8 h-8 rounded bg-[#232734] flex items-center justify-center text-[#98A2B3] hover:text-white"><HardDrive className="w-4 h-4" /></div>
-                     <div className="w-8 h-8 rounded bg-[#232734] flex items-center justify-center text-[#98A2B3] hover:text-white"><Box className="w-4 h-4" /></div>
-                     <div className="w-8 h-8 rounded bg-[#232734] flex items-center justify-center text-[#98A2B3] hover:text-white"><Github className="w-4 h-4" /></div>
-                  </div>
-               </div>
-               
-               <div className="mt-auto hidden md:flex items-center gap-3 text-xs text-[#98A2B3]">
-                  <span className="flex items-center gap-1.5"><Box className="w-3 h-3" /> Synced</span>
-               </div>
-            </div>
-
-            <div className="group bg-[#12151C] border border-[#232734] rounded-xl p-4 flex flex-col hover:border-[#7C5CFF]/30 transition-all cursor-pointer">
-               <div className="flex items-start justify-between mb-8 md:mb-12">
-                  <div className="flex items-center gap-3">
-                     <div className="w-10 h-10 rounded-lg bg-[#232734] flex items-center justify-center">
-                        <FileText className="w-5 h-5 text-[#98A2B3]" />
-                     </div>
-                     <div>
-                        <h3 className="font-medium text-base text-[#E2E8F0]">Product Specs — MVP</h3>
-                        <p className="text-xs text-[#98A2B3]">Yesterday</p>
-                     </div>
-                  </div>
-                  <div className="md:hidden">
-                    <button className="p-2 -mr-2 text-[#98A2B3] active:bg-[#232734] rounded-full">
-                       <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </div>
-                  <div className="hidden md:flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                     <div className="w-8 h-8 rounded bg-[#232734] flex items-center justify-center text-[#98A2B3] hover:text-white"><HardDrive className="w-4 h-4" /></div>
-                     <div className="w-8 h-8 rounded bg-[#232734] flex items-center justify-center text-[#98A2B3] hover:text-white"><Box className="w-4 h-4" /></div>
-                     <div className="w-8 h-8 rounded bg-[#232734] flex items-center justify-center text-[#98A2B3] hover:text-white"><Github className="w-4 h-4" /></div>
-                  </div>
-               </div>
-            </div>
-         </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
-      
-      {/* Desktop FAB component in layout, but let's add one here for dashboard root (optional, handled in layout bottom nav for mobile and sidebar/header for desktop usually, or a floating action) */}
+
+      <div className="fixed bottom-8 right-8 z-50">
+        <CreateNoteButton iconOnly />
+      </div>
     </div>
   );
 }
