@@ -1,9 +1,17 @@
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { FileText, MoreVertical, Search, Plus } from "lucide-react";
+import { FileText, MoreVertical, Search, Plus, ExternalLink, Copy, Trash, RefreshCw } from "lucide-react";
 import { getUser } from "@/lib/auth";
 import { getAllNotes, getRecentNotes } from "@/app/actions/notes";
 import CreateNoteButton from "@/components/CreateNoteButton";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -40,18 +48,44 @@ export default async function DashboardPage() {
           <h3 className="text-xs uppercase font-bold tracking-widest text-[#4B5563] mb-4">Recent Workspace</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {recentNotes.map((note) => (
-              <Link href={`/dashboard/notes/${note.id}`} key={note.id} className="block">
-                <div className="bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-[#7C5CFF66] transition-colors cursor-pointer group">
-                  <div className="flex items-start justify-between mb-3">
-                    <span className="text-2xl">📄</span>
-                    <span className="text-[10px] bg-[#0F1115] text-[#9CA3AF] px-2 py-0.5 rounded-full border border-[#2A2E37] whitespace-nowrap">
-                      {formatDistanceToNow(new Date(note.updated_at))} ago
-                    </span>
-                  </div>
-                  <p className="font-medium text-sm truncate group-hover:text-[#F5F7FA]">{note.title || "Untitled"}</p>
-                  <p className="text-xs text-[#4B5563] mt-1 truncate">Click to view note</p>
-                </div>
-              </Link>
+              <ContextMenu key={note.id}>
+                <ContextMenuTrigger asChild>
+                  <Link href={`/dashboard/notes/${note.id}`} className="block">
+                    <div className="bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-[#7C5CFF66] transition-colors cursor-pointer group">
+                      <div className="flex items-start justify-between mb-3">
+                        <span className="text-2xl">📄</span>
+                        <span className="text-[10px] bg-[#0F1115] text-[#9CA3AF] px-2 py-0.5 rounded-full border border-[#2A2E37] whitespace-nowrap">
+                          {formatDistanceToNow(new Date(note.updated_at))} ago
+                        </span>
+                      </div>
+                      <p className="font-medium text-sm truncate group-hover:text-[#F5F7FA]">{note.title || "Untitled"}</p>
+                      <p className="text-xs text-[#4B5563] mt-1 truncate">Click to view note</p>
+                    </div>
+                  </Link>
+                </ContextMenuTrigger>
+                <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
+                  <ContextMenuItem>
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Open Note
+                  </ContextMenuItem>
+                  <ContextMenuItem>
+                    <Copy className="mr-2 h-4 w-4" />
+                    Duplicate
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-[#2A2E37]" />
+                  <ContextMenuItem>
+                    <RefreshCw className="mr-2 h-4 w-4 text-[#7C5CFF]" />
+                    <span className="text-[#7C5CFF]">Sync to GitHub</span>
+                    <ContextMenuShortcut>⌘S</ContextMenuShortcut>
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-[#2A2E37]" />
+                  <ContextMenuItem className="text-red-400 focus:text-red-400 focus:bg-red-400/10">
+                    <Trash className="mr-2 h-4 w-4" />
+                    Delete Note
+                    <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             ))}
           </div>
         </div>
@@ -70,24 +104,48 @@ export default async function DashboardPage() {
         ) : (
           <div className="space-y-2">
             {allNotes.map((note) => (
-              <Link href={`/dashboard/notes/${note.id}`} key={note.id}>
-                <div className="group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl flex items-center gap-4 hover:border-[#7C5CFF] transition-all cursor-pointer mb-2">
-                  <div className="text-xl shrink-0">📝</div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
-                    <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="px-3 py-1 bg-[#0F1115] border border-[#2A2E37] text-[10px] font-bold uppercase tracking-wider rounded-lg hover:text-white hover:border-blue-500 transition-colors">G-Drive</button>
-                      <button className="px-3 py-1 bg-[#0F1115] border border-[#2A2E37] text-[10px] font-bold uppercase tracking-wider rounded-lg hover:text-white hover:border-gray-300 transition-colors">Notion</button>
-                      <button className="px-3 py-1 bg-[#7C5CFF] text-[10px] font-bold uppercase tracking-wider rounded-lg text-white shadow-lg shadow-[#7C5CFF44]">GitHub</button>
-                      <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors">
-                          <MoreVertical className="w-4 h-4" />
-                      </button>
-                  </div>
-                </div>
-              </Link>
+              <ContextMenu key={note.id}>
+                <ContextMenuTrigger asChild>
+                  <Link href={`/dashboard/notes/${note.id}`} className="block">
+                    <div className="group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl flex items-center gap-4 hover:border-[#7C5CFF] transition-all cursor-pointer mb-2">
+                      <div className="text-xl shrink-0">📝</div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
+                        <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button className="px-3 py-1 bg-[#0F1115] border border-[#2A2E37] text-[10px] font-bold uppercase tracking-wider rounded-lg hover:text-white hover:border-blue-500 transition-colors">G-Drive</button>
+                          <button className="px-3 py-1 bg-[#0F1115] border border-[#2A2E37] text-[10px] font-bold uppercase tracking-wider rounded-lg hover:text-white hover:border-gray-300 transition-colors">Notion</button>
+                          <button className="px-3 py-1 bg-[#7C5CFF] text-[10px] font-bold uppercase tracking-wider rounded-lg text-white shadow-lg shadow-[#7C5CFF44]">GitHub</button>
+                          <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors">
+                              <MoreVertical className="w-4 h-4" />
+                          </button>
+                      </div>
+                    </div>
+                  </Link>
+                </ContextMenuTrigger>
+                <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
+                  <ContextMenuItem>
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Open Note
+                  </ContextMenuItem>
+                  <ContextMenuItem>
+                    <Copy className="mr-2 h-4 w-4" />
+                    Duplicate
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-[#2A2E37]" />
+                  <ContextMenuItem>
+                    <RefreshCw className="mr-2 h-4 w-4 text-[#7C5CFF]" />
+                    <span className="text-[#7C5CFF]">Sync to GitHub</span>
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-[#2A2E37]" />
+                  <ContextMenuItem className="text-red-400 focus:text-red-400 focus:bg-red-400/10">
+                    <Trash className="mr-2 h-4 w-4" />
+                    Delete Note
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             ))}
           </div>
         )}

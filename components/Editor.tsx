@@ -2,9 +2,51 @@
 
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
+import { SuggestionMenuController, getDefaultReactSlashMenuItems } from "@blocknote/react";
+import { filterSuggestionItems } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
 import { useEffect, useState, useRef } from "react";
+
+const insertAiBlock = (editor: any) => ({
+  title: "Ask AI",
+  onItemClick: () => {
+    editor.insertBlocks(
+      [
+        {
+          type: "paragraph",
+          content: "🤖 AI is thinking...",
+        },
+      ],
+      editor.getTextCursorPosition().block,
+      "after"
+    );
+  },
+  aliases: ["ai", "magic", "generate", "ask"],
+  group: "AI Features",
+  icon: "✨",
+  subtext: "Generate content with AI.",
+});
+
+const insertYouTubeBlock = (editor: any) => ({
+  title: "YouTube Embed",
+  onItemClick: () => {
+    editor.insertBlocks(
+      [
+        {
+          type: "paragraph",
+          content: "🎥 https://youtube.com/watch?v=",
+        },
+      ],
+      editor.getTextCursorPosition().block,
+      "after"
+    );
+  },
+  aliases: ["youtube", "video", "embed"],
+  group: "Media",
+  icon: "📺",
+  subtext: "Embed a YouTube Video.",
+});
 
 export default function Editor({ 
   noteId, 
@@ -88,7 +130,22 @@ export default function Editor({
           editor={editor}
           theme="dark"
           onChange={handleEditorChange}
-        />
+          slashMenu={false}
+        >
+          <SuggestionMenuController
+            triggerCharacter={"/"}
+            getItems={async (query) =>
+              filterSuggestionItems(
+                [
+                  insertAiBlock(editor),
+                  insertYouTubeBlock(editor),
+                  ...getDefaultReactSlashMenuItems(editor),
+                ],
+                query
+              )
+            }
+          />
+        </BlockNoteView>
       </div>
       <style jsx global>{`
         .mantine-1rtq5z1 {
