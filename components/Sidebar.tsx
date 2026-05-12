@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Plus, Home, FileText, Clock, Trash2, Settings, LogOut, Search, Star, Layers, Activity } from "lucide-react";
+import { Plus, Home, FileText, Clock, Trash2, Settings, LogOut, Search, Star } from "lucide-react";
 import { logoutAction } from "@/app/actions/auth";
 
 export default function Sidebar({ user }: { user: any }) {
@@ -24,17 +24,14 @@ export default function Sidebar({ user }: { user: any }) {
       </div>
 
       <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
-        <div className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-2 px-2">Main</div>
+        <div className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-2 px-2">Workspace</div>
         <div className="space-y-1">
           <NavLink href="/dashboard" icon={<Home className="w-4 h-4" />} active={pathname === "/dashboard"}>Home</NavLink>
-          <NavLink href="/dashboard/search" icon={<Search className="w-4 h-4" />} active={pathname === "/dashboard/search"}>Search</NavLink>
         </div>
         
-        <div className="pt-6">
-          <div className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-2 px-2">Workspace</div>
+        <div className="pt-2">
           <div className="space-y-1">
             <NavLink href="/dashboard/notes" icon={<FileText className="w-4 h-4" />} active={pathname.startsWith("/dashboard/notes")}>Notes</NavLink>
-            <NavLink href="/dashboard/recent" icon={<Clock className="w-4 h-4" />} active={pathname === "/dashboard/recent"}>Recent</NavLink>
             <NavLink href="/dashboard/favorites" icon={<Star className="w-4 h-4" />} active={pathname === "/dashboard/favorites"}>Favorites</NavLink>
           </div>
         </div>
@@ -42,7 +39,6 @@ export default function Sidebar({ user }: { user: any }) {
         <div className="pt-6">
           <p className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-2 px-2">Integrations</p>
           <div className="space-y-1">
-            <NavLink href="/dashboard/integrations" icon={<Layers className="w-4 h-4" />} active={pathname === "/dashboard/integrations"}>All Integrations</NavLink>
             <div className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md cursor-pointer group">
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
               <span className="text-sm">Google Drive</span>
@@ -55,14 +51,6 @@ export default function Sidebar({ user }: { user: any }) {
               <span className="w-2 h-2 rounded-full bg-gray-500"></span>
               <span className="text-sm">GitHub</span>
             </div>
-          </div>
-        </div>
-
-        <div className="pt-6 mb-10">
-          <p className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-2 px-2">System</p>
-          <div className="space-y-1">
-            <NavLink href="/dashboard/trash" icon={<Trash2 className="w-4 h-4" />} active={pathname === "/dashboard/trash"}>Trash</NavLink>
-            <NavLink href="/dashboard/activity" icon={<Activity className="w-4 h-4" />} active={pathname === "/dashboard/activity"}>Activity</NavLink>
           </div>
         </div>
       </nav>

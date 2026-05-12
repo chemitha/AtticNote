@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { FileText, MoreVertical, Search, Plus, ExternalLink, Copy, Trash, RefreshCw, Link2, FolderInput, Star, Download, Archive, Share2, Github, Cloud, FileJson } from "lucide-react";
+import { FileText, MoreVertical, Search, Plus, ExternalLink, Copy, Trash, RefreshCw } from "lucide-react";
 import { getUser } from "@/lib/auth";
 import { getAllNotes, getRecentNotes } from "@/app/actions/notes";
 import CreateNoteButton from "@/components/CreateNoteButton";
-import { NoteContextMenuContent } from "@/components/NoteContextMenu";
 import {
   ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 
@@ -17,27 +20,12 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex-1 flex flex-col relative w-full h-full text-[#F5F7FA]">
-      <section className="h-56 relative overflow-hidden shrink-0 group/banner">
+      <section className="h-40 relative overflow-hidden shrink-0">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1F1D2B] to-[#0F1115]"></div>
-        <div className="absolute inset-0 opacity-40 transition-transform duration-700 group-hover/banner:scale-110" style={{ backgroundImage: "radial-gradient(#7C5CFF 1px, transparent 1px)", backgroundSize: "24px 24px" }}></div>
-        <div className="absolute inset-0 bg-black/20 group-hover/banner:bg-black/0 transition-colors"></div>
-        
-        {/* Banner Actions */}
-        <div className="absolute top-6 right-10 flex items-center gap-2 opacity-0 group-hover/banner:opacity-100 transition-opacity translate-y-2 group-hover/banner:translate-y-0 duration-300">
-           <button className="px-3 py-1.5 bg-[#181A20]/80 backdrop-blur-md border border-[#2A2E37] rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#2A2E37] transition-all flex items-center gap-2">
-             <RefreshCw className="w-3 h-3" />
-             Change Banner
-           </button>
-           <button className="px-3 py-1.5 bg-[#181A20]/80 backdrop-blur-md border border-[#2A2E37] rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#2A2E37] transition-all flex items-center gap-2">
-             <Plus className="w-3 h-3" />
-             Edit Position
-           </button>
-        </div>
-
-        <div className="absolute bottom-10 left-10 transition-transform duration-500 group-hover/banner:translate-x-2">
-          <div className="w-12 h-12 bg-[#7C5CFF] rounded-2xl flex items-center justify-center text-2xl mb-4 shadow-xl shadow-[#7C5CFF33] rotate-3 group-hover/banner:rotate-0 transition-transform">🚀</div>
-          <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Welcome back, {user?.name || "User"}</h1>
-          <p className="text-[#9CA3AF] text-sm font-medium">You have {allNotes.length} active note{allNotes.length !== 1 ? 's' : ''} in your workspace.</p>
+        <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "radial-gradient(#7C5CFF 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
+        <div className="absolute bottom-8 left-10">
+          <h1 className="text-3xl font-bold tracking-tight text-white">Welcome back, {user?.name || "User"}</h1>
+          <p className="text-[#9CA3AF] text-sm mt-1">You have {allNotes.length} note{allNotes.length !== 1 ? 's' : ''} in your workspace.</p>
         </div>
       </section>
 
@@ -75,7 +63,28 @@ export default async function DashboardPage() {
                     </div>
                   </Link>
                 </ContextMenuTrigger>
-                <NoteContextMenuContent noteId={note.id} />
+                <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
+                  <ContextMenuItem>
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Open Note
+                  </ContextMenuItem>
+                  <ContextMenuItem>
+                    <Copy className="mr-2 h-4 w-4" />
+                    Duplicate
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-[#2A2E37]" />
+                  <ContextMenuItem>
+                    <RefreshCw className="mr-2 h-4 w-4 text-[#7C5CFF]" />
+                    <span className="text-[#7C5CFF]">Sync to GitHub</span>
+                    <ContextMenuShortcut>⌘S</ContextMenuShortcut>
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-[#2A2E37]" />
+                  <ContextMenuItem className="text-red-400 focus:text-red-400 focus:bg-red-400/10">
+                    <Trash className="mr-2 h-4 w-4" />
+                    Delete Note
+                    <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>
+                  </ContextMenuItem>
+                </ContextMenuContent>
               </ContextMenu>
             ))}
           </div>
@@ -116,7 +125,26 @@ export default async function DashboardPage() {
                     </div>
                   </Link>
                 </ContextMenuTrigger>
-                <NoteContextMenuContent noteId={note.id} />
+                <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
+                  <ContextMenuItem>
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Open Note
+                  </ContextMenuItem>
+                  <ContextMenuItem>
+                    <Copy className="mr-2 h-4 w-4" />
+                    Duplicate
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-[#2A2E37]" />
+                  <ContextMenuItem>
+                    <RefreshCw className="mr-2 h-4 w-4 text-[#7C5CFF]" />
+                    <span className="text-[#7C5CFF]">Sync to GitHub</span>
+                  </ContextMenuItem>
+                  <ContextMenuSeparator className="bg-[#2A2E37]" />
+                  <ContextMenuItem className="text-red-400 focus:text-red-400 focus:bg-red-400/10">
+                    <Trash className="mr-2 h-4 w-4" />
+                    Delete Note
+                  </ContextMenuItem>
+                </ContextMenuContent>
               </ContextMenu>
             ))}
           </div>
