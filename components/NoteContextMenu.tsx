@@ -37,7 +37,16 @@ export function NoteContextMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer outline-none">
+        <button 
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+          }}
+          className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer outline-none"
+        >
           <MoreVertical className="w-4 h-4" />
         </button>
       </DropdownMenuTrigger>
