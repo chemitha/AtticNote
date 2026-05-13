@@ -1,49 +1,31 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
+import { useTransition } from "react";
 import { createNoteAction } from "@/app/actions/notes";
+import { useRouter } from "next/navigation";
 
-export default function CreateNoteButton({ iconOnly = false }: { iconOnly?: boolean }) {
+export default function CreateNoteButton() {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
-  const handleCreateNote = async () => {
-    try {
-      setLoading(true);
-      const res = await createNoteAction();
-      if (res.success && res.note) {
-        router.push(`/dashboard/notes/${res.note.id}`);
+  const handleCreate = () => {
+    startTransition(async () => {
+      const result = await createNoteAction();
+      if (result.success) {
+        router.push(`/dashboard/notes/${result.note.id}`);
       }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
-  if (iconOnly) {
-    return (
-      <button 
-        onClick={handleCreateNote}
-        disabled={loading}
-        className="w-14 h-14 bg-[#7C5CFF] rounded-full flex items-center justify-center text-white shadow-2xl shadow-[#7C5CFF66] hover:scale-105 transition-transform disabled:opacity-50" 
-        aria-label="New Note"
-      >
-        <Plus className="w-8 h-8" />
-      </button>
-    );
-  }
-
   return (
-    <button 
-      onClick={handleCreateNote}
-      disabled={loading}
-      className="bg-[#7C5CFF] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#6042db] transition-colors disabled:opacity-50 inline-flex items-center gap-2"
+    <button
+      onClick={handleCreate}
+      disabled={isPending}
+      className="flex items-center gap-2 bg-[#7C5CFF] hover:bg-[#6D4AFF] text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
     >
-      <Plus className="w-5 h-5" />
-      <span>{loading ? "Creating..." : "Create New Note"}</span>
+      <Plus className="w-4 h-4" />
+      <span>New Note</span>
     </button>
   );
 }

@@ -28,10 +28,18 @@ export function NoteContextMenu({
 }: NoteContextMenuProps) {
   const [isPending, startTransition] = useTransition();
 
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     startTransition(() => {
       toggleFavoriteAction(noteId, !isFavorite);
     });
+  };
+
+  const handleAction = (e: React.MouseEvent, action: (id: string) => void) => {
+    e.preventDefault();
+    e.stopPropagation();
+    action(noteId);
   };
 
   return (
@@ -42,17 +50,18 @@ export function NoteContextMenu({
             e.preventDefault();
             e.stopPropagation();
           }}
-          onPointerDown={(e) => {
-            e.stopPropagation();
-          }}
           className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer outline-none"
         >
           <MoreVertical className="w-4 h-4" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 bg-[#181A20] border-[#2A2E37] text-white shadow-xl shadow-black/50">
+      <DropdownMenuContent 
+        align="end" 
+        className="w-56 bg-[#181A20] border-[#2A2E37] text-white shadow-xl shadow-black/50"
+        onCloseAutoFocus={(e) => e.preventDefault()}
+      >
         <DropdownMenuItem 
-          onClick={handleToggleFavorite}
+          onClick={(e) => handleToggleFavorite(e)}
           disabled={isPending}
           className="flex items-center justify-between text-sm cursor-pointer hover:bg-[#2A2E37] focus:bg-[#2A2E37] focus:text-white"
         >
@@ -64,7 +73,7 @@ export function NoteContextMenu({
         </DropdownMenuItem>
 
         <DropdownMenuItem 
-          onClick={() => onRename?.(noteId)}
+          onClick={(e) => onRename && handleAction(e, onRename)}
           className="flex items-center justify-between text-sm cursor-pointer hover:bg-[#2A2E37] focus:bg-[#2A2E37] focus:text-white"
         >
           <div className="flex items-center gap-2">
@@ -75,7 +84,7 @@ export function NoteContextMenu({
         </DropdownMenuItem>
 
         <DropdownMenuItem 
-          onClick={() => onDuplicate?.(noteId)}
+          onClick={(e) => onDuplicate && handleAction(e, onDuplicate)}
           className="flex items-center justify-between text-sm cursor-pointer hover:bg-[#2A2E37] focus:bg-[#2A2E37] focus:text-white"
         >
           <div className="flex items-center gap-2">
@@ -88,7 +97,7 @@ export function NoteContextMenu({
         <DropdownMenuSeparator className="bg-[#2A2E37]" />
 
         <DropdownMenuItem 
-          onClick={() => onDelete?.(noteId)}
+          onClick={(e) => onDelete && handleAction(e, onDelete)}
           className="flex items-center justify-between text-sm cursor-pointer text-red-500 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-500"
         >
           <div className="flex items-center gap-2">

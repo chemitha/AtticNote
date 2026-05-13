@@ -13,6 +13,24 @@ export async function getAllNotes() {
     });
 }
 
+export async function getNote(id: string) {
+    const user = await getUser();
+    if (!user) return null;
+    return prisma.note.findUnique({
+        where: { id, user_id: user.id },
+        include: { blocks: true }
+    });
+}
+
+export async function getFavoriteNotes() {
+    const user = await getUser();
+    if (!user) return [];
+    return prisma.note.findMany({
+        where: { user_id: user.id, is_favorite: true },
+        orderBy: { updated_at: 'desc' }
+    });
+}
+
 export async function getRecentNotes() {
     const user = await getUser();
     if (!user) return [];
@@ -78,12 +96,12 @@ export async function duplicateNoteAction(noteId: string) {
             user_id: user.id,
             is_favorite: note.is_favorite,
             blocks: {
-                create: note.blocks.map(block => ({
+                create: note.blocks?.map(block => ({
                     type: block.type,
                     content: block.content,
                     position: block.position,
                     parent_block_id: block.parent_block_id
-                }))
+                })) || []
             }
         }
     });
