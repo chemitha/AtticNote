@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Plus, Home, FileText, Clock, Trash2, Settings, LogOut, Search, Star } from "lucide-react";
 import { logoutAction } from "@/app/actions/auth";
+import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
 
 export default function Sidebar({ user }: { user: any }) {
   const pathname = usePathname();
@@ -40,15 +41,15 @@ export default function Sidebar({ user }: { user: any }) {
           <p className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-2 px-2">Integrations</p>
           <div className="space-y-1">
             <div className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md cursor-pointer group">
-              <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+              <GoogleDriveIcon className="w-4 h-4" />
               <span className="text-sm">Google Drive</span>
             </div>
             <div className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md cursor-pointer group">
-              <span className="w-2 h-2 rounded-full bg-white"></span>
+              <NotionIcon className="w-4 h-4" />
               <span className="text-sm">Notion</span>
             </div>
             <div className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md cursor-pointer group">
-              <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+              <GitHubIcon className="w-4 h-4" />
               <span className="text-sm">GitHub</span>
             </div>
           </div>

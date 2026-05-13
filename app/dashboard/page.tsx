@@ -4,6 +4,13 @@ import { FileText, MoreVertical, Search, Plus, ExternalLink, Copy, Trash, Refres
 import { getUser } from "@/lib/auth";
 import { getAllNotes, getRecentNotes } from "@/app/actions/notes";
 import CreateNoteButton from "@/components/CreateNoteButton";
+import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -115,10 +122,29 @@ export default async function DashboardPage() {
                       </div>
                       
                       <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button className="px-3 py-1 bg-[#0F1115] border border-[#2A2E37] text-[10px] font-bold uppercase tracking-wider rounded-lg hover:text-white hover:border-blue-500 transition-colors">G-Drive</button>
-                          <button className="px-3 py-1 bg-[#0F1115] border border-[#2A2E37] text-[10px] font-bold uppercase tracking-wider rounded-lg hover:text-white hover:border-gray-300 transition-colors">Notion</button>
-                          <button className="px-3 py-1 bg-[#7C5CFF] text-[10px] font-bold uppercase tracking-wider rounded-lg text-white shadow-lg shadow-[#7C5CFF44]">GitHub</button>
-                          <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors">
+                          <TooltipProvider delay={0}>
+                            <Tooltip>
+                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer">
+                                <GoogleDriveIcon className="w-4 h-4" />
+                              </TooltipTrigger>
+                              <TooltipContent>Upload to G-Drive</TooltipContent>
+                            </Tooltip>
+                            
+                            <Tooltip>
+                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-gray-300 hover:border-gray-300 transition-colors cursor-pointer">
+                                <NotionIcon className="w-4 h-4" />
+                              </TooltipTrigger>
+                              <TooltipContent>Sync with Notion</TooltipContent>
+                            </Tooltip>
+                            
+                            <Tooltip>
+                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-[#7C5CFF] hover:border-[#7C5CFF] transition-colors cursor-pointer">
+                                <GitHubIcon className="w-4 h-4" />
+                              </TooltipTrigger>
+                              <TooltipContent>Push to GitHub</TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                          <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer">
                               <MoreVertical className="w-4 h-4" />
                           </button>
                       </div>
