@@ -50,6 +50,17 @@ export default function LoginPage() {
             <label htmlFor="password" className="font-medium text-[#9CA3AF]">Password</label>
             <Input id="password" name="password" type="password" required placeholder="••••••••" />
           </div>
+          <div className="flex items-center space-x-2 pt-1">
+            <input 
+              type="checkbox" 
+              id="remember" 
+              name="remember" 
+              className="rounded border-[#2A2E37] bg-[#0F1115] text-[#7C5CFF] focus:ring-[#7C5CFF]"
+            />
+            <label htmlFor="remember" className="text-sm font-medium text-[#9CA3AF]">
+              Remember this device
+            </label>
+          </div>
           <Button type="submit" className="w-full mt-4 font-bold tracking-wider" disabled={loading}>
             {loading ? "Logging in..." : "Log In"}
           </Button>

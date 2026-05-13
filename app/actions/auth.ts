@@ -30,9 +30,13 @@ export async function registerAction(formData: FormData) {
       },
     });
 
-    const token = await signToken({ id: user.id });
+    const token = await signToken({ id: user.id }, "24h");
     const cookieStore = await cookies();
-    cookieStore.set("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
+    cookieStore.set("token", token, { 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax" 
+    });
 
     return { success: true };
   } catch (error: any) {
@@ -45,6 +49,7 @@ export async function loginAction(formData: FormData) {
   try {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const remember = formData.get("remember") === "on";
 
     if (!email || !password) {
       return { error: "All fields are required" };
@@ -60,9 +65,16 @@ export async function loginAction(formData: FormData) {
       return { error: "Invalid credentials" };
     }
 
-    const token = await signToken({ id: user.id });
+    const expiresIn = remember ? "7d" : "24h";
+    const token = await signToken({ id: user.id }, expiresIn);
     const cookieStore = await cookies();
-    cookieStore.set("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
+    
+    cookieStore.set("token", token, { 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      ...(remember ? { maxAge: 7 * 24 * 60 * 60 } : {})
+    });
 
     return { success: true };
   } catch (error: any) {
