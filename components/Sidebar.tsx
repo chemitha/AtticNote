@@ -20,7 +20,7 @@ export default function Sidebar({ user }: { user: any }) {
         <div className="w-8 h-8 bg-[#7C5CFF] rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-[#7C5CFF33]">
           N
         </div>
-        <span className="font-semibold text-lg tracking-tight">NotionFlow</span>
+        <span className="font-semibold text-lg tracking-tight">AtticNote</span>
       </div>
 
       <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
