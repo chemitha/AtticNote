@@ -27,7 +27,7 @@ export async function getUser() {
 }
 
 export function signToken(payload: object, expiresIn: string | number = "7d") {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: expiresIn as any });
 }
 
 export function verifyToken(token: string) {
