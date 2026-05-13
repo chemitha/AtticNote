@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { FileText, MoreVertical, Search, Plus, ExternalLink, Copy, Trash, RefreshCw } from "lucide-react";
+import { FileText, MoreVertical, Search, Plus, ExternalLink, Copy, Trash, RefreshCw, Star } from "lucide-react";
 import { getUser } from "@/lib/auth";
 import { getAllNotes, getRecentNotes } from "@/app/actions/notes";
 import CreateNoteButton from "@/components/CreateNoteButton";
 import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
+import { NoteActions } from "@/components/NoteActions";
+import { NoteContextMenu } from "@/components/NoteContextMenu";
 import {
   Tooltip,
   TooltipContent,
@@ -57,16 +59,23 @@ export default async function DashboardPage() {
             {recentNotes.map((note) => (
               <ContextMenu key={note.id}>
                 <ContextMenuTrigger asChild>
-                  <Link href={`/dashboard/notes/${note.id}`} className="block">
-                    <div className="bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-[#7C5CFF66] transition-colors cursor-pointer group">
+                  <Link href={`/dashboard/notes/${note.id}`} className="block group relative">
+                    <div className="bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-[#7C5CFF66] transition-colors cursor-pointer group h-full">
                       <div className="flex items-start justify-between mb-3">
                         <span className="text-2xl">📄</span>
-                        <span className="text-[10px] bg-[#0F1115] text-[#9CA3AF] px-2 py-0.5 rounded-full border border-[#2A2E37] whitespace-nowrap">
-                          {formatDistanceToNow(new Date(note.updated_at))} ago
-                        </span>
+                        <div className="flex items-center gap-2">
+                          {note.is_favorite && <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />}
+                          <span className="text-[10px] bg-[#0F1115] text-[#9CA3AF] px-2 py-0.5 rounded-full border border-[#2A2E37] whitespace-nowrap">
+                            {formatDistanceToNow(new Date(note.updated_at))} ago
+                          </span>
+                        </div>
                       </div>
                       <p className="font-medium text-sm truncate group-hover:text-[#F5F7FA]">{note.title || "Untitled"}</p>
                       <p className="text-xs text-[#4B5563] mt-1 truncate">Click to view note</p>
+                      
+                      <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                         <NoteActions note={note} />
+                      </div>
                     </div>
                   </Link>
                 </ContextMenuTrigger>
@@ -117,37 +126,14 @@ export default async function DashboardPage() {
                     <div className="group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl flex items-center gap-4 hover:border-[#7C5CFF] transition-all cursor-pointer mb-2">
                       <div className="text-xl shrink-0">📝</div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
+                          {note.is_favorite && <Star className="w-3 h-3 fill-yellow-500 text-yellow-500 shrink-0" />}
+                        </div>
                         <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
                       </div>
                       
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <TooltipProvider delay={0}>
-                            <Tooltip>
-                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer">
-                                <GoogleDriveIcon className="w-4 h-4" />
-                              </TooltipTrigger>
-                              <TooltipContent>Upload to G-Drive</TooltipContent>
-                            </Tooltip>
-                            
-                            <Tooltip>
-                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-gray-300 hover:border-gray-300 transition-colors cursor-pointer">
-                                <NotionIcon className="w-4 h-4" />
-                              </TooltipTrigger>
-                              <TooltipContent>Sync with Notion</TooltipContent>
-                            </Tooltip>
-                            
-                            <Tooltip>
-                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-[#7C5CFF] hover:border-[#7C5CFF] transition-colors cursor-pointer">
-                                <GitHubIcon className="w-4 h-4" />
-                              </TooltipTrigger>
-                              <TooltipContent>Push to GitHub</TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                          <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer">
-                              <MoreVertical className="w-4 h-4" />
-                          </button>
-                      </div>
+                      <NoteActions note={note} />
                     </div>
                   </Link>
                 </ContextMenuTrigger>
