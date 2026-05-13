@@ -26,6 +26,7 @@ model Note {
   title      String
   user_id    String
   banner_url String?
+  is_favorite Boolean @default(false)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 

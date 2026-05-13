@@ -85,6 +85,30 @@ export async function getNote(id: string) {
   });
 }
 
+export async function toggleFavoriteAction(noteId: string, isFavorite: boolean) {
+  const user = await getUser();
+  if (!user) return { error: "Unauthorized" };
+
+  await prisma.note.update({
+    where: { id: noteId, user_id: user.id },
+    data: { is_favorite: isFavorite }
+  });
+
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/favorites");
+  return { success: true };
+}
+
+export async function getFavoriteNotes() {
+  const user = await getUser();
+  if (!user) return [];
+
+  return prisma.note.findMany({
+    where: { user_id: user.id, is_favorite: true },
+    orderBy: { updated_at: "desc" }
+  });
+}
+
 export async function updateNoteTitleAction(noteId: string, title: string) {
   const user = await getUser();
   if (!user) return { error: "Unauthorized" };
