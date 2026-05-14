@@ -1,6 +1,10 @@
 {
-  "name": "Notion-Style MVP",
-  "description": "A lightweight Notion-style workspace with a block editor, Markdown support, file attachments, and third-party sync capabilities.",
+  "name": "AtticNote - Developer Markdown Workspace",
+  "description": "A fast, block-based Markdown workspace with GitHub sync, Google Drive integration, and rich embeds. Optimized for developer workflows and keyboard-first productivity.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "clipboard-read",
+    "clipboard-write",
+    "file-system-write"
+  ]
 }
