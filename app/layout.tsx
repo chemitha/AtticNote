@@ -28,28 +28,31 @@ export const metadata: Metadata = {
     icon: '/logo_curved.svg',
     apple: '/logo_curved.svg',
   },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://atticnote.vercel.app',
-    siteName: 'AtticNote',
-    title: 'AtticNote - Fast Markdown Workspace for Developers',
-    description: 'Markdown note-taking app with GitHub sync, block editor, and seamless exports. Built for speed.',
-    images: [
-      {
-        url: '/logo.svg',
-        width: 800,
-        height: 600,
-        alt: 'AtticNote Logo',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'AtticNote - Fast Markdown Workspace',
-    description: 'A block-based Markdown workspace with GitHub sync and rich embeds. Built for developers.',
-    images: ['/logo.svg'],
-  },
+openGraph: {
+  title: 'AtticNote - Fast Markdown Workspace for Developers',
+  description:
+    'Markdown note-taking app with GitHub sync, block editor, and seamless exports.',
+  url: 'https://atticnote.vercel.app',
+  siteName: 'AtticNote',
+  images: [
+    {
+      url: 'https://atticnote.vercel.app/og-image.png',
+      width: 1080,
+      height: 1080,
+      alt: 'AtticNote',
+    },
+  ],
+  locale: 'en_US',
+  type: 'website',
+},
+
+twitter: {
+  card: 'summary_large_image',
+  title: 'AtticNote - Fast Markdown Workspace',
+  description:
+    'A block-based Markdown workspace with GitHub sync and rich embeds.',
+  images: ['https://atticnote.vercel.app/og-image.png'],
+},
   category: 'productivity',
 };
 
