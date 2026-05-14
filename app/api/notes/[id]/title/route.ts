@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUser } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
 
 export async function PUT(
   req: NextRequest,
@@ -17,9 +16,6 @@ export async function PUT(
     where: { id, user_id: user.id },
     data: { title }
   });
-
-  revalidatePath("/dashboard");
-  revalidatePath(`/dashboard/notes/${id}`);
 
   return NextResponse.json({ success: true });
 }

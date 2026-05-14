@@ -31,10 +31,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-[#0F1115] text-[#F5F7FA] flex flex-col justify-center items-center px-4">
-      <Link href="/" className="absolute top-8 left-8 flex items-center gap-2">
-        <div className="w-8 h-8 bg-[#7C5CFF] rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-[#7C5CFF33]">N</div>
-        <span className="text-xl font-bold tracking-tight">AtticNote</span>
-      </Link>
+      <Link href="/" className="absolute top-8 left-8 text-xl font-bold tracking-tight">NotionMVP</Link>
       
       <div className="w-full max-w-md bg-[#181A20] border border-white/5 p-8 rounded-2xl">
         <h1 className="text-3xl font-bold mb-6">Create Account</h1>

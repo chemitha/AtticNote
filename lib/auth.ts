@@ -1,40 +1,39 @@
-import { SignJWT, jwtVerify } from "jose";
+import "server-only";
+import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { prisma } from "./prisma";
 
-const secret = new TextEncoder().encode(
-  process.env.JWT_SECRET || "default_secret_for_dev_only"
-);
-
-export async function signToken(payload: any, expiresIn: string) {
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime(expiresIn)
-    .sign(secret);
-}
-
-export async function verifyToken(token: string) {
-  try {
-    const { payload } = await jwtVerify(token, secret);
-    return payload;
-  } catch (err) {
-    return null;
-  }
-}
+const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
 export async function getUser() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
   if (!token) return null;
 
-  const payload = await verifyToken(token);
-  if (!payload || !payload.id) return null;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as { id: string };
+    if (!decoded.id) return null;
 
-  const user = await prisma.user.findUnique({
-    where: { id: payload.id as string },
-  });
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
 
-  return user;
+    if (!user) return null;
+
+    return { id: user.id, name: user.name, email: user.email };
+  } catch {
+    return null;
+  }
+}
+
+export function signToken(payload: object, expiresIn: string | number = "7d") {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: expiresIn as any });
+}
+
+export function verifyToken(token: string) {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch {
+    return null;
+  }
 }

@@ -124,14 +124,13 @@ export default function Editor({
         placeholder="Untitled"
         className="w-full bg-transparent text-5xl font-bold border-none outline-none mb-8 placeholder-gray-600 focus:ring-0 text-[#F5F7FA]"
       />
-      <div className="editor-wrapper -ml-[54px] min-h-[500px]">
+      <div className="editor-wrapper -ml-[54px]">
         {/* We use a negative left margin to align the blocknote content with the title (accounting for drag handles) */}
         <BlockNoteView
           editor={editor}
           theme="dark"
           onChange={handleEditorChange}
           slashMenu={false}
-          className="bg-transparent"
         >
           <SuggestionMenuController
             triggerCharacter={"/"}
@@ -149,13 +148,12 @@ export default function Editor({
         </BlockNoteView>
       </div>
       <style jsx global>{`
-        .bn-container[data-theme="dark"], 
-        .bn-editor {
-          background-color: transparent !important;
-          --bn-colors-editor-background: transparent !important;
+        .mantine-1rtq5z1 {
+           /* BlockNote uses mantine underneath it for standard styles like background */
+           --bn-colors-editor-background: transparent !important;
         }
-        .bn-root {
-          padding-inline: 0 !important;
+        .editor-wrapper .bn-editor {
+          background: transparent !important;
         }
       `}</style>
     </div>

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUser } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
 
 export async function GET(
   req: NextRequest,
@@ -67,9 +66,6 @@ export async function POST(
       data: { updated_at: new Date() }
     });
   });
-
-  revalidatePath("/dashboard");
-  revalidatePath(`/dashboard/notes/${id}`);
 
   return NextResponse.json({ success: true });
 }
