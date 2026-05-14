@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '@mantine/core/styles.css';
+
 :root {
   --background: #020817;
   --foreground: #64748b;
