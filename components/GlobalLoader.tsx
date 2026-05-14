@@ -3,9 +3,9 @@
 import { useLoading } from "@/hooks/use-loading";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
-export default function GlobalLoader({ force = false }: { force?: boolean }) {
+function GlobalLoaderContent({ force }: { force: boolean }) {
   const { isLoading, stopLoading } = useLoading();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -29,5 +29,13 @@ export default function GlobalLoader({ force = false }: { force?: boolean }) {
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+export default function GlobalLoader({ force = false }: { force?: boolean }) {
+  return (
+    <Suspense fallback={null}>
+      <GlobalLoaderContent force={force} />
+    </Suspense>
   );
 }
