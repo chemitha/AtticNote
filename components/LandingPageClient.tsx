@@ -51,8 +51,8 @@ function Navbar({ user }: { user: any }) {
           {!user && (
             <LoadingLink href="/login" className="hidden sm:inline-block text-[#98A2B3] hover:text-[#F4F7FA] transition-colors">Log in</LoadingLink>
           )}
-          <LoadingLink href={user ? "/dashboard" : "/register"} className="hidden sm:inline-block bg-[#F4F7FA] text-[#0B0D12] px-4 py-2 rounded-lg hover:bg-white transition-colors">
-            {user ? "Dashboard >" : "Get Started"}
+          <LoadingLink href={user ? "/dashboard" : "/register"} className="hidden sm:inline-flex items-center bg-[#F4F7FA] text-[#0B0D12] px-4 py-2 rounded-lg hover:bg-white transition-colors">
+            {user ? "Dashboard" : "Get Started"} {user ? <ArrowRight className="w-4 h-4 ml-1 shrink-0" /> : null}
           </LoadingLink>
           <button className="md:hidden text-[#98A2B3] hover:text-[#F4F7FA]">
             <Menu className="w-5 h-5" />
@@ -173,7 +173,7 @@ function HeroSection({ user }: { user: any }) {
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
               <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#7C5CFF] hover:bg-[#684CE6] text-white px-6 py-3.5 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(124,92,255,0.3)] hover:shadow-[0_0_30px_rgba(124,92,255,0.5)]">
-                {user ? "Dashboard >" : "Start Writing "}{user ? "" : <ArrowRight className="w-4 h-4" />}
+                Start Writing <ArrowRight className="w-4 h-4" />
               </LoadingLink>
               <Link href="#demo" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#12151C] border border-[#232734] hover:bg-[#232734]/50 text-[#F4F7FA] px-6 py-3.5 rounded-xl font-medium transition-colors">
                 View Demo
@@ -647,45 +647,118 @@ function PricingSection() {
   return (
     <section id="pricing" className="py-24 bg-[#12151C]/20 border-y border-[#232734]/50">
       <div className="max-w-5xl mx-auto px-6">
+
+        {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-semibold mb-4">Simple, transparent pricing</h2>
-          <p className="text-[#98A2B3] text-lg">Start for free. Upgrade when your workflow demands it.</p>
+          <h2 className="text-3xl font-semibold mb-4">Early access</h2>
+          <p className="text-[#98A2B3] text-lg">
+            The app is currently free while in early development. Limitations may apply as we scale.
+          </p>
         </div>
 
+        {/* Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+
+          {/* Free */}
           <div className="p-8 rounded-2xl bg-[#0B0D12] border border-[#232734]">
             <h3 className="text-2xl font-bold mb-2">Free</h3>
-            <div className="text-3xl font-semibold mb-6">$0<span className="text-lg text-[#98A2B3] font-normal">/mo</span></div>
-            <p className="text-[#98A2B3] text-sm mb-8 pb-8 border-b border-[#232734]">Perfect for individuals starting their minimal workspace.</p>
-            
+
+            <div className="text-3xl font-semibold mb-6">
+              $0<span className="text-lg text-[#98A2B3] font-normal">/mo</span>
+            </div>
+
+            <p className="text-[#98A2B3] text-sm mb-8 pb-8 border-b border-[#232734]">
+              Full access during early access period.
+            </p>
+
             <ul className="space-y-4 mb-8 text-sm text-[#F4F7FA]">
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Unlimited notes</li>
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Markdown export</li>
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Basic embeds</li>
-              <li className="flex items-center gap-3 opacity-50"><CheckCircle2 className="w-4 h-4 text-[#98A2B3]"/> GitHub Sync</li>
-              <li className="flex items-center gap-3 opacity-50"><CheckCircle2 className="w-4 h-4 text-[#98A2B3]"/> Drive Sync</li>
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
+                All core features included
+              </li>
+
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
+                Markdown export
+              </li>
+
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
+                Basic embeds
+              </li>
+
+              <li className="flex items-center gap-3 opacity-60">
+                <CheckCircle2 className="w-4 h-4 text-[#98A2B3]" />
+                Temporary usage limits may apply
+              </li>
             </ul>
-            
-            <Link href="/register" className="block w-full py-3 text-center rounded-xl bg-[#12151C] border border-[#232734] hover:bg-[#232734] text-[#F4F7FA] font-medium transition-colors">Start for free</Link>
+
+            <Link
+              href="/register"
+              className="block w-full py-3 text-center rounded-xl bg-[#12151C] border border-[#232734] hover:bg-[#232734] text-[#F4F7FA] font-medium transition-colors"
+            >
+              Start for free
+            </Link>
           </div>
 
+          {/* Future Pro */}
           <div className="p-8 rounded-2xl bg-[#12151C] border border-[#7C5CFF] relative shadow-[0_0_40px_rgba(124,92,255,0.1)]">
-            <div className="absolute top-0 right-8 -translate-y-1/2 px-3 py-1 bg-[#7C5CFF] text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">Most Popular</div>
-            <h3 className="text-2xl font-bold mb-2 text-[#7C5CFF]">Pro</h3>
-            <div className="text-3xl font-semibold mb-6">$8<span className="text-lg text-[#98A2B3] font-normal">/mo</span></div>
-            <p className="text-[#98A2B3] text-sm mb-8 pb-8 border-b border-[#232734]">For power users connecting their workflow ecosystem.</p>
-            
+
+            <div className="absolute top-0 right-8 -translate-y-1/2 px-3 py-1 bg-[#7C5CFF] text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+              Future
+            </div>
+
+            <h3 className="text-2xl font-bold mb-2 text-[#7C5CFF]">
+              Pro
+            </h3>
+
+            <div className="text-3xl font-semibold mb-6 text-[#98A2B3]">
+              Not available yet
+            </div>
+
+            <p className="text-[#98A2B3] text-sm mb-8 pb-8 border-b border-[#232734]">
+              Will be introduced when scaling infrastructure or adding advanced workflows.
+            </p>
+
             <ul className="space-y-4 mb-8 text-sm text-[#F4F7FA]">
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Everything in Free</li>
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> GitHub Sync</li>
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Google Drive Sync</li>
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Notion Export</li>
-              <li className="flex items-center gap-3"><CheckCircle2 className="w-4 h-4 text-[#7C5CFF]"/> Larger storage space</li>
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
+                Everything in Free
+              </li>
+
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
+                Higher usage limits
+              </li>
+
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
+                Advanced integrations
+              </li>
+
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
+                Performance upgrades
+              </li>
             </ul>
-            
-            <Link href="/register" className="block w-full py-3 text-center rounded-xl bg-[#7C5CFF] hover:bg-[#684CE6] text-white font-medium transition-colors shadow-lg shadow-[#7C5CFF]/20">Upgrade to Pro</Link>
+
+            <div className="w-full py-3 text-center rounded-xl bg-[#7C5CFF]/20 text-[#7C5CFF] font-medium border border-[#7C5CFF]/40">
+              Coming soon
+            </div>
           </div>
         </div>
+
+        {/* Support / Donation */}
+        <div className="mt-14 text-center text-sm text-[#98A2B3]">
+          This project is currently free and self-funded.
+          <a
+            href="https://ko-fi.com/sevenplx"
+            className="flex items-center justify-center gap-1 text-[#7C5CFF] hover:underline ml-1"
+          >
+            Support development ♥ <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+
       </div>
     </section>
   );
@@ -741,8 +814,8 @@ function CTASection({ user }: { user: any }) {
         <p className="text-xl text-[#98A2B3] mb-10">Join thousands of developers turning their thoughts into shipped features.</p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#7C5CFF] hover:bg-[#684CE6] text-white font-medium text-lg transition-colors shadow-xl shadow-[#7C5CFF]/30">
-            {user ? "Dashboard >" : "Get Started for Free"}
+          <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#7C5CFF] hover:bg-[#684CE6] text-white font-medium text-lg transition-colors shadow-xl shadow-[#7C5CFF]/30 flex items-center gap-2">
+            {user ? "Dashboard" : "Get Started for Free"} {user ? <ArrowRight className="w-4 h-4" /> : null}
           </LoadingLink>
           <Link href="#" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#0B0D12] border border-[#232734] hover:bg-[#232734] text-[#F4F7FA] font-medium text-lg transition-colors flex items-center justify-center gap-2">
             <Github className="w-5 h-5"/> View Source Code
@@ -801,15 +874,13 @@ function Footer() {
       
       <div className="max-w-7xl mx-auto px-6 border-t border-[#232734] pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#98A2B3]">
         <p>© {new Date().getFullYear()} Attic. All rights reserved.</p>
+        <p>Built by <a href="https://github.com/chemitha">Chemitha Sathsilu</a> ♥ Open Source</p>
         <div className="flex items-center gap-4 mt-4 md:mt-0">
-           <TwitterIcon className="w-4 h-4 hover:text-white transition-colors cursor-pointer" />
+           <Link className="text-[#98A2B3] hover:text-white transition-colors" target="_blank" href="https://www.github.com/chemitha/attic/issues/new">Report Bug</Link>
            <Github className="w-4 h-4 hover:text-white transition-colors cursor-pointer" />
-           <DiscordIcon className="w-4 h-4 hover:text-white transition-colors cursor-pointer" />
+
         </div>
       </div>
     </footer>
   );
 }
-
-function TwitterIcon({ className }: { className?: string }) { return <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>; }
-function DiscordIcon({ className }: { className?: string }) { return <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M7.5 7.5c3.5-1 5.5-1 9 0"/><path d="M7 16.5c-2.9.5-3 2.5-3 2.5l1.5-1.5a4 4 0 0 0 8 0L15 19s-.1-2-3-2.5"/><path d="M2 12c1-7 4-8 10-8s9 1 10 8c1 9-3 10-3 10l-1-2c-3.5 1-6.5 1-10 0l-1 2s-4-1-3-10z"/></svg>; }
