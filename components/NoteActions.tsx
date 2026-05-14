@@ -1,7 +1,5 @@
 'use client';
 
-import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { NoteContextMenu } from "./NoteContextMenu";
 import { deleteNoteAction, duplicateNoteAction, renameNoteAction } from "@/app/actions/notes";
 import { useTransition } from "react";
@@ -50,60 +48,11 @@ export function NoteActions({ note }: { note: any }) {
   };
 
   return (
-    <div className="flex items-center gap-2" onClick={preventNavigation}>
-      <TooltipProvider delay={0}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log("G-Drive sync for", note.id);
-              }}
-              className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer outline-none"
-            >
-              <GoogleDriveIcon className="w-4 h-4" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent className="bg-[#181A20] border-[#2A2E37] text-white">Upload to G-Drive</TooltipContent>
-        </Tooltip>
-        
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log("Notion sync for", note.id);
-              }}
-              className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-gray-300 hover:border-gray-300 transition-colors cursor-pointer outline-none"
-            >
-              <NotionIcon className="w-4 h-4" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent className="bg-[#181A20] border-[#2A2E37] text-white">Sync with Notion</TooltipContent>
-        </Tooltip>
-        
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log("GitHub sync for", note.id);
-              }}
-              className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-[#7C5CFF] hover:border-[#7C5CFF] transition-colors cursor-pointer outline-none"
-            >
-              <GitHubIcon className="w-4 h-4" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent className="bg-[#181A20] border-[#2A2E37] text-white">Push to GitHub</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-
+    <div className="flex items-center" onClick={preventNavigation}>
       <NoteContextMenu 
         noteId={note.id} 
         isFavorite={note.is_favorite} 
+        updatedAt={note.updated_at}
         onDelete={handleDelete}
         onDuplicate={handleDuplicate}
         onRename={handleRename}
