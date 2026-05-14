@@ -1,11 +1,10 @@
-import { ReactNode } from "react";
-import { getUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { Metadata } from 'next';
 
-export default async function RegisterLayout({ children }: { children: ReactNode }) {
-  const user = await getUser();
-  if (user) {
-    redirect("/dashboard");
-  }
-  return children;
+export const metadata: Metadata = {
+  title: 'Create Account',
+  description: 'Join AtticNote to start building your fast, Markdown-powered workspace.',
+};
+
+export default function RegisterLayout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }

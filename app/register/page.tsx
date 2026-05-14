@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import LoadingLink from "@/components/LoadingLink";
 import { useRouter } from "next/navigation";
@@ -37,7 +38,9 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-[#0F1115] text-[#F5F7FA] flex flex-col justify-center items-center px-4">
       <LoadingLink href="/" className="absolute top-8 left-8 flex items-center gap-2">
-        <div className="w-8 h-8 bg-[#7C5CFF] rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-[#7C5CFF33]">N</div>
+        <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
+          <Image src="/logo.svg" alt="Attic Logo" width={32} height={32} className="w-full h-full object-contain" />
+        </div>
         <span className="text-xl font-bold tracking-tight">AtticNote</span>
       </LoadingLink>
       

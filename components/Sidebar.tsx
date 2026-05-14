@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import LoadingLink from "./LoadingLink";
 import { usePathname, useRouter } from "next/navigation";
 import { Plus, Home, FileText, Clock, Trash2, Settings, LogOut, Search, Star, Box } from "lucide-react";
@@ -22,8 +23,8 @@ export default function Sidebar({ user }: { user: any }) {
     <aside className="w-64 bg-[#111318] border-r border-[#2A2E37] flex flex-col">
       <div className="p-6 flex items-center gap-3">
         <LoadingLink href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-[#7C5CFF] rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-[#7C5CFF33]">
-            <Box className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
+            <Image src="/logo.svg" alt="Attic Logo" width={32} height={32} className="w-full h-full object-contain" />
           </div>
           <span className="font-semibold text-lg tracking-tight">AtticNote</span>
         </LoadingLink>

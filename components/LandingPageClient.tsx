@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import LoadingLink from "./LoadingLink";
+import Image from "next/image";
 import { ArrowRight, Box, CheckCircle2, Cloud, File, FileText, FolderGit2, Github, HardDrive, Keyboard, Layout, Search, Sparkles, TerminalSquare, UploadCloud, Menu, Link as LinkIcon, Youtube, Image as ImageIcon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -35,8 +36,8 @@ function Navbar({ user }: { user: any }) {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <LoadingLink href="/" className="flex items-center gap-2 group">
-            <div className="w-6 h-6 rounded bg-[#7C5CFF] flex items-center justify-center transition-transform group-hover:scale-110">
-              <Box className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-lg overflow-hidden transition-transform group-hover:scale-110 flex items-center justify-center">
+              <Image src="/logo.svg" alt="AtticNote - Developer Markdown Workspace" width={32} height={32} className="w-full h-full object-contain" priority />
             </div>
             <span className="font-semibold text-lg tracking-tight">Attic</span>
           </LoadingLink>
@@ -337,7 +338,7 @@ function EditorDemo() {
              <div className="text-xs text-[#98A2B3] font-mono">Weekly Planning.md</div>
           </div>
           <div className="p-6 md:p-10 font-sans space-y-4 min-h-[300px]">
-             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-[#F4F7FA]">Weekly Planning</h1>
+             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#F4F7FA]">Weekly Planning</h2>
              <div className="flex items-center gap-3 text-base md:text-lg text-[#E2E8F0]">
                <input type="checkbox" className="w-4 h-4 rounded border-[#232734] bg-[#0B0D12] accent-[#7C5CFF]" readOnly />
                <span>Finalize dashboard</span>
@@ -580,7 +581,7 @@ function DashboardPreview() {
              
              {/* Main */}
              <div className="flex-1 p-6 md:p-8 bg-[#12151C] overflow-hidden text-left relative flex flex-col">
-               <h1 className="text-2xl md:text-3xl font-bold mb-6">All Notes</h1>
+               <h2 className="text-2xl md:text-3xl font-bold mb-6">All Notes</h2>
                
                <div className="space-y-3 flex-1 overflow-y-auto pb-20 md:pb-0 hide-scrollbar">
                  <div className="bg-[#0B0D12] border border-[#232734] p-4 rounded-xl flex items-center justify-between group cursor-pointer hover:border-[#7C5CFF]/30 transition-colors">
@@ -832,8 +833,8 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
         <div className="col-span-2 md:col-span-1">
           <Link href="/" className="flex items-center gap-2 mb-4 group">
-            <div className="w-6 h-6 rounded bg-[#7C5CFF] flex items-center justify-center">
-              <Box className="w-4 h-4 text-white" />
+            <div className="w-6 h-6 rounded-md overflow-hidden flex items-center justify-center">
+              <Image src="/logo.svg" alt="AtticNote Logo" width={24} height={24} className="w-full h-full object-contain" />
             </div>
             <span className="font-semibold text-lg tracking-tight text-[#F4F7FA]">Attic</span>
           </Link>
