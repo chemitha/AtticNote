@@ -4,13 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { createNoteAction } from "@/app/actions/notes";
+import { useLoading } from "@/hooks/use-loading";
 
 export default function CreateNoteButton({ iconOnly = false }: { iconOnly?: boolean }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleCreateNote = async () => {
+    const { startLoading, stopLoading } = useLoading.getState();
     try {
+      startLoading();
       setLoading(true);
       const res = await createNoteAction();
       if (res.success && res.note) {
@@ -18,6 +21,7 @@ export default function CreateNoteButton({ iconOnly = false }: { iconOnly?: bool
       }
     } catch (e) {
       console.error(e);
+      stopLoading();
     } finally {
       setLoading(false);
     }

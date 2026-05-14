@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import LoadingLink from "@/components/LoadingLink";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { loginAction } from "@/app/actions/auth";
+import { useLoading } from "@/hooks/use-loading";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,6 +15,8 @@ export default function LoginPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const { startLoading, stopLoading } = useLoading.getState();
+    startLoading();
     setLoading(true);
     setError("");
 
@@ -22,6 +25,7 @@ export default function LoginPage() {
 
     if (res.error) {
       setError(res.error);
+      stopLoading();
     } else {
       router.push("/dashboard");
     }
@@ -30,10 +34,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#0F1115] text-[#F5F7FA] flex flex-col justify-center items-center px-4 font-sans">
-      <Link href="/" className="absolute top-8 left-8 flex items-center gap-2">
+      <LoadingLink href="/" className="absolute top-8 left-8 flex items-center gap-2">
         <div className="w-8 h-8 bg-[#7C5CFF] rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-[#7C5CFF33]">N</div>
         <span className="text-xl font-bold tracking-tight">AtticNote</span>
-      </Link>
+      </LoadingLink>
       
       <div className="w-full max-w-md bg-[#181A20] border border-[#2A2E37] p-8 rounded-xl shadow-2xl">
         <h1 className="text-2xl font-bold mb-2">Welcome back</h1>
@@ -67,7 +71,7 @@ export default function LoginPage() {
         </form>
 
         <p className="mt-6 text-center text-gray-400 text-sm">
-          Don&apos;t have an account? <Link href="/register" className="text-[#7C5CFF] hover:underline">Register</Link>
+          Don&apos;t have an account? <LoadingLink href="/register" className="text-[#7C5CFF] hover:underline">Register</LoadingLink>
         </p>
       </div>
     </div>

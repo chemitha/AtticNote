@@ -1,5 +1,5 @@
 import { getAllNotes } from "@/app/actions/notes";
-import Link from "next/link";
+import LoadingLink from "@/components/LoadingLink";
 import { formatDistanceToNow } from "date-fns";
 import { FileText, MoreVertical, ExternalLink, Copy, Trash, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,10 +31,10 @@ export default async function AllNotesPage() {
           <ContextMenu key={note.id}>
             <ContextMenuTrigger asChild>
               <div className="flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
-                <Link href={`/dashboard/notes/${note.id}`} className="flex items-center gap-3 flex-1 min-w-0">
+                <LoadingLink href={`/dashboard/notes/${note.id}`} className="flex items-center gap-3 flex-1 min-w-0">
                   <FileText className="h-4 w-4 text-[#7C5CFF] shrink-0" />
                   <span className="font-medium truncate text-white group-hover:text-[#7C5CFF] transition-colors">{note.title || "Untitled"}</span>
-                </Link>
+                </LoadingLink>
                 <div className="flex items-center gap-4">
                   <span className="text-xs text-gray-500 whitespace-nowrap">
                     {formatDistanceToNow(new Date(note.updated_at))} ago

@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import LoadingLink from "@/components/LoadingLink";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { registerAction } from "@/app/actions/auth";
+import { useLoading } from "@/hooks/use-loading";
+import { Box } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -15,6 +17,8 @@ export default function RegisterPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const { startLoading, stopLoading } = useLoading.getState();
+    startLoading();
     setLoading(true);
     setError("");
 
@@ -23,6 +27,7 @@ export default function RegisterPage() {
 
     if (res.error) {
       setError(res.error);
+      stopLoading();
     } else {
       router.push("/dashboard");
     }
@@ -31,7 +36,10 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-[#0F1115] text-[#F5F7FA] flex flex-col justify-center items-center px-4">
-      <Link href="/" className="absolute top-8 left-8 text-xl font-bold tracking-tight">NotionMVP</Link>
+      <LoadingLink href="/" className="absolute top-8 left-8 flex items-center gap-2">
+        <div className="w-8 h-8 bg-[#7C5CFF] rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-[#7C5CFF33]">N</div>
+        <span className="text-xl font-bold tracking-tight">AtticNote</span>
+      </LoadingLink>
       
       <div className="w-full max-w-md bg-[#181A20] border border-white/5 p-8 rounded-2xl">
         <h1 className="text-3xl font-bold mb-6">Create Account</h1>
@@ -57,7 +65,7 @@ export default function RegisterPage() {
         </form>
 
         <p className="mt-6 text-center text-gray-400 text-sm">
-          Already have an account? <Link href="/login" className="text-[#7C5CFF] hover:underline">Log in</Link>
+          Already have an account? <LoadingLink href="/login" className="text-[#7C5CFF] hover:underline">Log in</LoadingLink>
         </p>
       </div>
       

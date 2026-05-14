@@ -4,6 +4,7 @@ import { FileText, MoreVertical, Search, Plus, ExternalLink, Copy, Trash, Refres
 import { getUser } from "@/lib/auth";
 import { getAllNotes, getRecentNotes } from "@/app/actions/notes";
 import CreateNoteButton from "@/components/CreateNoteButton";
+import LoadingLink from "@/components/LoadingLink";
 import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
 import {
   Tooltip,
@@ -57,7 +58,7 @@ export default async function DashboardPage() {
             {recentNotes.map((note) => (
               <ContextMenu key={note.id}>
                 <ContextMenuTrigger asChild>
-                  <Link href={`/dashboard/notes/${note.id}`} className="block">
+                  <LoadingLink href={`/dashboard/notes/${note.id}`} className="block">
                     <div className="bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-[#7C5CFF66] transition-colors cursor-pointer group">
                       <div className="flex items-start justify-between mb-3">
                         <span className="text-2xl">📄</span>
@@ -68,7 +69,7 @@ export default async function DashboardPage() {
                       <p className="font-medium text-sm truncate group-hover:text-[#F5F7FA]">{note.title || "Untitled"}</p>
                       <p className="text-xs text-[#4B5563] mt-1 truncate">Click to view note</p>
                     </div>
-                  </Link>
+                  </LoadingLink>
                 </ContextMenuTrigger>
                 <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
                   <ContextMenuItem>
@@ -113,7 +114,7 @@ export default async function DashboardPage() {
             {allNotes.map((note) => (
               <ContextMenu key={note.id}>
                 <ContextMenuTrigger asChild>
-                  <Link href={`/dashboard/notes/${note.id}`} className="block">
+                  <LoadingLink href={`/dashboard/notes/${note.id}`} className="block">
                     <div className="group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl flex items-center gap-4 hover:border-[#7C5CFF] transition-all cursor-pointer mb-2">
                       <div className="text-xl shrink-0">📝</div>
                       <div className="flex-1 min-w-0">
@@ -149,7 +150,7 @@ export default async function DashboardPage() {
                           </button>
                       </div>
                     </div>
-                  </Link>
+                  </LoadingLink>
                 </ContextMenuTrigger>
                 <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
                   <ContextMenuItem>

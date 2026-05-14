@@ -1,16 +1,19 @@
 "use client";
 
-import Link from "next/link";
+import LoadingLink from "./LoadingLink";
 import { usePathname, useRouter } from "next/navigation";
-import { Plus, Home, FileText, Clock, Trash2, Settings, LogOut, Search, Star } from "lucide-react";
+import { Plus, Home, FileText, Clock, Trash2, Settings, LogOut, Search, Star, Box } from "lucide-react";
 import { logoutAction } from "@/app/actions/auth";
 import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
+import { useLoading } from "@/hooks/use-loading";
 
 export default function Sidebar({ user }: { user: any }) {
   const pathname = usePathname();
   const router = useRouter();
 
   async function handleLogout() {
+    const { startLoading } = useLoading.getState();
+    startLoading();
     await logoutAction();
     router.push("/");
   }
@@ -18,11 +21,14 @@ export default function Sidebar({ user }: { user: any }) {
   return (
     <aside className="w-64 bg-[#111318] border-r border-[#2A2E37] flex flex-col">
       <div className="p-6 flex items-center gap-3">
-        <div className="w-8 h-8 bg-[#7C5CFF] rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-[#7C5CFF33]">
-          N
-        </div>
-        <span className="font-semibold text-lg tracking-tight">AtticNote</span>
+        <LoadingLink href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-[#7C5CFF] rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-[#7C5CFF33]">
+            <Box className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-semibold text-lg tracking-tight">AtticNote</span>
+        </LoadingLink>
       </div>
+      
 
       <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
         <div className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-2 px-2">Workspace</div>
@@ -85,18 +91,24 @@ export default function Sidebar({ user }: { user: any }) {
 }
 
 function NavLink({ href, icon, children, active }: { href: string, icon: React.ReactNode, children: React.ReactNode, active: boolean }) {
+  const { startLoading } = useLoading.getState();
+  
+  const handleClick = () => {
+    if (!active) startLoading();
+  };
+
   if (active) {
     return (
-      <Link href={href} className="flex items-center gap-3 px-3 py-2 bg-[#181A20] text-[#F5F7FA] rounded-md border border-[#2A2E37] text-sm">
+      <LoadingLink href={href} onClick={handleClick} className="flex items-center gap-3 px-3 py-2 bg-[#181A20] text-[#F5F7FA] rounded-md border border-[#2A2E37] text-sm">
         {icon}
         <span>{children}</span>
-      </Link>
+      </LoadingLink>
     );
   }
   return (
-    <Link href={href} className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md transition-colors text-sm">
+    <LoadingLink href={href} onClick={handleClick} className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md transition-colors text-sm">
       {icon}
       <span>{children}</span>
-    </Link>
+    </LoadingLink>
   );
 }

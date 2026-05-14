@@ -1,4 +1,4 @@
-import Link from "next/link";
+import LoadingLink from "@/components/LoadingLink";
 import { formatDistanceToNow } from "date-fns";
 import { FileText, MoreVertical, Search, ExternalLink, Copy, Trash, RefreshCw, StarOff } from "lucide-react";
 import { getUser } from "@/lib/auth";
@@ -67,7 +67,7 @@ export default async function FavoritesPage() {
             {favoriteNotes.map((note) => (
               <ContextMenu key={note.id}>
                 <ContextMenuTrigger asChild>
-                  <Link href={`/dashboard/notes/${note.id}`} className="block">
+                  <LoadingLink href={`/dashboard/notes/${note.id}`} className="block">
                     <div className="group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl flex items-center gap-4 hover:border-yellow-500/50 transition-all cursor-pointer mb-2">
                       <div className="text-xl shrink-0">📝</div>
                       <div className="flex-1 min-w-0">
@@ -104,7 +104,7 @@ export default async function FavoritesPage() {
                           </button>
                       </div>
                     </div>
-                  </Link>
+                  </LoadingLink>
                 </ContextMenuTrigger>
                 <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
                   <ContextMenuItem>

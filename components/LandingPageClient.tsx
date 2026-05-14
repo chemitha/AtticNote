@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import LoadingLink from "./LoadingLink";
 import { ArrowRight, Box, CheckCircle2, Cloud, File, FileText, FolderGit2, Github, HardDrive, Keyboard, Layout, Search, Sparkles, TerminalSquare, UploadCloud, Menu, Link as LinkIcon, Youtube, Image as ImageIcon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -33,12 +34,12 @@ function Navbar({ user }: { user: any }) {
     <header className="sticky top-0 z-50 w-full border-b border-transparent transition-all backdrop-blur-md bg-[#0B0D12]/80 data-[scrolled=true]:border-[#232734]">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2 group">
+          <LoadingLink href="/" className="flex items-center gap-2 group">
             <div className="w-6 h-6 rounded bg-[#7C5CFF] flex items-center justify-center transition-transform group-hover:scale-110">
               <Box className="w-4 h-4 text-white" />
             </div>
             <span className="font-semibold text-lg tracking-tight">Attic</span>
-          </Link>
+          </LoadingLink>
           <nav className="hidden md:flex items-center gap-6 text-sm text-[#98A2B3]">
             <Link href="#features" className="hover:text-[#F4F7FA] transition-colors">Features</Link>
             <Link href="#integrations" className="hover:text-[#F4F7FA] transition-colors">Integrations</Link>
@@ -48,11 +49,11 @@ function Navbar({ user }: { user: any }) {
         </div>
         <div className="flex items-center gap-4 text-sm font-medium">
           {!user && (
-            <Link href="/login" className="hidden sm:inline-block text-[#98A2B3] hover:text-[#F4F7FA] transition-colors">Log in</Link>
+            <LoadingLink href="/login" className="hidden sm:inline-block text-[#98A2B3] hover:text-[#F4F7FA] transition-colors">Log in</LoadingLink>
           )}
-          <Link href={user ? "/dashboard" : "/register"} className="hidden sm:inline-block bg-[#F4F7FA] text-[#0B0D12] px-4 py-2 rounded-lg hover:bg-white transition-colors">
+          <LoadingLink href={user ? "/dashboard" : "/register"} className="hidden sm:inline-block bg-[#F4F7FA] text-[#0B0D12] px-4 py-2 rounded-lg hover:bg-white transition-colors">
             {user ? "Dashboard >" : "Get Started"}
-          </Link>
+          </LoadingLink>
           <button className="md:hidden text-[#98A2B3] hover:text-[#F4F7FA]">
             <Menu className="w-5 h-5" />
           </button>
@@ -171,9 +172,9 @@ function HeroSection({ user }: { user: any }) {
             </div>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
-              <Link href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#7C5CFF] hover:bg-[#684CE6] text-white px-6 py-3.5 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(124,92,255,0.3)] hover:shadow-[0_0_30px_rgba(124,92,255,0.5)]">
+              <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#7C5CFF] hover:bg-[#684CE6] text-white px-6 py-3.5 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(124,92,255,0.3)] hover:shadow-[0_0_30px_rgba(124,92,255,0.5)]">
                 {user ? "Dashboard >" : "Start Writing "}{user ? "" : <ArrowRight className="w-4 h-4" />}
-              </Link>
+              </LoadingLink>
               <Link href="#demo" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#12151C] border border-[#232734] hover:bg-[#232734]/50 text-[#F4F7FA] px-6 py-3.5 rounded-xl font-medium transition-colors">
                 View Demo
               </Link>
@@ -740,9 +741,9 @@ function CTASection({ user }: { user: any }) {
         <p className="text-xl text-[#98A2B3] mb-10">Join thousands of developers turning their thoughts into shipped features.</p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#7C5CFF] hover:bg-[#684CE6] text-white font-medium text-lg transition-colors shadow-xl shadow-[#7C5CFF]/30">
+          <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#7C5CFF] hover:bg-[#684CE6] text-white font-medium text-lg transition-colors shadow-xl shadow-[#7C5CFF]/30">
             {user ? "Dashboard >" : "Get Started for Free"}
-          </Link>
+          </LoadingLink>
           <Link href="#" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#0B0D12] border border-[#232734] hover:bg-[#232734] text-[#F4F7FA] font-medium text-lg transition-colors flex items-center justify-center gap-2">
             <Github className="w-5 h-5"/> View Source Code
           </Link>

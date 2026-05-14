@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+.loader {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 9999px;
+
+  border: 2.6px solid rgba(255, 255, 255, 0.10);
+  border-top-color: rgba(255, 255, 255, 0.82);
+
+  animation: loader-spin 0.72s linear infinite;
+
+  will-change: transform;
+  backface-visibility: hidden;
+
+  box-shadow:
+    0 0 12px rgba(255,255,255,0.04),
+    0 0 40px rgba(255,255,255,0.02);
+}
+
+@keyframes loader-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
