@@ -30,12 +30,13 @@ export async function registerAction(formData: FormData) {
       },
     });
 
+    // Session cookie (no maxAge) — expires when browser closes.
     const token = await signToken({ id: user.id }, "24h");
     const cookieStore = await cookies();
     cookieStore.set("token", token, { 
       httpOnly: true, 
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax" 
+      sameSite: "lax"
     });
 
     return { success: true };
