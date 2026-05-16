@@ -11,14 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+import { NoteContextMenu, NoteDropdownMenu } from "@/components/NoteContextMenu";
 
 export default async function FavoritesPage() {
   const user = await getUser();
@@ -65,68 +58,50 @@ export default async function FavoritesPage() {
         ) : (
           <div className="space-y-2">
             {favoriteNotes.map((note) => (
-              <ContextMenu key={note.id}>
-                <ContextMenuTrigger asChild>
-                  <LoadingLink href={`/dashboard/notes/${note.id}`} className="block">
-                    <div className="group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl flex items-center gap-4 hover:border-yellow-500/50 transition-all cursor-pointer mb-2">
-                      <div className="text-xl shrink-0">📝</div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
-                        <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <TooltipProvider delay={0}>
-                            <Tooltip>
-                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer">
-                                <GoogleDriveIcon className="w-4 h-4" />
-                              </TooltipTrigger>
-                              <TooltipContent>Upload to G-Drive</TooltipContent>
-                            </Tooltip>
-                            
-                            <Tooltip>
-                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-gray-300 hover:border-gray-300 transition-colors cursor-pointer">
-                                <NotionIcon className="w-4 h-4" />
-                              </TooltipTrigger>
-                              <TooltipContent>Sync with Notion</TooltipContent>
-                            </Tooltip>
-                            
-                            <Tooltip>
-                              <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-[#7C5CFF] hover:border-[#7C5CFF] transition-colors cursor-pointer">
-                                <GitHubIcon className="w-4 h-4" />
-                              </TooltipTrigger>
-                              <TooltipContent>Push to GitHub</TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                          <span className="text-yellow-500 mx-2">★</span>
+              <NoteContextMenu key={note.id} note={note}>
+                <div className="relative group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-yellow-500/50 transition-all mb-2">
+                  <LoadingLink href={`/dashboard/notes/${note.id}`} className="absolute inset-0 z-0 rounded-xl block" />
+                  
+                  <div className="relative z-10 flex items-center gap-4 pointer-events-none">
+                    <div className="text-xl shrink-0">📝</div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
+                      <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-auto">
+                        <TooltipProvider delay={0}>
+                          <Tooltip>
+                            <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer">
+                              <GoogleDriveIcon className="w-4 h-4" />
+                            </TooltipTrigger>
+                            <TooltipContent>Upload to G-Drive</TooltipContent>
+                          </Tooltip>
+                          
+                          <Tooltip>
+                            <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-gray-300 hover:border-gray-300 transition-colors cursor-pointer">
+                              <NotionIcon className="w-4 h-4" />
+                            </TooltipTrigger>
+                            <TooltipContent>Sync with Notion</TooltipContent>
+                          </Tooltip>
+                          
+                          <Tooltip>
+                            <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-[#7C5CFF] hover:border-[#7C5CFF] transition-colors cursor-pointer">
+                              <GitHubIcon className="w-4 h-4" />
+                            </TooltipTrigger>
+                            <TooltipContent>Push to GitHub</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        <span className="text-yellow-500 mx-2 pointer-events-none">★</span>
+                        <NoteDropdownMenu note={note}>
                           <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer">
                               <MoreVertical className="w-4 h-4" />
                           </button>
-                      </div>
+                        </NoteDropdownMenu>
                     </div>
-                  </LoadingLink>
-                </ContextMenuTrigger>
-                <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
-                  <ContextMenuItem>
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    Open Note
-                  </ContextMenuItem>
-                  <ContextMenuItem>
-                    <Copy className="mr-2 h-4 w-4" />
-                    Duplicate
-                  </ContextMenuItem>
-                  <ContextMenuSeparator className="bg-[#2A2E37]" />
-                  <ContextMenuItem>
-                    <StarOff className="mr-2 h-4 w-4 text-yellow-500" />
-                    <span className="text-yellow-500">Remove from Favorites</span>
-                  </ContextMenuItem>
-                  <ContextMenuSeparator className="bg-[#2A2E37]" />
-                  <ContextMenuItem className="text-red-400 focus:text-red-400 focus:bg-red-400/10">
-                    <Trash className="mr-2 h-4 w-4" />
-                    Delete Note
-                  </ContextMenuItem>
-                </ContextMenuContent>
-              </ContextMenu>
+                  </div>
+                </div>
+              </NoteContextMenu>
             ))}
           </div>
         )}
