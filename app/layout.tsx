@@ -13,8 +13,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: 'Attic - Your personal workspace, everywhere.',
-    template: '%s | Attic',
+    default: 'AtticNote - Your personal workspace, everywhere.',
+    template: '%s | AtticNote',
   },
   description: 'A lightweight cloud workspace designed for people who switch devices often. Instant access to your notes and files from any computer, with seamless export options.',
   keywords: ['lightweight workspace', 'cloud notes', 'digital backpack', 'markdown editor', 'device sync', 'portable workspace'],
@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     apple: '/logo_curved.svg',
   },
 openGraph: {
-  title: 'Attic - Your personal workspace, everywhere.',
+  title: 'AtticNote - Your personal workspace, everywhere.',
   description:
     'A lightweight cloud workspace designed for people who switch devices often. Instant access to your notes from any computer.',
   url: 'https://atticnote.vercel.app',
-  siteName: 'Attic',
+  siteName: 'AtticNote',
   images: [
     {
       url: 'https://atticnote.vercel.app/og-image.png',
@@ -48,7 +48,7 @@ openGraph: {
 
 twitter: {
   card: 'summary_large_image',
-  title: 'Attic - Your personal workspace, everywhere.',
+  title: 'AtticNote - Your personal workspace, everywhere.',
   description:
     'A lightweight cloud workspace designed for people who switch devices often.',
   images: ['https://atticnote.vercel.app/og-image.png'],

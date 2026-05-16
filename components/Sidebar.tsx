@@ -20,13 +20,13 @@ export default function Sidebar({ user }: { user: any }) {
   }
 
   return (
-    <aside className="w-64 bg-[#111318] border-r border-[#2A2E37] flex flex-col">
+    <aside className="w-64 bg-[#111318] border-r border-[#2A2E37] hidden md:flex flex-col">
       <div className="p-6 flex items-center gap-3">
         <LoadingLink href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
-            <Image src="/logo.svg" alt="Attic - Digital Backpack" width={32} height={32} className="w-full h-full object-contain" />
+            <Image src="/logo.svg" alt="AtticNote - Digital Backpack" width={32} height={32} className="w-full h-full object-contain" />
           </div>
-          <span className="font-semibold text-lg tracking-tight">Attic</span>
+          <span className="font-semibold text-lg tracking-tight">AtticNote</span>
         </LoadingLink>
       </div>
       

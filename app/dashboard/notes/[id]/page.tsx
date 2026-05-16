@@ -1,9 +1,26 @@
 import { notFound } from "next/navigation";
+import { Metadata, ResolvingMetadata } from "next";
 import { getNote } from "@/app/actions/notes";
 import EditorLoader from "@/components/EditorLoader";
 import { prisma } from "@/lib/prisma";
 
-export default async function NotePage({ params }: { params: Promise<{ id: string }> }) {
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const resolvedParams = await params;
+  const note = await getNote(resolvedParams.id);
+  
+  return {
+    title: note?.title || "Untitled Note",
+  };
+}
+
+export default async function NotePage({ params }: Props) {
   const resolvedParams = await params;
   const note = await getNote(resolvedParams.id);
 
@@ -17,7 +34,7 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
   });
 
   return (
-    <div className="flex-1 w-full max-w-4xl mx-auto px-10 py-12">
+    <div className="flex-1 w-full max-w-4xl mx-auto px-4 md:px-10 py-6 md:py-12">
       <EditorLoader noteId={note.id} initialTitle={note.title} initialBlocks={blocks} />
     </div>
   );

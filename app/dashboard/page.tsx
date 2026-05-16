@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Metadata } from "next";
 import { formatDistanceToNow } from "date-fns";
 import { FileText, MoreVertical, Search, Plus, ExternalLink, Copy, Trash, RefreshCw } from "lucide-react";
 import { getUser } from "@/lib/auth";
@@ -7,12 +8,16 @@ import CreateNoteButton from "@/components/CreateNoteButton";
 import LoadingLink from "@/components/LoadingLink";
 import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
 import { NoteContextMenu, NoteDropdownMenu } from "@/components/NoteContextMenu";
+import DashboardSearchBar from "@/components/DashboardSearchBar";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -21,31 +26,21 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex-1 flex flex-col relative w-full h-full text-[#F5F7FA]">
-      <section className="h-40 relative overflow-hidden shrink-0">
+      <section className="h-32 md:h-40 relative overflow-hidden shrink-0">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1F1D2B] to-[#0F1115]"></div>
         <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "radial-gradient(#7C5CFF 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
-        <div className="absolute bottom-8 left-10">
-          <h1 className="text-3xl font-bold tracking-tight text-white">Welcome back, {user?.name || "User"}</h1>
+        <div className="absolute bottom-6 left-4 md:bottom-8 md:left-10">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white">Welcome back, {user?.name || "User"}</h1>
           <p className="text-[#9CA3AF] text-sm mt-1">You have {allNotes.length} note{allNotes.length !== 1 ? 's' : ''} in your workspace.</p>
         </div>
       </section>
 
-      <div className="px-10 -mt-6 z-10 shrink-0">
-        <div className="bg-[#181A20] rounded-xl border border-[#2A2E37] flex items-center gap-3 px-4 py-3 shadow-2xl">
-          <Search className="w-5 h-5 text-[#9CA3AF]" />
-          <input 
-            type="text" 
-            placeholder="Search notes, tags, and blocks..." 
-            className="bg-transparent border-none outline-none text-sm w-full placeholder:text-[#4B5563] text-white focus:ring-0" 
-          />
-          <div className="flex items-center gap-1 bg-[#0F1115] border border-[#2A2E37] px-2 py-0.5 rounded text-[10px] font-mono text-[#9CA3AF]">
-            <span className="text-[12px]">⌘</span> K
-          </div>
-        </div>
+      <div className="px-4 md:px-10 -mt-6 z-10 shrink-0">
+        <DashboardSearchBar />
       </div>
 
       {recentNotes.length > 0 && (
-        <div className="px-10 mt-8 shrink-0">
+        <div className="px-4 md:px-10 mt-8 shrink-0">
           <h3 className="text-xs uppercase font-bold tracking-widest text-[#4B5563] mb-4">Recent Workspace</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {recentNotes.map((note) => (
@@ -68,7 +63,7 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      <div className="px-10 mt-10 shrink-0 mb-20 overflow-visible">
+      <div className="px-4 md:px-10 mt-10 shrink-0 pb-20 overflow-visible">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xs uppercase font-bold tracking-widest text-[#4B5563]">All Notes</h3>
         </div>
@@ -92,7 +87,7 @@ export default async function DashboardPage() {
                       <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
                     </div>
                     
-                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-auto">
+                    <div className="hidden md:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-auto">
                         <TooltipProvider delay={0}>
                           <Tooltip>
                             <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer">
@@ -129,7 +124,7 @@ export default async function DashboardPage() {
         )}
       </div>
 
-      <div className="fixed bottom-8 right-8 z-50">
+      <div className="hidden md:block fixed bottom-8 right-8 z-50">
         <CreateNoteButton iconOnly />
       </div>
     </div>

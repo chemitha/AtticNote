@@ -37,7 +37,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#0F1115] text-[#F5F7FA] flex flex-col justify-center items-center px-4 font-sans">
       <LoadingLink href="/" className="absolute top-8 left-8 flex items-center gap-2">
         <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
-          <Image src="/logo.svg" alt="Attic Logo" width={32} height={32} className="w-full h-full object-contain" />
+          <Image src="/logo.svg" alt="AtticNote Logo" width={32} height={32} className="w-full h-full object-contain" />
         </div>
         <span className="text-xl font-bold tracking-tight">AtticNote</span>
       </LoadingLink>

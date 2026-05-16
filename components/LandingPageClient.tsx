@@ -37,9 +37,9 @@ function Navbar({ user }: { user: any }) {
         <div className="flex items-center gap-8">
           <LoadingLink href="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-lg overflow-hidden transition-transform group-hover:scale-110 flex items-center justify-center">
-              <Image src="/logo.svg" alt="Attic - Digital Backpack" width={32} height={32} className="w-full h-full object-contain" priority />
+              <Image src="/logo.svg" alt="AtticNote - Digital Backpack" width={32} height={32} className="w-full h-full object-contain" priority />
             </div>
-            <span className="font-semibold text-lg tracking-tight">Attic</span>
+            <span className="font-semibold text-lg tracking-tight">AtticNote</span>
           </LoadingLink>
           <nav className="hidden md:flex items-center gap-6 text-sm text-[#98A2B3]">
             <Link href="#features" className="hover:text-[#F4F7FA] transition-colors">Features</Link>
@@ -779,7 +779,7 @@ function FAQSection() {
   const faqs = [
     {
       q: "Is this a Notion replacement?",
-      a: "No. Notion is an all-in-one company wiki. Attic is a fast, personal digital backpack meant to be accessed quickly from anywhere."
+      a: "No. Notion is an all-in-one company wiki. AtticNote is a fast, personal digital backpack meant to be accessed quickly from anywhere."
     },
     {
       q: "Are files supported?",
@@ -795,7 +795,7 @@ function FAQSection() {
     },
     {
       q: "Does it support collaboration?",
-      a: "Not right now. Attic is heavily focused on being a reliable, private, and personal workspace for your own thoughts."
+      a: "Not right now. AtticNote is heavily focused on being a reliable, private, and personal workspace for your own thoughts."
     }
   ];
 
@@ -846,7 +846,7 @@ function Footer() {
             <div className="w-6 h-6 rounded-md overflow-hidden flex items-center justify-center">
               <Image src="/logo.svg" alt="AtticNote Logo" width={24} height={24} className="w-full h-full object-contain" />
             </div>
-            <span className="font-semibold text-lg tracking-tight text-[#F4F7FA]">Attic</span>
+            <span className="font-semibold text-lg tracking-tight text-[#F4F7FA]">AtticNote</span>
           </Link>
           <p className="text-sm text-[#98A2B3] max-w-xs">
             A fast, minimal workspace designed for keyboard-first developers and creators.
@@ -884,7 +884,7 @@ function Footer() {
       </div>
       
       <div className="max-w-7xl mx-auto px-6 border-t border-[#232734] pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#98A2B3]">
-        <p>© {new Date().getFullYear()} Attic. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} AtticNote. All rights reserved.</p>
         <p>Built by <a href="https://github.com/chemitha">Chemitha Sathsilu</a> ♥ Open Source</p>
         <div className="flex items-center gap-4 mt-4 md:mt-0">
            <Link className="text-[#98A2B3] hover:text-white transition-colors" target="_blank" href="https://www.github.com/chemitha/attic/issues/new">Report Bug</Link>
