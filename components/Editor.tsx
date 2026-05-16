@@ -8,46 +8,6 @@ import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
 import { useEffect, useState, useRef } from "react";
 
-const insertAiBlock = (editor: any) => ({
-  title: "Ask AI",
-  onItemClick: () => {
-    editor.insertBlocks(
-      [
-        {
-          type: "paragraph",
-          content: "🤖 AI is thinking...",
-        },
-      ],
-      editor.getTextCursorPosition().block,
-      "after"
-    );
-  },
-  aliases: ["ai", "magic", "generate", "ask"],
-  group: "AI Features",
-  icon: "✨",
-  subtext: "Generate content with AI.",
-});
-
-const insertYouTubeBlock = (editor: any) => ({
-  title: "YouTube Embed",
-  onItemClick: () => {
-    editor.insertBlocks(
-      [
-        {
-          type: "paragraph",
-          content: "🎥 https://youtube.com/watch?v=",
-        },
-      ],
-      editor.getTextCursorPosition().block,
-      "after"
-    );
-  },
-  aliases: ["youtube", "video", "embed"],
-  group: "Media",
-  icon: "📺",
-  subtext: "Embed a YouTube Video.",
-});
-
 export default function Editor({ 
   noteId, 
   initialBlocks, 
@@ -92,9 +52,6 @@ export default function Editor({
     
     if (titleTimeoutRef.current) clearTimeout(titleTimeoutRef.current);
     titleTimeoutRef.current = setTimeout(async () => {
-      // Create server action for updating title
-      // await updateNoteTitleAction(noteId, newTitle);
-      // Wait, we need to import it, let's use a fetch or direct action
       fetch(`/api/notes/${noteId}/title`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -112,7 +69,7 @@ export default function Editor({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ blocks }),
       });
-    }, 1000); // Save every 1s of inactivity
+    }, 1000);
   };
 
   return (
@@ -124,8 +81,8 @@ export default function Editor({
         placeholder="Untitled"
         className="w-full bg-transparent text-5xl font-bold border-none outline-none mb-8 placeholder-gray-600 focus:ring-0 text-[#F5F7FA]"
       />
+
       <div className="editor-wrapper -ml-[54px]">
-        {/* We use a negative left margin to align the blocknote content with the title (accounting for drag handles) */}
         <BlockNoteView
           editor={editor}
           theme="dark"
@@ -137,8 +94,6 @@ export default function Editor({
             getItems={async (query) =>
               filterSuggestionItems(
                 [
-                  insertAiBlock(editor),
-                  insertYouTubeBlock(editor),
                   ...getDefaultReactSlashMenuItems(editor),
                 ],
                 query
@@ -147,9 +102,9 @@ export default function Editor({
           />
         </BlockNoteView>
       </div>
+
       <style jsx global>{`
         .mantine-1rtq5z1 {
-           /* BlockNote uses mantine underneath it for standard styles like background */
            --bn-colors-editor-background: transparent !important;
         }
         .editor-wrapper .bn-editor {

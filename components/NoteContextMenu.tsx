@@ -1,35 +1,43 @@
 "use client";
 
 import { useTransition } from "react";
-import { 
-  ExternalLink, 
-  Copy, 
-  Trash, 
+import {
+  ExternalLink,
+  Copy,
+  Trash,
   RefreshCw,
   Star,
-  StarOff
+  StarOff,
 } from "lucide-react";
+
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteNoteAction, duplicateNoteAction, toggleFavoriteAction } from "@/app/actions/notes";
+
+import {
+  deleteNoteAction,
+  duplicateNoteAction,
+  toggleFavoriteAction,
+} from "@/app/actions/notes";
+
 import { useLoading } from "@/hooks/use-loading";
 import { useRouter } from "next/navigation";
 
-// Custom hook to share logic between both menus
+/* -----------------------------
+   Shared hook (unchanged logic)
+------------------------------ */
 export function useNoteActions(noteId: string, isFavorite: boolean) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -77,10 +85,13 @@ export function useNoteActions(noteId: string, isFavorite: boolean) {
     handleOpen,
     handleDuplicate,
     handleToggleFavorite,
-    handleDelete
+    handleDelete,
   };
 }
 
+/* -----------------------------
+   Types
+------------------------------ */
 export interface NoteActionsProps {
   note: {
     id: string;
@@ -92,38 +103,73 @@ interface NoteContextMenuProps extends NoteActionsProps {
   children: React.ReactNode;
 }
 
-export function NoteContextMenu({ children, note }: NoteContextMenuProps) {
-  const { isPending, handleOpen, handleDuplicate, handleToggleFavorite, handleDelete } = useNoteActions(note.id, note.is_favorite);
+/* -----------------------------
+   Shared Notion-like styles
+------------------------------ */
+const menuContentClass =
+  "w-64 rounded-xl bg-[#1F1F1F]/90 backdrop-blur-xl text-white shadow-2xl p-1 border-0 outline-none ring-0 focus:outline-none focus:ring-0";
+
+/* -----------------------------
+   Context Menu (Notion style)
+------------------------------ */
+export function NoteContextMenu({
+  children,
+  note,
+}: NoteContextMenuProps) {
+  const {
+    isPending,
+    handleOpen,
+    handleDuplicate,
+    handleToggleFavorite,
+    handleDelete,
+  } = useNoteActions(note.id, note.is_favorite);
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger asChild>
-        {children}
-      </ContextMenuTrigger>
-      <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
-        <ContextMenuItem onClick={handleOpen} className="cursor-pointer">
-          <ExternalLink className="mr-2 h-4 w-4" />
+      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+
+      <ContextMenuContent className={menuContentClass}>
+        <ContextMenuItem className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer">
+          <ExternalLink className="mr-2 h-4 w-4 opacity-70" />
           Open Note
         </ContextMenuItem>
-        <ContextMenuItem onClick={handleDuplicate} className="cursor-pointer" disabled={isPending}>
-          <Copy className="mr-2 h-4 w-4" />
-          Duplicate
+
+        <ContextMenuItem
+          onClick={handleDuplicate}
+          disabled={isPending}
+          className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer"
+        >
+          <Copy className="mr-2 h-4 w-4 opacity-70" />
+          Duplicate Note
         </ContextMenuItem>
-        <ContextMenuItem onClick={handleToggleFavorite} className="cursor-pointer" disabled={isPending}>
-          {note.is_favorite ? <StarOff className="mr-2 h-4 w-4" /> : <Star className="mr-2 h-4 w-4" />}
+
+        <ContextMenuItem
+          onClick={handleToggleFavorite}
+          disabled={isPending}
+          className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer"
+        >
+          {note.is_favorite ? (
+            <StarOff className="mr-2 h-4 w-4 opacity-70" />
+          ) : (
+            <Star className="mr-2 h-4 w-4 opacity-70" />
+          )}
           {note.is_favorite ? "Remove from Favorites" : "Add to Favorites"}
         </ContextMenuItem>
-        <ContextMenuSeparator className="bg-[#2A2E37]" />
-        <ContextMenuItem className="cursor-not-allowed opacity-50">
-          <RefreshCw className="mr-2 h-4 w-4 text-[#7C5CFF]" />
-          <span className="text-[#7C5CFF]">Sync to GitHub</span>
+
+        <div className="my-1 h-px bg-white/10" />
+
+        <ContextMenuItem className="rounded-lg px-3 py-2 text-sm opacity-40 cursor-not-allowed">
+          <RefreshCw className="mr-2 h-4 w-4 text-indigo-400" />
+          Sync to GitHub
           <ContextMenuShortcut>⌘S</ContextMenuShortcut>
         </ContextMenuItem>
-        <ContextMenuSeparator className="bg-[#2A2E37]" />
-        <ContextMenuItem 
-          onClick={handleDelete} 
-          className="text-red-400 focus:text-red-400 focus:bg-red-400/10 cursor-pointer"
+
+        <div className="my-1 h-px bg-white/10" />
+
+        <ContextMenuItem
+          onClick={handleDelete}
           disabled={isPending}
+          className="rounded-lg px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 transition cursor-pointer"
         >
           <Trash className="mr-2 h-4 w-4" />
           Delete Note
@@ -134,42 +180,74 @@ export function NoteContextMenu({ children, note }: NoteContextMenuProps) {
   );
 }
 
+/* -----------------------------
+   Dropdown Menu (same style)
+------------------------------ */
 interface NoteDropdownMenuProps extends NoteActionsProps {
   children: React.ReactNode;
 }
 
-export function NoteDropdownMenu({ children, note }: NoteDropdownMenuProps) {
-  const { isPending, handleOpen, handleDuplicate, handleToggleFavorite, handleDelete } = useNoteActions(note.id, note.is_favorite);
+export function NoteDropdownMenu({
+  children,
+  note,
+}: NoteDropdownMenuProps) {
+  const {
+    isPending,
+    handleOpen,
+    handleDuplicate,
+    handleToggleFavorite,
+    handleDelete,
+  } = useNoteActions(note.id, note.is_favorite);
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        {children}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-64 bg-[#181A20] border-[#2A2E37] text-white z-50">
-        <DropdownMenuItem onClick={handleOpen} className="cursor-pointer">
-          <ExternalLink className="mr-2 h-4 w-4" />
+      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+
+      <DropdownMenuContent
+        align="end"
+        className={menuContentClass}
+      >
+        <DropdownMenuItem className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer">
+          <ExternalLink className="mr-2 h-4 w-4 opacity-70" />
           Open Note
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleDuplicate} className="cursor-pointer" disabled={isPending}>
-          <Copy className="mr-2 h-4 w-4" />
-          Duplicate
+
+        <DropdownMenuItem
+          onClick={handleDuplicate}
+          disabled={isPending}
+          className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer"
+        >
+          <Copy className="mr-2 h-4 w-4 opacity-70" />
+          Duplicate Note
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleToggleFavorite} className="cursor-pointer" disabled={isPending}>
-          {note.is_favorite ? <StarOff className="mr-2 h-4 w-4" /> : <Star className="mr-2 h-4 w-4" />}
+
+        <DropdownMenuItem
+          onClick={handleToggleFavorite}
+          disabled={isPending}
+          className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer"
+        >
+          {note.is_favorite ? (
+            <StarOff className="mr-2 h-4 w-4 opacity-70" />
+          ) : (
+            <Star className="mr-2 h-4 w-4 opacity-70" />
+          )}
           {note.is_favorite ? "Remove from Favorites" : "Add to Favorites"}
         </DropdownMenuItem>
-        <DropdownMenuSeparator className="bg-[#2A2E37]" />
-        <DropdownMenuItem className="cursor-not-allowed opacity-50">
-          <RefreshCw className="mr-2 h-4 w-4 text-[#7C5CFF]" />
-          <span className="text-[#7C5CFF]">Sync to GitHub</span>
+
+        <div className="my-1 h-px bg-white/10" />
+
+        <DropdownMenuItem className="rounded-lg px-3 py-2 text-sm opacity-40 cursor-not-allowed">
+          <RefreshCw className="mr-2 h-4 w-4 text-indigo-400" />
+          Sync to Github
           <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
         </DropdownMenuItem>
-        <DropdownMenuSeparator className="bg-[#2A2E37]" />
-        <DropdownMenuItem 
-          onClick={handleDelete} 
-          className="text-red-400 focus:text-red-400 focus:bg-red-400/10 cursor-pointer"
+
+        <div className="my-1 h-px bg-white/10" />
+
+        <DropdownMenuItem
+          onClick={handleDelete}
           disabled={isPending}
+          className="rounded-lg px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 transition cursor-pointer"
         >
           <Trash className="mr-2 h-4 w-4" />
           Delete Note
