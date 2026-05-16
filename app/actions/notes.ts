@@ -34,6 +34,38 @@ export async function deleteNoteAction(noteId: string) {
   return { success: true };
 }
 
+export async function duplicateNoteAction(noteId: string) {
+  const user = await getUser();
+  if (!user) return { error: "Unauthorized" };
+
+  const originalNote = await prisma.note.findUnique({
+    where: { id: noteId, user_id: user.id },
+    include: { blocks: true }
+  });
+
+  if (!originalNote) return { error: "Note not found" };
+
+  const duplicatedNote = await prisma.note.create({
+    data: {
+      title: `${originalNote.title} (Copy)`,
+      user_id: user.id,
+      banner_url: originalNote.banner_url,
+      is_favorite: originalNote.is_favorite,
+      blocks: {
+        create: originalNote.blocks.map(block => ({
+          type: block.type,
+          content: block.content,
+          position: block.position,
+          parent_block_id: block.parent_block_id
+        }))
+      }
+    }
+  });
+
+  revalidatePath("/dashboard");
+  return { success: true, note: duplicatedNote };
+}
+
 export async function updateNoteBannerAction(noteId: string, bannerUrl: string | null) {
   const user = await getUser();
   if (!user) return { error: "Unauthorized" };

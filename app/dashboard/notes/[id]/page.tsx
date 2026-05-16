@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getNote } from "@/app/actions/notes";
-import Editor from "@/components/Editor";
+import EditorLoader from "@/components/EditorLoader";
 import { prisma } from "@/lib/prisma";
 
 export default async function NotePage({ params }: { params: Promise<{ id: string }> }) {
@@ -18,7 +18,7 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
 
   return (
     <div className="flex-1 w-full max-w-4xl mx-auto px-10 py-12">
-      <Editor noteId={note.id} initialTitle={note.title} initialBlocks={blocks} />
+      <EditorLoader noteId={note.id} initialTitle={note.title} initialBlocks={blocks} />
     </div>
   );
 }

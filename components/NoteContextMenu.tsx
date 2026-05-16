@@ -1,94 +1,100 @@
-'use client';
+"use client";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreVertical, Star, Edit2, Copy, Trash2 } from "lucide-react";
 import { useTransition } from "react";
-import { toggleFavoriteAction } from "@/app/actions/notes";
+import { 
+  ExternalLink, 
+  Copy, 
+  Trash, 
+  RefreshCw 
+} from "lucide-react";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+import { deleteNoteAction, duplicateNoteAction } from "@/app/actions/notes";
+import { useLoading } from "@/hooks/use-loading";
+import { useRouter } from "next/navigation";
 
 interface NoteContextMenuProps {
+  children: React.ReactNode;
   noteId: string;
-  isFavorite: boolean;
-  onDuplicate?: (id: string) => void;
-  onDelete?: (id: string) => void;
-  onRename?: (id: string) => void;
 }
 
-export function NoteContextMenu({
-  noteId,
-  isFavorite,
-  onDuplicate,
-  onDelete,
-  onRename
-}: NoteContextMenuProps) {
+export default function NoteContextMenu({ children, noteId }: NoteContextMenuProps) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { startLoading, stopLoading } = useLoading.getState();
 
-  const handleToggleFavorite = () => {
-    startTransition(() => {
-      toggleFavoriteAction(noteId, !isFavorite);
+  const handleOpen = () => {
+    window.open(`/dashboard/notes/${noteId}`, "_blank");
+  };
+
+  const handleDuplicate = () => {
+    startLoading();
+    startTransition(async () => {
+      try {
+        const res = await duplicateNoteAction(noteId);
+        if (res.success && res.note) {
+          router.push(`/dashboard/notes/${res.note.id}`);
+        }
+      } catch (error) {
+        console.error("Failed to duplicate note:", error);
+      } finally {
+        stopLoading();
+      }
     });
   };
 
+  const handleDelete = () => {
+    if (confirm("Are you sure you want to delete this note?")) {
+      startLoading();
+      startTransition(async () => {
+        try {
+          await deleteNoteAction(noteId);
+        } catch (error) {
+          console.error("Failed to delete note:", error);
+        } finally {
+          stopLoading();
+        }
+      });
+    }
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer outline-none">
-          <MoreVertical className="w-4 h-4" />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 bg-[#181A20] border-[#2A2E37] text-white shadow-xl shadow-black/50">
-        <DropdownMenuItem 
-          onClick={handleToggleFavorite}
+    <ContextMenu>
+      <ContextMenuTrigger asChild>
+        {children}
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-64 bg-[#181A20] border-[#2A2E37] text-white">
+        <ContextMenuItem onClick={handleOpen} className="cursor-pointer">
+          <ExternalLink className="mr-2 h-4 w-4" />
+          Open Note
+        </ContextMenuItem>
+        <ContextMenuItem onClick={handleDuplicate} className="cursor-pointer" disabled={isPending}>
+          <Copy className="mr-2 h-4 w-4" />
+          Duplicate
+        </ContextMenuItem>
+        <ContextMenuSeparator className="bg-[#2A2E37]" />
+        <ContextMenuItem className="cursor-not-allowed opacity-50">
+          <RefreshCw className="mr-2 h-4 w-4 text-[#7C5CFF]" />
+          <span className="text-[#7C5CFF]">Sync to GitHub</span>
+          <ContextMenuShortcut>⌘S</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuSeparator className="bg-[#2A2E37]" />
+        <ContextMenuItem 
+          onClick={handleDelete} 
+          className="text-red-400 focus:text-red-400 focus:bg-red-400/10 cursor-pointer"
           disabled={isPending}
-          className="flex items-center justify-between text-sm cursor-pointer hover:bg-[#2A2E37] focus:bg-[#2A2E37] focus:text-white"
         >
-          <div className="flex items-center gap-2">
-            <Star className={`w-4 h-4 ${isFavorite ? "fill-yellow-500 text-yellow-500" : ""}`} />
-            {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-          </div>
-          <span className="text-xs text-[#4B5563] tracking-widest font-mono">F</span>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem 
-          onClick={() => onRename?.(noteId)}
-          className="flex items-center justify-between text-sm cursor-pointer hover:bg-[#2A2E37] focus:bg-[#2A2E37] focus:text-white"
-        >
-          <div className="flex items-center gap-2">
-            <Edit2 className="w-4 h-4" />
-            Rename
-          </div>
-          <span className="text-xs text-[#4B5563] tracking-widest font-mono">R</span>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem 
-          onClick={() => onDuplicate?.(noteId)}
-          className="flex items-center justify-between text-sm cursor-pointer hover:bg-[#2A2E37] focus:bg-[#2A2E37] focus:text-white"
-        >
-          <div className="flex items-center gap-2">
-            <Copy className="w-4 h-4" />
-            Duplicate
-          </div>
-          <span className="text-xs text-[#4B5563] tracking-widest font-mono">⌘D</span>
-        </DropdownMenuItem>
-
-        <DropdownMenuSeparator className="bg-[#2A2E37]" />
-
-        <DropdownMenuItem 
-          onClick={() => onDelete?.(noteId)}
-          className="flex items-center justify-between text-sm cursor-pointer text-red-500 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-500"
-        >
-          <div className="flex items-center gap-2">
-            <Trash2 className="w-4 h-4" />
-            Delete
-          </div>
-          <span className="text-xs text-[#4B5563] tracking-widest font-mono">DEL</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <Trash className="mr-2 h-4 w-4" />
+          Delete Note
+          <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 }
