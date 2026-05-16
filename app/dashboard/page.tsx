@@ -6,7 +6,7 @@ import { getAllNotes, getRecentNotes } from "@/app/actions/notes";
 import CreateNoteButton from "@/components/CreateNoteButton";
 import LoadingLink from "@/components/LoadingLink";
 import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
-import NoteContextMenu from "@/components/NoteContextMenu";
+import { NoteContextMenu, NoteDropdownMenu } from "@/components/NoteContextMenu";
 import {
   Tooltip,
   TooltipContent,
@@ -49,7 +49,7 @@ export default async function DashboardPage() {
           <h3 className="text-xs uppercase font-bold tracking-widest text-[#4B5563] mb-4">Recent Workspace</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {recentNotes.map((note) => (
-              <NoteContextMenu key={note.id} noteId={note.id}>
+              <NoteContextMenu key={note.id} note={note}>
                 <LoadingLink href={`/dashboard/notes/${note.id}`} className="block">
                   <div className="bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-[#7C5CFF66] transition-colors cursor-pointer group">
                     <div className="flex items-start justify-between mb-3">
@@ -81,16 +81,18 @@ export default async function DashboardPage() {
         ) : (
           <div className="space-y-2">
             {allNotes.map((note) => (
-              <NoteContextMenu key={note.id} noteId={note.id}>
-                <LoadingLink href={`/dashboard/notes/${note.id}`} className="block">
-                  <div className="group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl flex items-center gap-4 hover:border-[#7C5CFF] transition-all cursor-pointer mb-2">
+              <NoteContextMenu key={note.id} note={note}>
+                <div className="relative group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-[#7C5CFF] transition-all mb-2">
+                  <LoadingLink href={`/dashboard/notes/${note.id}`} className="absolute inset-0 z-0 rounded-xl block" />
+                  
+                  <div className="relative z-10 flex items-center gap-4 pointer-events-none">
                     <div className="text-xl shrink-0">📝</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
                       <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
                     </div>
                     
-                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-auto">
                         <TooltipProvider delay={0}>
                           <Tooltip>
                             <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer">
@@ -113,12 +115,14 @@ export default async function DashboardPage() {
                             <TooltipContent>Push to GitHub</TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
-                        <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer">
-                            <MoreVertical className="w-4 h-4" />
-                        </button>
+                        <NoteDropdownMenu note={note}>
+                          <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer">
+                              <MoreVertical className="w-4 h-4" />
+                          </button>
+                        </NoteDropdownMenu>
                     </div>
                   </div>
-                </LoadingLink>
+                </div>
               </NoteContextMenu>
             ))}
           </div>
