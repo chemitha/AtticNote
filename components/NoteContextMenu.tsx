@@ -30,38 +30,35 @@ export default function NoteContextMenu({ children, noteId }: NoteContextMenuPro
   const { startLoading, stopLoading } = useLoading.getState();
 
   const handleOpen = () => {
+    console.log("Opening note:", noteId);
     window.open(`/dashboard/notes/${noteId}`, "_blank");
   };
 
   const handleDuplicate = () => {
-    startLoading();
+    console.log("Duplicating note:", noteId);
     startTransition(async () => {
       try {
         const res = await duplicateNoteAction(noteId);
+        console.log("Duplicate result:", res);
         if (res.success && res.note) {
           router.push(`/dashboard/notes/${res.note.id}`);
         }
       } catch (error) {
         console.error("Failed to duplicate note:", error);
-      } finally {
-        stopLoading();
       }
     });
   };
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this note?")) {
-      startLoading();
-      startTransition(async () => {
-        try {
-          await deleteNoteAction(noteId);
-        } catch (error) {
-          console.error("Failed to delete note:", error);
-        } finally {
-          stopLoading();
-        }
-      });
-    }
+    console.log("Deleting note:", noteId);
+    startTransition(async () => {
+      try {
+        const res = await deleteNoteAction(noteId);
+        console.log("Delete result:", res);
+      } catch (error) {
+        console.error("Failed to delete note:", error);
+      }
+    });
   };
 
   return (

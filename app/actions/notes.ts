@@ -20,18 +20,25 @@ export async function createNoteAction() {
 }
 
 export async function deleteNoteAction(noteId: string) {
-  const user = await getUser();
-  if (!user) return { error: "Unauthorized" };
+  try {
+    const user = await getUser();
+    if (!user) return { error: "Unauthorized" };
 
-  await prisma.note.delete({
-    where: {
-      id: noteId,
-      user_id: user.id
+    const note = await prisma.note.findUnique({ where: { id: noteId } });
+    if (!note || note.user_id !== user.id) {
+      return { error: "Note not found or unauthorized" };
     }
-  });
 
-  revalidatePath("/dashboard");
-  return { success: true };
+    await prisma.note.delete({
+      where: { id: noteId }
+    });
+
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Delete note error:", error);
+    return { error: error.message || "Failed to delete note" };
+  }
 }
 
 export async function duplicateNoteAction(noteId: string) {
@@ -70,11 +77,11 @@ export async function updateNoteBannerAction(noteId: string, bannerUrl: string |
   const user = await getUser();
   if (!user) return { error: "Unauthorized" };
 
+  const note = await prisma.note.findUnique({ where: { id: noteId } });
+  if (!note || note.user_id !== user.id) return { error: "Unauthorized" };
+
   await prisma.note.update({
-    where: {
-      id: noteId,
-      user_id: user.id
-    },
+    where: { id: noteId },
     data: {
       banner_url: bannerUrl
     }
@@ -121,8 +128,11 @@ export async function toggleFavoriteAction(noteId: string, isFavorite: boolean) 
   const user = await getUser();
   if (!user) return { error: "Unauthorized" };
 
+  const note = await prisma.note.findUnique({ where: { id: noteId } });
+  if (!note || note.user_id !== user.id) return { error: "Unauthorized" };
+
   await prisma.note.update({
-    where: { id: noteId, user_id: user.id },
+    where: { id: noteId },
     data: { is_favorite: isFavorite }
   });
 
@@ -145,8 +155,11 @@ export async function updateNoteTitleAction(noteId: string, title: string) {
   const user = await getUser();
   if (!user) return { error: "Unauthorized" };
 
+  const note = await prisma.note.findUnique({ where: { id: noteId } });
+  if (!note || note.user_id !== user.id) return { error: "Unauthorized" };
+
   await prisma.note.update({
-    where: { id: noteId, user_id: user.id },
+    where: { id: noteId },
     data: { title }
   });
   
