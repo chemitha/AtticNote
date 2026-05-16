@@ -75,7 +75,7 @@ export default async function DashboardPage() {
         
         {allNotes.length === 0 ? (
           <div className="text-center py-10 bg-[#181A20] border border-[#2A2E37] rounded-xl">
-             <p className="text-[#9CA3AF] text-sm mb-4">No notes yet. Create your first note!</p>
+             <p className="text-[#9CA3AF] text-sm mb-4">Your workspace is empty. Drop a note here and access it from any device.</p>
              <CreateNoteButton />
           </div>
         ) : (

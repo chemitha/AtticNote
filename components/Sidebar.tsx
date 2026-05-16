@@ -24,9 +24,9 @@ export default function Sidebar({ user }: { user: any }) {
       <div className="p-6 flex items-center gap-3">
         <LoadingLink href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
-            <Image src="/logo.svg" alt="Attic Logo" width={32} height={32} className="w-full h-full object-contain" />
+            <Image src="/logo.svg" alt="Attic - Digital Backpack" width={32} height={32} className="w-full h-full object-contain" />
           </div>
-          <span className="font-semibold text-lg tracking-tight">AtticNote</span>
+          <span className="font-semibold text-lg tracking-tight">Attic</span>
         </LoadingLink>
       </div>
       
@@ -83,7 +83,7 @@ export default function Sidebar({ user }: { user: any }) {
           </div>
           <div className="flex-1 overflow-hidden">
             <p className="text-xs font-semibold truncate text-[#F5F7FA]">{user?.name || "User"}</p>
-            <p className="text-[10px] text-[#9CA3AF] truncate">Personal Pro Plan</p>
+            <p className="text-[10px] text-[#9CA3AF] truncate">Personal Workspace</p>
           </div>
         </div>
       </div>

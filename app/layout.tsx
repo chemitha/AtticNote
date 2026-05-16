@@ -13,11 +13,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: 'AtticNote - Fast Markdown Workspace for Developers',
-    template: '%s | AtticNote',
+    default: 'Attic - Your personal workspace, everywhere.',
+    template: '%s | Attic',
   },
-  description: 'A fast, block-based Markdown workspace with GitHub sync, Google Drive integration, and rich embeds. Built for developers who think faster than they click.',
-  keywords: ['Markdown note app', 'GitHub synced notes', 'block editor with embeds', 'Notion alternative for developers', 'developer workspace', 'Markdown editor'],
+  description: 'A lightweight cloud workspace designed for people who switch devices often. Instant access to your notes and files from any computer, with seamless export options.',
+  keywords: ['lightweight workspace', 'cloud notes', 'digital backpack', 'markdown editor', 'device sync', 'portable workspace'],
   authors: [{ name: 'Chemitha Sathsilu' }],
   creator: 'Chemitha Sathsilu',
   metadataBase: new URL('https://atticnote.vercel.app'),
@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     apple: '/logo_curved.svg',
   },
 openGraph: {
-  title: 'AtticNote - Fast Markdown Workspace for Developers',
+  title: 'Attic - Your personal workspace, everywhere.',
   description:
-    'Markdown note-taking app with GitHub sync, block editor, and seamless exports.',
+    'A lightweight cloud workspace designed for people who switch devices often. Instant access to your notes from any computer.',
   url: 'https://atticnote.vercel.app',
-  siteName: 'AtticNote',
+  siteName: 'Attic',
   images: [
     {
       url: 'https://atticnote.vercel.app/og-image.png',
@@ -48,9 +48,9 @@ openGraph: {
 
 twitter: {
   card: 'summary_large_image',
-  title: 'AtticNote - Fast Markdown Workspace',
+  title: 'Attic - Your personal workspace, everywhere.',
   description:
-    'A block-based Markdown workspace with GitHub sync and rich embeds.',
+    'A lightweight cloud workspace designed for people who switch devices often.',
   images: ['https://atticnote.vercel.app/og-image.png'],
 },
   category: 'productivity',

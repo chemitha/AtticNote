@@ -37,7 +37,7 @@ function Navbar({ user }: { user: any }) {
         <div className="flex items-center gap-8">
           <LoadingLink href="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-lg overflow-hidden transition-transform group-hover:scale-110 flex items-center justify-center">
-              <Image src="/logo.svg" alt="AtticNote - Developer Markdown Workspace" width={32} height={32} className="w-full h-full object-contain" priority />
+              <Image src="/logo.svg" alt="Attic - Digital Backpack" width={32} height={32} className="w-full h-full object-contain" priority />
             </div>
             <span className="font-semibold text-lg tracking-tight">Attic</span>
           </LoadingLink>
@@ -66,24 +66,24 @@ function Navbar({ user }: { user: any }) {
 
 const cycleData = [
   {
-    label: "GitHub Sync",
-    desc: "Native repo push/pull.",
-    typing: "git push origin main"
+    label: "Sync Anywhere",
+    desc: "Pick up right where you left off.",
+    typing: "Connecting to your workspace..."
   },
   {
-    label: "Markdown Native",
-    desc: "Pure MD, no proprietary lock-in.",
-    typing: "# Hello Markdown"
+    label: "Always Accessible",
+    desc: "Works on school PCs, libraries, or laptops.",
+    typing: "Opening notes in browser..."
   },
   {
-    label: "Local-First",
-    desc: "Zero-latency editing, always offline.",
-    typing: "Syncing locally..."
+    label: "Export Freely",
+    desc: "Your notes are never trapped.",
+    typing: "Saving to Google Drive..."
   },
   {
-    label: "Keyboard-First",
-    desc: "Command menu via / shortcut.",
-    typing: "/create-new-page"
+    label: "Fast Workflow",
+    desc: "Markdown native, designed for speed.",
+    typing: "# Today's Tasks"
   }
 ];
 
@@ -152,9 +152,9 @@ function HeroSection({ user }: { user: any }) {
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6">
-              A fast workspace <br />
-              for notes, files, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C5CFF] to-[#A890FF]">and workflows.</span>
+              Your personal <br />
+              workspace. <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C5CFF] to-[#A890FF]">Anywhere.</span>
             </h1>
             
             <div className="relative h-[60px] md:h-[80px] mb-10 max-w-lg overflow-hidden">
@@ -182,7 +182,7 @@ function HeroSection({ user }: { user: any }) {
             </div>
 
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-[#98A2B3]">
-              {['Markdown Native', 'Block Editor', 'Rich Embeds', 'GitHub Sync'].map((feature) => (
+              {['Instantly Available', 'Block Editor', 'Lightweight', 'Export Anywhere'].map((feature) => (
                 <div key={feature} className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-[#7C5CFF]" />
                   <span>{feature}</span>
@@ -255,7 +255,7 @@ function SocialProof() {
     <section className="py-16 border-y border-[#232734]/50 bg-[#12151C]/30">
       <div className="max-w-7xl mx-auto px-6 text-center">
         <p className="text-sm font-medium text-[#98A2B3] mb-8 tracking-widest uppercase">
-          Built for developers, students, writers, and small teams.
+          Built for students, writers, travelers, and anyone who switches devices.
         </p>
         <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
           <div className="flex items-center gap-2 font-bold text-xl"><Github className="w-6 h-6"/> GitHub</div>
@@ -276,13 +276,13 @@ function FeaturesGrid() {
       icon: <Layout className="w-5 h-5" />
     },
     {
-      title: "Markdown Native",
-      desc: "Write in pure Markdown. Export anytime.",
+      title: "Lightweight & Fast",
+      desc: "No heavy desktop apps. Open a browser and start writing instantly.",
       icon: <TerminalSquare className="w-5 h-5" />
     },
     {
-      title: "GitHub Sync",
-      desc: "Push notes and attachments directly into repositories.",
+      title: "Export Anywhere",
+      desc: "Your notes are never trapped. Push to GitHub, Notion, or Drive.",
       icon: <FolderGit2 className="w-5 h-5" />
     },
     {
@@ -291,13 +291,13 @@ function FeaturesGrid() {
       icon: <LinkIcon className="w-5 h-5" />
     },
     {
-      title: "Keyboard First",
-      desc: "Designed for speed. Minimal mouse usage.",
+      title: "Keyboard Friendly",
+      desc: "Designed for speed. Write, format, and search without a mouse.",
       icon: <Keyboard className="w-5 h-5" />
     },
     {
-      title: "Search Everything",
-      desc: "Find notes, files, and content instantly.",
+      title: "Find Everything",
+      desc: "Instant search across all your notes and blocks.",
       icon: <Search className="w-5 h-5" />
     }
   ];
@@ -307,7 +307,7 @@ function FeaturesGrid() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-16">
           <h2 className="text-3xl font-semibold mb-4">A complete workspace</h2>
-          <p className="text-[#98A2B3] max-w-2xl text-lg">Everything you need to capture ideas, manage files, and push them to where you work.</p>
+          <p className="text-[#98A2B3] max-w-2xl text-lg">A lightweight digital backpack that follows you across devices.</p>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -384,8 +384,8 @@ function IntegrationsSection() {
     <section id="integrations" className="py-24 bg-[#0B0D12]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-semibold mb-4">Export seamlessly</h2>
-          <p className="text-[#98A2B3] max-w-2xl mx-auto text-lg">Push your work to your favorite platforms with a single click.</p>
+          <h2 className="text-3xl font-semibold mb-4">Ownership and freedom</h2>
+          <p className="text-[#98A2B3] max-w-2xl mx-auto text-lg">Your workspace shouldn't feel like a trap. Export anywhere with a single click.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
@@ -418,7 +418,7 @@ function IntegrationsSection() {
               <Github className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-3">GitHub</h3>
-            <p className="text-[#98A2B3] mb-8 flex-1">Push Markdown notes directly into your repositories.</p>
+            <p className="text-[#98A2B3] mb-8 flex-1">Keep a permanent backup of your notes as markdown files in GitHub.</p>
             <div className="p-4 rounded-lg bg-[#0B0D12] border border-[#232734] shadow-inner text-sm text-[#F4F7FA]">
                <div className="text-xs text-[#98A2B3] mb-2 font-mono">git commit -m</div>
                <div className="flex items-center gap-2 text-sm text-[#7C5CFF]">&quot;Update docs&quot;</div>
@@ -441,19 +441,19 @@ function WorkflowSection() {
           <div className="relative">
             <div className="w-14 h-14 rounded-full bg-[#12151C] border-2 border-[#232734] text-[#F4F7FA] flex items-center justify-center text-xl font-bold md:mx-0 mx-auto mb-6 shadow-xl shadow-[#000]">1</div>
             <h3 className="text-xl font-bold mb-3">Write</h3>
-            <p className="text-[#98A2B3]">Markdown + blocks. Think and write simultaneously without friction.</p>
+            <p className="text-[#98A2B3]">Drop your thoughts instantly without a complex setup or slow loading screens.</p>
           </div>
           
           <div className="relative">
              <div className="w-14 h-14 rounded-full bg-[#12151C] border-2 border-[#7C5CFF] text-[#F4F7FA] flex items-center justify-center text-xl font-bold md:mx-0 mx-auto mb-6 shadow-xl shadow-[#7C5CFF]/20">2</div>
             <h3 className="text-xl font-bold mb-3">Organize</h3>
-            <p className="text-[#98A2B3]">File attachments, search, and a beautiful dashboard to find everything.</p>
+            <p className="text-[#98A2B3]">Access your organized workspace instantly from any public or private computer.</p>
           </div>
 
           <div className="relative">
              <div className="w-14 h-14 rounded-full bg-[#12151C] border-2 border-[#232734] text-[#F4F7FA] flex items-center justify-center text-xl font-bold md:mx-0 mx-auto mb-6 shadow-xl shadow-[#000]">3</div>
             <h3 className="text-xl font-bold mb-3">Export</h3>
-            <p className="text-[#98A2B3]">Sync anywhere. GitHub, Drive, or Notion integrations built-in.</p>
+            <p className="text-[#98A2B3]">You own your data. Send it to GitHub, Drive, or Notion whenever you want.</p>
           </div>
         </div>
       </div>
@@ -503,8 +503,8 @@ function KeyboardFirstSection() {
     <section className="py-24 bg-[#12151C] border-y border-[#232734]">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
         <div>
-          <h2 className="text-3xl font-semibold mb-4">Built for people who think faster than they click.</h2>
-          <p className="text-[#98A2B3] text-lg">Keyboard shortcuts for everything. Never take your hands off the keys while writing, structuring, or searching.</p>
+          <h2 className="text-3xl font-semibold mb-4">A minimalist interface that never slows you down.</h2>
+          <p className="text-[#98A2B3] text-lg">Built for speed. Write, structure, and search entirely with your keyboard.</p>
         </div>
         
         <div className="bg-[#0B0D12] rounded-xl border border-[#232734] p-8 shadow-2xl font-mono text-sm">
@@ -779,7 +779,7 @@ function FAQSection() {
   const faqs = [
     {
       q: "Is this a Notion replacement?",
-      a: "No. It focuses strictly on fast Markdown workflows and integrations, rather than being an all-in-one company wiki."
+      a: "No. Notion is an all-in-one company wiki. Attic is a fast, personal digital backpack meant to be accessed quickly from anywhere."
     },
     {
       q: "Are files supported?",
@@ -795,7 +795,7 @@ function FAQSection() {
     },
     {
       q: "Does it support collaboration?",
-      a: "Not in this MVP version. It is focused on single-player productivity and publishing."
+      a: "Not right now. Attic is heavily focused on being a reliable, private, and personal workspace for your own thoughts."
     }
   ];
 

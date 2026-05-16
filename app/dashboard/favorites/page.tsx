@@ -53,7 +53,7 @@ export default async function FavoritesPage() {
                 <StarOff className="w-10 h-10 opacity-50" />
              </div>
              <h3 className="text-xl font-bold text-white mb-2">No favorites yet</h3>
-             <p className="text-[#9CA3AF] text-sm max-w-sm text-center">Star a note from your workspace to see it here for quick access later!</p>
+             <p className="text-[#9CA3AF] text-sm max-w-sm text-center">Keep your most important notes here for instant access on any device.</p>
           </div>
         ) : (
           <div className="space-y-2">

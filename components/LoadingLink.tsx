@@ -6,7 +6,7 @@ import React from "react";
 
 interface LoadingLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export default function LoadingLink({ children, href, ...props }: LoadingLinkProps) {
