@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
   } else {
     // If NOT logged in and trying to access dashboard, redirect to register
     if (isProtectedPath) {
-      return NextResponse.redirect(new URL('/register', request.url));
+      return NextResponse.redirect(new URL('/login', request.url));
     }
   }
 

@@ -173,7 +173,7 @@ function HeroSection({ user }: { user: any }) {
             </div>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
-              <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#7C5CFF] hover:bg-[#684CE6] text-white px-6 py-3.5 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(124,92,255,0.3)] hover:shadow-[0_0_30px_rgba(124,92,255,0.5)]">
+              <LoadingLink href={user ? "/dashboard" : "/login"} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#7C5CFF] hover:bg-[#684CE6] text-white px-6 py-3.5 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(124,92,255,0.3)] hover:shadow-[0_0_30px_rgba(124,92,255,0.5)]">
                 Start Writing <ArrowRight className="w-4 h-4" />
               </LoadingLink>
               <Link href="#demo" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#12151C] border border-[#232734] hover:bg-[#232734]/50 text-[#F4F7FA] px-6 py-3.5 rounded-xl font-medium transition-colors">
@@ -825,7 +825,7 @@ function CTASection({ user }: { user: any }) {
         <p className="text-xl text-[#98A2B3] mb-10">Join thousands of developers turning their thoughts into shipped features.</p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#7C5CFF] hover:bg-[#684CE6] text-white font-medium text-lg transition-colors shadow-xl shadow-[#7C5CFF]/30 flex items-center gap-2">
+          <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#7C5CFF] hover:bg-[#684CE6] text-white px-6 py-3.5 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(124,92,255,0.3)] hover:shadow-[0_0_30px_rgba(124,92,255,0.5)]">
             {user ? "Dashboard" : "Get Started for Free"} {user ? <ArrowRight className="w-4 h-4" /> : null}
           </LoadingLink>
           <Link href="#" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#0B0D12] border border-[#232734] hover:bg-[#232734] text-[#F4F7FA] font-medium text-lg transition-colors flex items-center justify-center gap-2">

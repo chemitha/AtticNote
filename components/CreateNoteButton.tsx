@@ -32,7 +32,7 @@ export default function CreateNoteButton({ iconOnly = false }: { iconOnly?: bool
       <button 
         onClick={handleCreateNote}
         disabled={loading}
-        className="w-14 h-14 bg-[#7C5CFF] rounded-full flex items-center justify-center text-white shadow-2xl shadow-[#7C5CFF66] hover:scale-105 transition-transform disabled:opacity-50" 
+        className="w-14 h-14 bg-[#7C5CFF] rounded-full flex items-center justify-center text-white shadow-2xl shadow-[#7C5CFF66] hover:scale-105 transition-transform disabled:opacity-50 cursor-pointer" 
         aria-label="New Note"
       >
         <Plus className="w-8 h-8" />
@@ -44,7 +44,7 @@ export default function CreateNoteButton({ iconOnly = false }: { iconOnly?: bool
     <button 
       onClick={handleCreateNote}
       disabled={loading}
-      className="bg-[#7C5CFF] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#6042db] transition-colors disabled:opacity-50 inline-flex items-center gap-2"
+      className="bg-[#7C5CFF] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#6042db] transition-colors disabled:opacity-50 inline-flex items-center gap-2 cursor-pointer"
     >
       <Plus className="w-5 h-5" />
       <span>{loading ? "Creating..." : "Create New Note"}</span>
