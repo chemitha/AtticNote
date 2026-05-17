@@ -19,7 +19,7 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   } else {
-    // If NOT logged in and trying to access dashboard, redirect to register
+    // If NOT logged in and trying to access dashboard, redirect to login
     if (isProtectedPath) {
       return NextResponse.redirect(new URL('/login', request.url));
     }

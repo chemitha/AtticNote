@@ -129,7 +129,7 @@ export function NoteContextMenu({
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
 
       <ContextMenuContent className={menuContentClass}>
-        <ContextMenuItem className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer">
+        <ContextMenuItem onClick={handleOpen} className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer">
           <ExternalLink className="mr-2 h-4 w-4 opacity-70" />
           Open Note
         </ContextMenuItem>
@@ -207,7 +207,7 @@ export function NoteDropdownMenu({
         align="end"
         className={menuContentClass}
       >
-        <DropdownMenuItem className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer">
+        <DropdownMenuItem onClick={handleOpen} className="rounded-lg px-3 py-2 text-sm hover:bg-white/10 transition cursor-pointer">
           <ExternalLink className="mr-2 h-4 w-4 opacity-70" />
           Open Note
         </DropdownMenuItem>
