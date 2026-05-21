@@ -9,7 +9,7 @@ export default function DashboardSearchBar() {
   return (
     <div
       onClick={openSearch}
-      className="bg-[#181A20] rounded-xl border border-[#2A2E37] flex items-center gap-3 px-4 py-3 shadow-2xl cursor-pointer hover:border-[#7C5CFF]/30 transition-colors"
+      className="bg-[#181A20] rounded-xl border border-[#2A2E37] flex items-center gap-3 px-4 py-3 shadow-2xl cursor-text hover:border-[#7C5CFF]/30 transition-colors"
     >
       <Search className="w-5 h-5 text-[#9CA3AF]" />
       <span className="text-sm text-[#4B5563] flex-1">Search notes, tags, and blocks...</span>

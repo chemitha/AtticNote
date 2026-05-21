@@ -103,15 +103,9 @@ interface NoteContextMenuProps extends NoteActionsProps {
   children: React.ReactNode;
 }
 
-/* -----------------------------
-   Shared Notion-like styles
------------------------------- */
 const menuContentClass =
   "w-64 rounded-xl bg-[#1F1F1F]/90 backdrop-blur-xl text-white shadow-2xl p-1 border-0 outline-none ring-0 focus:outline-none focus:ring-0";
 
-/* -----------------------------
-   Context Menu (Notion style)
------------------------------- */
 export function NoteContextMenu({
   children,
   note,
