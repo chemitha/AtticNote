@@ -47,7 +47,7 @@ export async function POST(
     });
 
     const data = blocks.map((b: any, index: number) => ({
-      id: b.id || crypto.randomUUID(),
+      id: crypto.randomUUID(),
       note_id: id,
       type: b.type,
       content: JSON.stringify(b),

@@ -5,6 +5,13 @@ export const metadata: Metadata = {
   description: 'Join AtticNote to start building your fast, Markdown-powered workspace.',
 };
 
-export default function RegisterLayout({ children }: { children: React.ReactNode }) {
+import { getUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
+
+export default async function RegisterLayout({ children }: { children: React.ReactNode }) {
+  const user = await getUser();
+  if (user) {
+    redirect("/dashboard");
+  }
   return <>{children}</>;
 }

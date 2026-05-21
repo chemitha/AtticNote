@@ -13,16 +13,9 @@ export function middleware(request: NextRequest) {
   const isAuthPath = authPaths.some(path => pathname === path);
   const isProtectedPath = protectedPaths.some(path => pathname.startsWith(path));
 
-  if (token) {
-    // If logged in and trying to access login/register, redirect to dashboard
-    if (isAuthPath) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
-    }
-  } else {
+  if (!token && isProtectedPath) {
     // If NOT logged in and trying to access dashboard, redirect to login
-    if (isProtectedPath) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
   const response = NextResponse.next();

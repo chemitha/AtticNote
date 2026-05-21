@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
+import BackButton from "@/components/BackButton";
 
 export default function NotePage(props: { params: Promise<{ id: string }> }) {
   return (
     <div className="flex-1 flex flex-col relative w-full h-full text-[#F5F7FA] p-10 max-w-4xl mx-auto">
+      <BackButton />
       <div className="h-48 w-full group relative transition-colors bg-[#181A20] border border-[#2A2E37] rounded-xl flex items-center justify-center -mt-4 mb-10 overflow-hidden group">
          <div className="absolute inset-0 opacity-40 bg-gradient-to-r from-blue-500/20 to-purple-500/20"></div>
          <Button variant="outline" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity gap-2 relative z-10">
