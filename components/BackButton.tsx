@@ -13,16 +13,33 @@ export default function BackButton() {
   if (pathname === "/dashboard") return null;
 
   function handleBack() {
-    const segments = pathname.split('/').filter(Boolean);
+    if (typeof window !== "undefined") {
+      const historyRaw = sessionStorage.getItem("internal_nav_history");
+      const history = historyRaw ? JSON.parse(historyRaw) : [];
 
-    // Deterministic hierarchical back navigation
-    if (segments.length > 2) {
-      // e.g., /dashboard/notes/[id] -> /dashboard/notes
-      segments.pop();
-      startLoading();
-      router.push('/' + segments.join('/'));
+      // Find the last index in the history that is not the current page
+      let prevPageIndex = -1;
+      for (let i = history.length - 1; i >= 0; i--) {
+        if (history[i] !== pathname) {
+          prevPageIndex = i;
+          break;
+        }
+      }
+
+      if (prevPageIndex !== -1) {
+        const prevPage = history[prevPageIndex];
+        // Truncate history to this page
+        const newHistory = history.slice(0, prevPageIndex + 1);
+        sessionStorage.setItem("internal_nav_history", JSON.stringify(newHistory));
+        startLoading();
+        router.push(prevPage);
+      } else {
+        // Fallback to dashboard if no previous page recorded
+        sessionStorage.setItem("internal_nav_history", JSON.stringify(["/dashboard"]));
+        startLoading();
+        router.push("/dashboard");
+      }
     } else {
-      // Default fallback
       startLoading();
       router.push("/dashboard");
     }
