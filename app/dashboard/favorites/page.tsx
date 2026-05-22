@@ -42,14 +42,14 @@ export default async function FavoritesPage() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xs uppercase font-bold tracking-widest text-[#4B5563]">Starred Notes</h3>
         </div>
-        
+
         {favoriteNotes.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center py-20">
-             <div className="w-20 h-20 bg-[#181A20] rounded-2xl flex items-center justify-center border border-[#2A2E37] shadow-xl text-yellow-500 mb-6">
-                <StarOff className="w-10 h-10 opacity-50" />
-             </div>
-             <h3 className="text-xl font-bold text-white mb-2">No favorites yet</h3>
-             <p className="text-[#9CA3AF] text-sm max-w-sm text-center">Keep your most important notes here for instant access on any device.</p>
+            <div className="w-20 h-20 bg-[#181A20] rounded-2xl flex items-center justify-center border border-[#2A2E37] shadow-xl text-yellow-500 mb-6">
+              <StarOff className="w-10 h-10 opacity-50" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">No favorites yet</h3>
+            <p className="text-[#9CA3AF] text-sm max-w-sm text-center">Keep your most important notes here for instant access on any device.</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -57,43 +57,43 @@ export default async function FavoritesPage() {
               <NoteContextMenu key={note.id} note={note}>
                 <div className="relative group bg-[#181A20] border border-[#2A2E37] p-4 rounded-xl hover:border-yellow-500/50 transition-all mb-2">
                   <LoadingLink href={`/dashboard/notes/${note.id}`} className="absolute inset-0 z-0 rounded-xl block" />
-                  
+
                   <div className="relative z-10 flex items-center gap-4 pointer-events-none">
-                    <div className="text-xl shrink-0">📝</div>
+                    <div className="text-xl shrink-0"><FileText className="text-[#FAFAFA] group-hover:text-yellow-500" /></div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold truncate group-hover:text-white transition-colors">{note.title || "Untitled"}</p>
                       <p className="text-xs text-[#4B5563] truncate">Last edited {formatDistanceToNow(new Date(note.updated_at))} ago</p>
                     </div>
-                    
+
                     <div className="hidden md:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-auto">
-                        <TooltipProvider delay={0}>
-                          <Tooltip>
-                            <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer">
-                              <GoogleDriveIcon className="w-4 h-4" />
-                            </TooltipTrigger>
-                            <TooltipContent>Upload to G-Drive</TooltipContent>
-                          </Tooltip>
-                          
-                          <Tooltip>
-                            <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-gray-300 hover:border-gray-300 transition-colors cursor-pointer">
-                              <NotionIcon className="w-4 h-4" />
-                            </TooltipTrigger>
-                            <TooltipContent>Sync with Notion</TooltipContent>
-                          </Tooltip>
-                          
-                          <Tooltip>
-                            <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-[#7C5CFF] hover:border-[#7C5CFF] transition-colors cursor-pointer">
-                              <GitHubIcon className="w-4 h-4" />
-                            </TooltipTrigger>
-                            <TooltipContent>Push to GitHub</TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                        <span className="text-yellow-500 mx-2 pointer-events-none">★</span>
-                        <NoteDropdownMenu note={note}>
-                          <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer">
-                              <MoreVertical className="w-4 h-4" />
-                          </button>
-                        </NoteDropdownMenu>
+                      <TooltipProvider delay={0}>
+                        <Tooltip>
+                          <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-blue-400 hover:border-blue-500 transition-colors cursor-pointer">
+                            <GoogleDriveIcon className="w-4 h-4" />
+                          </TooltipTrigger>
+                          <TooltipContent>Coming Soon!</TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-gray-300 hover:border-gray-300 transition-colors cursor-pointer">
+                            <NotionIcon className="w-4 h-4" />
+                          </TooltipTrigger>
+                          <TooltipContent>Coming Soon!</TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger className="p-1.5 bg-[#0F1115] border border-[#2A2E37] text-[#9CA3AF] rounded-lg hover:text-[#7C5CFF] hover:border-[#7C5CFF] transition-colors cursor-pointer">
+                            <GitHubIcon className="w-4 h-4" />
+                          </TooltipTrigger>
+                          <TooltipContent>Coming Soon!</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <span className="text-yellow-500 mx-2 pointer-events-none">★</span>
+                      <NoteDropdownMenu note={note}>
+                        <button className="p-1.5 text-[#9CA3AF] hover:text-white transition-colors cursor-pointer">
+                          <MoreVertical className="w-4 h-4" />
+                        </button>
+                      </NoteDropdownMenu>
                     </div>
                   </div>
                 </div>
