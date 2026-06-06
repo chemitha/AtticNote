@@ -15,6 +15,11 @@ export default function Sidebar({ user }: { user: any }) {
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
+  const [rememberEnabled, setRememberEnabled] = useState(false);
+  const [rememberExpiresIn, setRememberExpiresIn] = useState(0);
+  const [rememberLoading, setRememberLoading] = useState(false);
+  const [rememberError, setRememberError] = useState<string | null>(null);
 
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -31,6 +36,74 @@ export default function Sidebar({ user }: { user: any }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const formatDuration = (seconds: number) => {
+    const days = Math.floor(seconds / 86400);
+    const hours = Math.floor((seconds % 86400) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+
+    if (days > 0) {
+      return `${days}d ${hours}h ${minutes}m`;
+    }
+    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const loadRememberState = async () => {
+    setRememberLoading(true);
+    setRememberError(null);
+
+    try {
+      const response = await fetch("/api/session/remember");
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to load remember state");
+      }
+      setRememberEnabled(Boolean(data.remember));
+      setRememberExpiresIn(Math.max(0, Math.floor(data.expiresInSeconds ?? 0)));
+    } catch (error: any) {
+      setRememberError(error?.message || "Unable to load remember settings");
+    } finally {
+      setRememberLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!isSettingsOpen) return;
+    loadRememberState();
+  }, [isSettingsOpen]);
+
+  useEffect(() => {
+    if (rememberExpiresIn <= 0) return;
+    const interval = setInterval(() => {
+      setRememberExpiresIn((prev) => Math.max(prev - 1, 0));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [rememberExpiresIn]);
+
+  const updateRemember = async (checked: boolean) => {
+    setRememberLoading(true);
+    setRememberError(null);
+
+    try {
+      const response = await fetch("/api/session/remember", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ remember: checked }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to update remember settings");
+      }
+      setRememberEnabled(Boolean(data.remember));
+      setRememberExpiresIn(Math.max(0, Math.floor(data.expiresInSeconds ?? 0)));
+    } catch (error: any) {
+      setRememberError(error?.message || "Unable to update remember settings");
+    } finally {
+      setRememberLoading(false);
+    }
+  };
 
   async function handleLogout() {
     const { startLoading } = useLoading.getState();
@@ -109,7 +182,7 @@ export default function Sidebar({ user }: { user: any }) {
         </div>
         
         <button 
-          onClick={handleLogout}
+          onClick={() => setIsLogoutConfirmOpen(true)}
           className="w-full flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-red-500/10 hover:text-red-400 rounded-md cursor-pointer text-sm transition-colors text-left"
         >
           <LogOut className="w-4 h-4" />
@@ -186,6 +259,35 @@ export default function Sidebar({ user }: { user: any }) {
                 <span className="text-sm text-[#9CA3AF]">Export Data (JSON)</span>
                 <span className="text-xs text-[#9CA3AF]">Unavailable</span>
               </div>
+              <div className="p-3 bg-[#181A20] border border-[#2A2E37] rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <label htmlFor="remember-toggle" className="text-sm text-gray-400 cursor-pointer">
+                      Remember this device
+                    </label>
+                    <span className="text-xs text-[#9CA3AF]">
+                      {rememberLoading
+                        ? "Loading..."
+                        : rememberExpiresIn > 0
+                        ? `Expires in ${formatDuration(rememberExpiresIn)}`
+                        : "Session expired"}
+                    </span>
+                  </div>
+                  <div className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      id="remember-toggle"
+                      name="remember-toggle"
+                      className="sr-only peer"
+                      checked={rememberEnabled}
+                      onChange={(event) => updateRemember(event.target.checked)}
+                      disabled={rememberLoading}
+                    />
+                    <div className="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-gray-300 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#7C5CFF] peer-checked:after:bg-white"></div>
+                  </div>
+                </div>
+                {rememberError && <p className="mt-2 text-[10px] text-red-400">{rememberError}</p>}
+              </div>
             </div>
 
             <div className="flex justify-end">
@@ -194,6 +296,42 @@ export default function Sidebar({ user }: { user: any }) {
                 className="px-4 py-2 bg-[#7C5CFF] hover:bg-[#6b4ce6] text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer"
               >
                 Close Settings
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isLogoutConfirmOpen && (
+        <div 
+          onClick={() => setIsLogoutConfirmOpen(false)} 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-200 cursor-pointer"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()} 
+            className="bg-[#111318] border border-[#2A2E37] w-full max-w-sm rounded-xl p-6 shadow-2xl text-left cursor-default"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-lg font-semibold text-[#F5F7FA]">Confirm Logout</h3>
+              <span className="text-[10px] px-2 py-0.5 bg-[#FF5C5C20] text-[#FF5C5C] font-bold tracking-wider uppercase rounded-full border border-[#FF5C5C]/20">
+                Warning
+              </span>
+            </div>
+            <p className="text-xs text-[#9CA3AF] mb-6">You are about to end your current session. This action will sign you out immediately.</p>
+            <div className="flex justify-end gap-2">
+              <button 
+                onClick={() => setIsLogoutConfirmOpen(false)}
+                className="px-4 py-2 text-[#9CA3AF] border border-[#2A2E37] rounded-lg transition-colors hover:bg-[#181A20] cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  setIsLogoutConfirmOpen(false);
+                  handleLogout();
+                }}
+                className="px-4 py-2 bg-[#FF5C5C] hover:bg-[#e04848] text-white rounded-lg transition-colors cursor-pointer"
+              >
+                Logout
               </button>
             </div>
           </div>
