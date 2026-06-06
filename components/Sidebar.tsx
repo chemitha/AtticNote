@@ -85,6 +85,9 @@ export default function Sidebar({ user }: { user: any }) {
   const updateRemember = async (checked: boolean) => {
     setRememberLoading(true);
     setRememberError(null);
+    
+    // Optimistic UI update so switch is instantly snappy
+    setRememberEnabled(checked);
 
     try {
       const response = await fetch("/api/session/remember", {
@@ -99,6 +102,8 @@ export default function Sidebar({ user }: { user: any }) {
       setRememberEnabled(Boolean(data.remember));
       setRememberExpiresIn(Math.max(0, Math.floor(data.expiresInSeconds ?? 0)));
     } catch (error: any) {
+      // Rollback if network fails
+      setRememberEnabled(!checked);
       setRememberError(error?.message || "Unable to update remember settings");
     } finally {
       setRememberLoading(false);
@@ -259,21 +264,24 @@ export default function Sidebar({ user }: { user: any }) {
                 <span className="text-sm text-[#9CA3AF]">Export Data (JSON)</span>
                 <span className="text-xs text-[#9CA3AF]">Unavailable</span>
               </div>
+              
               <div className="p-3 bg-[#181A20] border border-[#2A2E37] rounded-lg">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <label htmlFor="remember-toggle" className="text-sm text-gray-400 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <label htmlFor="remember-toggle" className="text-sm text-gray-400 cursor-pointer select-none">
                       Remember this device
                     </label>
-                    <span className="text-xs text-[#9CA3AF]">
-                      {rememberLoading
-                        ? "Loading..."
+                    <span className="text-xs font-mono text-[#7C5CFF] bg-[#7C5CFF]/10 px-2 py-0.5 rounded-full">
+                      {rememberLoading && rememberExpiresIn === 0
+                        ? "syncing..."
                         : rememberExpiresIn > 0
-                        ? `Expires in ${formatDuration(rememberExpiresIn)}`
-                        : "Session expired"}
+                        ? formatDuration(rememberExpiresIn)
+                        : "session status"}
                     </span>
                   </div>
-                  <div className="relative inline-flex items-center cursor-pointer">
+                  
+                  {/* Fixed Switch Wrapper with relative positioning context */}
+                  <div className="relative inline-flex items-center h-5 w-9 cursor-pointer">
                     <input
                       type="checkbox"
                       id="remember-toggle"
@@ -283,10 +291,10 @@ export default function Sidebar({ user }: { user: any }) {
                       onChange={(event) => updateRemember(event.target.checked)}
                       disabled={rememberLoading}
                     />
-                    <div className="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-gray-300 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#7C5CFF] peer-checked:after:bg-white"></div>
+                    <div className="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer transition-colors duration-200 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-4 after:w-4 after:transition-all duration-200 peer-checked:bg-[#7C5CFF] peer-checked:after:translate-x-full peer-checked:after:bg-white"></div>
                   </div>
                 </div>
-                {rememberError && <p className="mt-2 text-[10px] text-red-400">{rememberError}</p>}
+                {rememberError && <p className="mt-2 text-[10px] text-red-400 font-medium">{rememberError}</p>}
               </div>
             </div>
 
@@ -301,6 +309,7 @@ export default function Sidebar({ user }: { user: any }) {
           </div>
         </div>
       )}
+      
       {isLogoutConfirmOpen && (
         <div 
           onClick={() => setIsLogoutConfirmOpen(false)} 
@@ -320,7 +329,7 @@ export default function Sidebar({ user }: { user: any }) {
             <div className="flex justify-end gap-2">
               <button 
                 onClick={() => setIsLogoutConfirmOpen(false)}
-                className="px-4 py-2 text-[#9CA3AF] border border-[#2A2E37] rounded-lg transition-colors hover:bg-[#181A20] cursor-pointer"
+                className="px-4 py-2 text-[#9CA3AF] border border-[#2A2E37] rounded-lg transition-colors hover:bg-[#181A20] cursor-pointer text-xs font-medium"
               >
                 Cancel
               </button>
@@ -329,7 +338,7 @@ export default function Sidebar({ user }: { user: any }) {
                   setIsLogoutConfirmOpen(false);
                   handleLogout();
                 }}
-                className="px-4 py-2 bg-[#FF5C5C] hover:bg-[#e04848] text-white rounded-lg transition-colors cursor-pointer"
+                className="px-4 py-2 bg-[#FF5C5C] hover:bg-[#e04848] text-white rounded-lg transition-colors cursor-pointer text-xs font-medium"
               >
                 Logout
               </button>
