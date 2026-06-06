@@ -1,4 +1,4 @@
-# <p align="center"> <img width="32" src="https://github.com/chemitha/AtticNote/blob/main/public/logo_curved.svg"> AtticNote </p>
+# <p align="center"> <img width="32" src="https://github.com/chemitha/AtticNote/blob/main/public/logo_curved.svg"> <a href="https://atticnote.vercel.app">AtticNote</a> </p>
 
 > <p align="center"> Your personal digital backpack. A lightweight, keyboard-first markdown workspace built for speed, multi-device access, and seamless deployment. </p>
 > 
