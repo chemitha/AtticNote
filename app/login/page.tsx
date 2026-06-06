@@ -92,6 +92,7 @@ export default function LoginPage() {
                 type="checkbox"
                 id="remember"
                 name="remember"
+                value="on"
                 className="peer appearance-none w-4 h-4 rounded bg-white/5 hover:bg-white/10 checked:bg-[#7C5CFF]/50 transition-colors cursor-pointer"
               />
               <svg
