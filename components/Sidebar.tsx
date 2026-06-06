@@ -280,18 +280,17 @@ export default function Sidebar({ user }: { user: any }) {
                     </span>
                   </div>
                   
-                  {/* Fixed Switch Wrapper with relative positioning context */}
-                  <div className="relative inline-flex items-center h-5 w-9 cursor-pointer">
+                  <div className="relative inline-flex items-center h-5 w-9">
                     <input
                       type="checkbox"
                       id="remember-toggle"
                       name="remember-toggle"
-                      className="sr-only peer"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 peer"
                       checked={rememberEnabled}
                       onChange={(event) => updateRemember(event.target.checked)}
                       disabled={rememberLoading}
                     />
-                    <div className="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer transition-colors duration-200 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-4 after:w-4 after:transition-all duration-200 peer-checked:bg-[#7C5CFF] peer-checked:after:translate-x-full peer-checked:after:bg-white"></div>
+                    <div className="w-9 h-5 bg-white/10 rounded-full peer transition-colors duration-200 peer-checked:bg-[#7C5CFF] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-4 after:w-4 after:transition-all after:duration-200 peer-checked:after:translate-x-full peer-checked:after:bg-white"></div>
                   </div>
                 </div>
                 {rememberError && <p className="mt-2 text-[10px] text-red-400 font-medium">{rememberError}</p>}
@@ -321,9 +320,6 @@ export default function Sidebar({ user }: { user: any }) {
           >
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-lg font-semibold text-[#F5F7FA]">Confirm Logout</h3>
-              <span className="text-[10px] px-2 py-0.5 bg-[#FF5C5C20] text-[#FF5C5C] font-bold tracking-wider uppercase rounded-full border border-[#FF5C5C]/20">
-                Warning
-              </span>
             </div>
             <p className="text-xs text-[#9CA3AF] mb-6">You are about to end your current session. This action will sign you out immediately.</p>
             <div className="flex justify-end gap-2">
