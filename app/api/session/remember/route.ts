@@ -25,7 +25,9 @@ export async function GET() {
   }
 
   const expiresInSeconds = Math.max(0, Math.floor(expires * 1000 - Date.now()) / 1000);
-  const remember = expiresInSeconds > 24 * 60 * 60;
+  
+  // Changed condition: If it has more than 15 minutes remaining, it's considered "Remembered" (7 days lifespan)
+  const remember = expiresInSeconds > 15 * 60;
 
   return NextResponse.json({
     remember,
@@ -51,21 +53,24 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid session" }, { status: 401 });
     }
 
-    const expiresIn = remember ? "7d" : "24h";
+    // Changed standard cutoff: remember = 7 days, fallback = 15 minutes
+    const expiresIn = remember ? "7d" : "15m";
     const newToken = signToken({ id: decoded.id }, expiresIn);
-    const maxAge = remember ? 7 * 24 * 60 * 60 : undefined;
+    
+    // Explicitly setting maxAge so browser deletes the cookie right at the 15-minute mark
+    const maxAge = remember ? 7 * 24 * 60 * 60 : 15 * 60;
 
     cookieStore.set("token", newToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      ...(maxAge ? { maxAge } : {}),
+      maxAge: maxAge, // Clears local storage/cookies exactly on the expiration marker
     });
 
     return NextResponse.json({
       remember,
-      expiresAt: new Date(Date.now() + (remember ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000)).toISOString(),
-      expiresInSeconds: remember ? 7 * 24 * 60 * 60 : 24 * 60 * 60,
+      expiresAt: new Date(Date.now() + (remember ? 7 * 24 * 60 * 60 * 1000 : 15 * 60 * 1000)).toISOString(),
+      expiresInSeconds: remember ? 7 * 24 * 60 * 60 : 15 * 60,
     });
   } catch (error) {
     return NextResponse.json({ error: "Unable to refresh session" }, { status: 401 });
