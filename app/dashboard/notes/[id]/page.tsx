@@ -3,7 +3,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import { getNote } from "@/app/actions/notes";
 import EditorLoader from "@/components/EditorLoader";
 import { prisma } from "@/lib/prisma";
-import BackButton from "@/components/BackButton";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -36,8 +36,16 @@ export default async function NotePage({ params }: Props) {
 
   return (
     <div className="flex-1 w-full max-w-4xl mx-auto px-4 md:px-10 py-6 md:py-12 relative">
-      <BackButton />
-      <EditorLoader noteId={note.id} initialTitle={note.title} initialBlocks={blocks} />
+      <div className="hidden md:block">
+        <Breadcrumbs noteId={note.id} />
+      </div>
+      <EditorLoader 
+        noteId={note.id} 
+        initialTitle={note.title} 
+        initialBlocks={blocks} 
+        parentId={note.parent?.id}
+        parentTitle={note.parent?.title}
+      />
     </div>
   );
 }

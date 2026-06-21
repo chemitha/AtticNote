@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getUser } from "@/lib/auth";
+import { randomUUID } from "crypto";
 
 export async function GET(
   req: NextRequest,
@@ -37,35 +38,41 @@ export async function POST(
   });
   if (!note) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  const { blocks } = await req.json();
+  try {
+    const { blocks } = await req.json();
 
-  // Transaction to update all blocks
-  await prisma.$transaction(async (tx: any) => {
-    // We could delete and recreate for simplicity
-    await tx.block.deleteMany({
-      where: { note_id: id }
+    // Transaction to update all blocks
+    await prisma.$transaction(async (tx: any) => {
+      // We could delete and recreate for simplicity
+      await tx.block.deleteMany({
+        where: { note_id: id }
+      });
+
+      const data = blocks.map((b: any, index: number) => ({
+        id: b.id || randomUUID(),
+        note_id: id,
+        type: b.type,
+        content: JSON.stringify(b),
+        position: index,
+        parent_block_id: null 
+      }));
+
+      if (data.length > 0) {
+        // Need to insert one by one or createMany (sqlite supports createMany)
+        await tx.block.createMany({ data });
+      }
+      
+      // Update note's updated_at
+      await tx.note.update({
+        where: { id },
+        data: { updated_at: new Date() }
+      });
     });
 
-    const data = blocks.map((b: any, index: number) => ({
-      id: crypto.randomUUID(),
-      note_id: id,
-      type: b.type,
-      content: JSON.stringify(b),
-      position: index,
-      parent_block_id: null 
-    }));
-
-    if (data.length > 0) {
-      // Need to insert one by one or createMany (sqlite supports createMany)
-      await tx.block.createMany({ data });
-    }
-    
-    // Update note's updated_at
-    await tx.note.update({
-      where: { id },
-      data: { updated_at: new Date() }
-    });
-  });
-
-  return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true });
+  } catch (err: any) {
+    console.error("API Error in blocks/route.ts:", err);
+    require("fs").appendFileSync("error_log.txt", new Date().toISOString() + " - " + err.stack + "\\n");
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }

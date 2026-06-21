@@ -3,13 +3,16 @@
 import Image from "next/image";
 import LoadingLink from "./LoadingLink";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, FileText, Settings, LogOut, Star } from "lucide-react";
+import { Home, FileText, Settings, LogOut, Star, Plus } from "lucide-react";
 import { logoutAction } from "@/app/actions/auth";
 import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
 import { useLoading } from "@/hooks/use-loading";
 import { useState, useEffect, useRef } from "react";
+import { SidebarNoteTree } from "./SidebarNoteTree";
+import { createNoteAction } from "@/app/actions/notes";
+import { NoteContextMenu, NoteDropdownMenu } from "@/components/NoteContextMenu";
 
-export default function Sidebar({ user }: { user: any }) {
+export default function Sidebar({ user, initialNotes }: { user: any, initialNotes: any[] }) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -47,9 +50,23 @@ export default function Sidebar({ user }: { user: any }) {
     }
   };
 
+  const handleCreateNewNote = async () => {
+    const { startLoading, stopLoading } = useLoading.getState();
+    try {
+      startLoading();
+      const res = await createNoteAction();
+      if (res.success && res.note) {
+        router.push(`/dashboard/notes/${res.note.id}`);
+      }
+    } catch (e) {
+      console.error(e);
+      stopLoading();
+    }
+  };
+
   return (
     <aside className="w-64 bg-[#111318] border-r border-[#2A2E37] hidden md:flex flex-col">
-      <div className="p-6 flex items-center gap-3">
+      <div className="p-6 flex items-center justify-between gap-3">
         <LoadingLink href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
             <Image src="/logo.svg" alt="AtticNote - Digital Backpack" width={32} height={32} className="w-full h-full object-contain" />
@@ -58,15 +75,23 @@ export default function Sidebar({ user }: { user: any }) {
         </LoadingLink>
       </div>
 
-      <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-4 space-y-1 overflow-y-auto relative pb-10">
         <div className="text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-2 px-2">Workspace</div>
         <div className="space-y-1">
           <NavLink href="/dashboard" icon={<Home className="w-4 h-4" />} active={pathname === "/dashboard"}>Home</NavLink>
         </div>
         
-        <div className="pt-2">
-          <div className="space-y-1">
-            <NavLink href="/dashboard/notes" icon={<FileText className="w-4 h-4" />} active={pathname.startsWith("/dashboard/notes")}>Notes</NavLink>
+        <div className="pt-2 relative">
+          <div className="flex items-center justify-between text-[#9CA3AF] text-[10px] uppercase font-bold tracking-widest mb-1 mt-4 px-2 group cursor-pointer" onClick={handleCreateNewNote}>
+            <span>Notes</span>
+            <Plus className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 hover:text-white transition-all" />
+          </div>
+          
+          <div className="relative">
+            <SidebarNoteTree notes={initialNotes} />
+          </div>
+
+          <div className="mt-4">
             <NavLink href="/dashboard/favorites" icon={<Star className="w-4 h-4" />} active={pathname === "/dashboard/favorites"}>Favorites</NavLink>
           </div>
         </div>
@@ -99,7 +124,7 @@ export default function Sidebar({ user }: { user: any }) {
         </div>
       </nav>
 
-      <div className="p-4 border-t border-[#2A2E37] space-y-2">
+      <div className="p-4 border-t border-[#2A2E37] space-y-2 shrink-0">
         <div 
           onClick={() => setIsSettingsOpen(true)}
           className="flex items-center gap-3 px-3 py-2 text-[#9CA3AF] hover:bg-[#181A20] rounded-md cursor-pointer text-sm"

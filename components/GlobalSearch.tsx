@@ -4,15 +4,14 @@ import React, { useEffect, useState, useTransition } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Search, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getAllNotes } from "@/app/actions/notes";
-import { Note } from "@prisma/client";
+import { getAllNotesIncludingSubpages } from "@/app/actions/notes";
 import { useSearch } from "@/hooks/use-search";
 import { useLoading } from "@/hooks/use-loading";
 
 export default function GlobalSearch() {
   const { isOpen, closeSearch, toggleSearch } = useSearch();
   const [query, setQuery] = useState("");
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<any[]>([]);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { startLoading } = useLoading();
@@ -30,7 +29,7 @@ export default function GlobalSearch() {
 
   useEffect(() => {
     if (isOpen && notes.length === 0) {
-      getAllNotes().then(setNotes);
+      getAllNotesIncludingSubpages().then(setNotes);
     }
     if (!isOpen) {
       setQuery("");
@@ -80,6 +79,11 @@ export default function GlobalSearch() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-medium text-sm">{note.title || "Untitled"}</span>
+                  {note.parent && (
+                    <span className="text-[10px] text-[#4B5563]">
+                      Nested in {note.parent.title || "Untitled"}
+                    </span>
+                  )}
                 </div>
               </div>
             ))

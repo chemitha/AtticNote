@@ -30,11 +30,16 @@ model Note {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  parent_id  String?
+  parent     Note?    @relation("PageNesting", fields: [parent_id], references: [id], onDelete: Cascade)
+  subpages   Note[]   @relation("PageNesting")
+
   user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   blocks      Block[]
   attachments Attachment[]
   
   @@index([user_id])
+  @@index([parent_id])
 }
 
 model Block {

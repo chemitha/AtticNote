@@ -4,6 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import IdleTimeout from "@/components/IdleTimeout";
 import GlobalSearch from "@/components/GlobalSearch";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import { getNotesWithSubpageCounts } from "@/app/actions/notes";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await getUser();
@@ -12,11 +13,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
     redirect("/login");
   }
 
+  const initialNotes = await getNotesWithSubpageCounts();
+
   return (
     <div className="flex h-screen w-full bg-[#0F1115] text-[#F5F7FA] overflow-hidden" style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
       <IdleTimeout />
       <GlobalSearch />
-      <Sidebar user={user} />
+      <Sidebar user={user} initialNotes={initialNotes as any} />
       <main className="flex-1 overflow-y-auto pb-16 md:pb-0">
         {children}
       </main>

@@ -4,19 +4,32 @@ import { prisma } from "@/lib/prisma";
 import { getUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
-export async function createNoteAction() {
+export async function createNoteAction(parentId?: string) {
   const user = await getUser();
   if (!user) return { error: "Unauthorized" };
+
+  // If parentId is provided, verify it belongs to the user
+  if (parentId) {
+    const parentNote = await prisma.note.findUnique({ where: { id: parentId } });
+    if (!parentNote || parentNote.user_id !== user.id) {
+      return { error: "Parent note not found or unauthorized" };
+    }
+  }
 
   const note = await prisma.note.create({
     data: {
       title: "Untitled",
       user_id: user.id,
+      parent_id: parentId || null,
     },
   });
 
   revalidatePath("/dashboard");
   return { success: true, note };
+}
+
+export async function createSubpageAction(parentId: string) {
+  return createNoteAction(parentId);
 }
 
 export async function deleteNoteAction(noteId: string) {
@@ -58,6 +71,7 @@ export async function duplicateNoteAction(noteId: string) {
       user_id: user.id,
       banner_url: originalNote.banner_url,
       is_favorite: originalNote.is_favorite,
+      parent_id: originalNote.parent_id,
       blocks: {
         create: originalNote.blocks.map(block => ({
           type: block.type,
@@ -96,7 +110,7 @@ export async function getRecentNotes() {
   if (!user) return [];
 
   return prisma.note.findMany({
-    where: { user_id: user.id },
+    where: { user_id: user.id, parent_id: null },
     orderBy: { updated_at: "desc" },
     take: 5
   });
@@ -107,7 +121,19 @@ export async function getAllNotes() {
   if (!user) return [];
 
   return prisma.note.findMany({
+    where: { user_id: user.id, parent_id: null },
+    orderBy: { updated_at: "desc" }
+  });
+}
+
+/** Returns ALL notes including subpages — used by GlobalSearch */
+export async function getAllNotesIncludingSubpages() {
+  const user = await getUser();
+  if (!user) return [];
+
+  return prisma.note.findMany({
     where: { user_id: user.id },
+    include: { parent: { select: { id: true, title: true } } },
     orderBy: { updated_at: "desc" }
   });
 }
@@ -120,7 +146,55 @@ export async function getNote(id: string) {
     where: {
       id,
       user_id: user.id
+    },
+    include: {
+      parent: { select: { id: true, title: true } },
     }
+  });
+}
+
+export async function getSubpages(noteId: string) {
+  const user = await getUser();
+  if (!user) return [];
+
+  return prisma.note.findMany({
+    where: { parent_id: noteId, user_id: user.id },
+    include: { _count: { select: { subpages: true } } },
+    orderBy: { updated_at: "desc" }
+  });
+}
+
+export async function getNoteBreadcrumbs(noteId: string): Promise<{ id: string; title: string }[]> {
+  const user = await getUser();
+  if (!user) return [];
+
+  const crumbs: { id: string; title: string }[] = [];
+  let currentId: string | null = noteId;
+  const maxDepth = 10; // Safety limit
+  let depth = 0;
+
+  while (currentId && depth < maxDepth) {
+    const currentNote: { id: string, title: string, parent_id: string | null } | null = await prisma.note.findUnique({
+      where: { id: currentId, user_id: user.id },
+      select: { id: true, title: true, parent_id: true }
+    });
+    if (!currentNote) break;
+    crumbs.unshift({ id: currentNote.id, title: currentNote.title });
+    currentId = currentNote.parent_id;
+    depth++;
+  }
+
+  return crumbs;
+}
+
+export async function getNotesWithSubpageCounts() {
+  const user = await getUser();
+  if (!user) return [];
+
+  return prisma.note.findMany({
+    where: { user_id: user.id, parent_id: null },
+    include: { _count: { select: { subpages: true } } },
+    orderBy: { updated_at: "desc" }
   });
 }
 

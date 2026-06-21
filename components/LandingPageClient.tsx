@@ -828,7 +828,7 @@ function CTASection({ user }: { user: any }) {
           <LoadingLink href={user ? "/dashboard" : "/register"} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#7C5CFF] hover:bg-[#684CE6] text-white px-6 py-3.5 rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(124,92,255,0.3)] hover:shadow-[0_0_30px_rgba(124,92,255,0.5)]">
             {user ? "Dashboard" : "Get Started for Free"} {user ? <ArrowRight className="w-4 h-4" /> : null}
           </LoadingLink>
-          <Link href="https://github.com/chemitha/AtticNote" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#0B0D12] border border-[#232734] hover:bg-[#232734] text-[#F4F7FA] font-medium text-lg transition-colors flex items-center justify-center gap-2">
+          <Link href="https://github.com/chemitha/AtticNote" target="_blank" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#0B0D12] border border-[#232734] hover:bg-[#232734] text-[#F4F7FA] font-medium text-lg transition-colors flex items-center justify-center gap-2">
             <Github className="w-5 h-5"/> View Source Code
           </Link>
         </div>
@@ -885,10 +885,10 @@ function Footer() {
       
       <div className="max-w-7xl mx-auto px-6 border-t border-[#232734] pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#98A2B3]">
         <p>© {new Date().getFullYear()} AtticNote. All rights reserved.</p>
-        <p>Built by <a href="https://github.com/chemitha">Chemitha Sathsilu</a> ♥ Open Source</p>
+        <p>Built by <a href="https://chemitha.com">Chemitha Sathsilu</a> ♥ Open Source</p>
         <div className="flex items-center gap-4 mt-4 md:mt-0">
-           <Link className="text-[#98A2B3] hover:text-white transition-colors" target="_blank" href="https://www.github.com/chemitha/attic/issues/new">Report Bug</Link>
-           <Github className="w-4 h-4 hover:text-white transition-colors cursor-pointer" />
+           <Link className="text-[#98A2B3] hover:text-white transition-colors" target="_blank" href="https://www.github.com/chemitha/atticnote/issues/new">Report Bug</Link>
+           <Github className="w-4 h-4 hover:text-white transition-colors cursor-pointer" onClick={() => window.open("https://www.github.com/chemitha/atticnote")} />
 
         </div>
       </div>

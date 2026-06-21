@@ -43,7 +43,7 @@ export default function LoginPage() {
       </LoadingLink>
       
       <div className="w-full max-w-md bg-[#181A20] border border-[#2A2E37] p-8 rounded-xl shadow-2xl">
-        <h1 className="text-2xl font-bold mb-2">Welcome back</h1>
+        <h1 className="text-3xl font-bold mb-6">Welcome back</h1>
         <p className="text-[#9CA3AF] text-sm mb-6">Log in to your account</p>
         
         {error && <div className="bg-red-500/10 text-red-400 p-3 rounded-lg mb-6 text-sm">{error}</div>}
