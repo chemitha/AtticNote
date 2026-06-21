@@ -1,21 +1,22 @@
-# 🎒 AtticNote
+# <p align="center"> <img width="32" src="https://github.com/chemitha/AtticNote/blob/main/public/logo_curved.svg"> <a href="https://atticnote.vercel.app">AtticNote</a> </p>
 
-> Your personal digital backpack. A lightweight, keyboard-first markdown workspace built for speed, multi-device access, and seamless deployment.
+> <p align="center"> Your personal digital backpack. A lightweight, keyboard-first markdown workspace built for speed, multi-device access, and seamless deployment. </p>
 > 
+<br>
 
-[Framework: Next.js](https://img.shields.io/badge/Framework-Next.js-000000?style=flat-square&logo=next.js)
-
-[Language: TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6?style=flat-square&logo=typescript)
-
-[Editor: Block--Based](https://img.shields.io/badge/Editor-Block--Based-7C3AED?style=flat-square)
-
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)
+<p align="center">
+  <img src="https://img.shields.io/badge/Framework-Next.js-000000?style=flat-square&logo=next.js" alt="Framework: Next.js" />
+  <img src="https://img.shields.io/badge/Language-TypeScript-3178C6?style=flat-square&logo=typescript" alt="Language: TypeScript" />
+  <img src="https://img.shields.io/badge/Editor-Block--Based-7C3AED?style=flat-square" alt="Editor: Block-Based" />
+  <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="License: MIT" />
+</p>
 
 ---
 
 ## 📌 Why AtticNote?
 
-Most powerful workspace tools feel like a trap when strict security policies, heavy desktop clients, or aggressive 2FA loops block your flow on public or restrictive machines.
+<p align="center">
+Most powerful workspace tools feel like a trap when strict security policies, heavy desktop clients, or aggressive 2FA loops block your flow on public or restrictive machines. </p>
 
 **AtticNote** was built to solve a simple problem: **Accessing your personal knowledge base anywhere, instantly.** It is a fast, web-native note-keeper designed to get out of your way, keep your database ultra-lightweight, and give you complete data ownership.
 
@@ -126,5 +127,3 @@ Contributions, bug reports, and feature requests are completely welcome! If you 
 ## 📄 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
----

@@ -6,13 +6,16 @@ import LoadingLink from "@/components/LoadingLink";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { loginAction } from "@/app/actions/auth";
 import { useLoading } from "@/hooks/use-loading";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -34,7 +37,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0F1115] text-[#F5F7FA] flex flex-col justify-center items-center px-4 font-sans">
+    <div className="min-h-screen bg-[#0F1115] text-[#F5F7FA] flex flex-col justify-center items-center px-4">
       <LoadingLink href="/" className="absolute top-8 left-8 flex items-center gap-2">
         <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
           <Image src="/logo.svg" alt="AtticNote Logo" width={32} height={32} className="w-full h-full object-contain" />
@@ -43,32 +46,70 @@ export default function LoginPage() {
       </LoadingLink>
       
       <div className="w-full max-w-md bg-[#181A20] border border-[#2A2E37] p-8 rounded-xl shadow-2xl">
-        <h1 className="text-3xl font-bold mb-6">Welcome back</h1>
+        <h1 className="text-2xl font-bold mb-2">Welcome back</h1>
         <p className="text-[#9CA3AF] text-sm mb-6">Log in to your account</p>
         
         {error && <div className="bg-red-500/10 text-red-400 p-3 rounded-lg mb-6 text-sm">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="space-y-4 text-sm">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="email" className="font-medium text-[#9CA3AF]">Email</label>
-            <Input id="email" name="email" type="email" required placeholder="you@example.com" />
+            <Label htmlFor="email">Email</Label>
+            <Input 
+              id="email" 
+              name="email" 
+              type="email" 
+              required 
+              placeholder="you@example.com" 
+              className="bg-black/20 border-white/10" 
+              />
           </div>
           <div className="space-y-2">
-            <label htmlFor="password" className="font-medium text-[#9CA3AF]">Password</label>
-            <Input id="password" name="password" type="password" required placeholder="••••••••" />
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Input 
+                id="password" 
+                name="password" 
+                type={showPassword ? "text" : "password"} 
+                required 
+                placeholder="••••••••" 
+                className="bg-black/20 border-white/10" 
+              />
+              <Button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 !bg-transparent p-3 center rounded-full hover:text-white"
+                onMouseDown={() => setShowPassword(true)}
+                onMouseUp={() => setShowPassword(false)}
+                onMouseLeave={() => setShowPassword(false)}
+                onTouchStart={() => setShowPassword(true)}
+                onTouchEnd={() => setShowPassword(false)}
+                aria-label="Show Password"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center space-x-2 pt-1">
-            <input 
-              type="checkbox" 
-              id="remember" 
-              name="remember" 
-              className="rounded border-[#2A2E37] bg-[#0F1115] text-[#7C5CFF] focus:ring-[#7C5CFF]"
-            />
-            <label htmlFor="remember" className="text-sm font-medium text-[#9CA3AF]">
-              Remember this device
-            </label>
-          </div>
-          <Button type="submit" className="w-full mt-4 font-bold tracking-wider" disabled={loading}>
+
+          <label htmlFor="remember" className="flex items-center space-x-3 pt-1 cursor-pointer select-none">
+            <div className="relative flex items-center justify-center">
+              <input
+                type="checkbox"
+                id="remember"
+                name="remember"
+                value="on"
+                className="peer appearance-none w-4 h-4 rounded bg-white/5 hover:bg-white/10 checked:bg-[#7C5CFF]/50 transition-colors cursor-pointer"
+              />
+              <svg
+                className="absolute w-3 h-3 text-[#FAFAFA] pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="3"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <span className="text-sm text-gray-400 peer-checked:text-white cursor-pointer transition-colors">Remember this device</span>
+          </label>
+          
+          <Button type="submit" className="w-full bg-[#7C5CFF] hover:bg-[#6A4BE5] text-white mt-4 cursor-pointer" disabled={loading}>
             {loading ? "Logging in..." : "Log In"}
           </Button>
         </form>
