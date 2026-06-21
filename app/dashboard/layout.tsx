@@ -5,6 +5,7 @@ import IdleTimeout from "@/components/IdleTimeout";
 import GlobalSearch from "@/components/GlobalSearch";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { getNotesWithSubpageCounts } from "@/app/actions/notes";
+import DashboardBanner from "@/components/DashboardBanner";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await getUser();
@@ -21,6 +22,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <GlobalSearch />
       <Sidebar user={user} initialNotes={initialNotes as any} />
       <main className="flex-1 overflow-y-auto pb-16 md:pb-0">
+        <DashboardBanner />
         {children}
       </main>
       <MobileBottomNav userInitial={user?.name?.charAt(0) || "U"} />
