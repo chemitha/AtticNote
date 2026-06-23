@@ -45,7 +45,7 @@ function Navbar({ user }: { user: any }) {
             <Link href="#features" className="hover:text-[#F4F7FA] transition-colors">Features</Link>
             <Link href="#integrations" className="hover:text-[#F4F7FA] transition-colors">Integrations</Link>
             <Link href="#pricing" className="hover:text-[#F4F7FA] transition-colors">Pricing</Link>
-            <Link href="/docs/changelog/1.1.0" className="hover:text-[#F4F7FA] transition-colors">Docs</Link>
+            <Link href="/docs" className="hover:text-[#F4F7FA] transition-colors">Docs</Link>
           </nav>
         </div>
         <div className="flex items-center gap-4 text-sm font-medium">
@@ -859,7 +859,7 @@ function Footer() {
             <li><Link href="#features" className="hover:text-[#7C5CFF] transition-colors">Features</Link></li>
             <li><Link href="#pricing" className="hover:text-[#7C5CFF] transition-colors">Pricing</Link></li>
             <li><Link href="#" className="hover:text-[#7C5CFF] transition-colors">Roadmap</Link></li>
-            <li><Link href="/docs/changelog/1.1.0" className="hover:text-[#7C5CFF] transition-colors">Changelog</Link></li>
+            <li><Link href="/docs/changelog" className="hover:text-[#7C5CFF] transition-colors">Changelog</Link></li>
           </ul>
         </div>
 

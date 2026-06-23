@@ -265,7 +265,7 @@ export default function ChangelogClient({ user }: ChangelogClientProps) {
               GitHub
             </a>
             <span className="text-[#232734]">•</span>
-            <LoadingLink href="/docs/changelog/1.1.0" className="hover:text-white transition-colors">
+            <LoadingLink href="/docs/changelog/1.1.1" className="hover:text-white transition-colors">
               Changelog
             </LoadingLink>
             <span className="text-[#232734]">•</span>
