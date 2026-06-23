@@ -29,7 +29,7 @@ export default async function Page() {
       'Keyboard-first design',
       'Local-first performance',
     ],
-    screenshot: 'https://atticnote.vercel.app/logo.svg',
+    screenshot: 'https://atticnote.chemitha.com/logo.svg',
     softwareVersion: '1.0.0',
   };
 

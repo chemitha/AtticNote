@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   keywords: ['lightweight workspace', 'cloud notes', 'digital backpack', 'markdown editor', 'device sync', 'portable workspace'],
   authors: [{ name: 'Chemitha Sathsilu' }],
   creator: 'Chemitha Sathsilu',
-  metadataBase: new URL('https://atticnote.vercel.app'),
+  metadataBase: new URL('https://atticnote.chemitha.com'),
   alternates: {
     canonical: '/',
   },
@@ -42,11 +42,11 @@ export const metadata: Metadata = {
     title: 'AtticNote - Your personal workspace, everywhere.',
     description:
       'A lightweight cloud workspace designed for people who switch devices often. Instant access to your notes from any computer.',
-    url: 'https://atticnote.vercel.app',
+    url: 'https://atticnote.chemitha.com',
     siteName: 'AtticNote',
     images: [
       {
-        url: 'https://atticnote.vercel.app/og-image.png',
+        url: 'https://atticnote.chemitha.com/og-image.png',
         width: 1080,
         height: 1080,
         alt: 'AtticNote',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: 'AtticNote - Your personal workspace, everywhere.',
     description:
       'A lightweight cloud workspace designed for people who switch devices often.',
-    images: ['https://atticnote.vercel.app/og-image.png'],
+    images: ['https://atticnote.chemitha.com/og-image.png'],
   },
   category: 'productivity',
 };

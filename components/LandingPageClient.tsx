@@ -45,7 +45,7 @@ function Navbar({ user }: { user: any }) {
             <Link href="#features" className="hover:text-[#F4F7FA] transition-colors">Features</Link>
             <Link href="#integrations" className="hover:text-[#F4F7FA] transition-colors">Integrations</Link>
             <Link href="#pricing" className="hover:text-[#F4F7FA] transition-colors">Pricing</Link>
-            <Link href="#" className="hover:text-[#F4F7FA] transition-colors">Docs</Link>
+            <Link href="/docs/changelog/1.1.0" className="hover:text-[#F4F7FA] transition-colors">Docs</Link>
           </nav>
         </div>
         <div className="flex items-center gap-4 text-sm font-medium">
@@ -337,7 +337,7 @@ function EditorDemo() {
           <div className="h-10 bg-[#0B0D12] border-b border-[#232734] flex items-center px-4">
              <div className="text-xs text-[#98A2B3] font-mono">Weekly Planning.md</div>
           </div>
-          <div className="p-6 md:p-10 font-sans space-y-4 min-h-[300px]">
+          <div className="p-6 md:p-10 font-sans space-y-4 min-h-[500px]">
              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#F4F7FA]">Weekly Planning</h2>
              <div className="flex items-center gap-3 text-base md:text-lg text-[#E2E8F0]">
                <input type="checkbox" className="w-4 h-4 rounded border-[#232734] bg-[#0B0D12] accent-[#7C5CFF]" readOnly />
@@ -561,11 +561,11 @@ function DashboardPreview() {
           </div>
           
           {/* Content area mock */}
-          <div className="flex flex-col md:flex-row h-[500px] md:h-[400px]">
+          <div className="flex flex-col md:flex-row h-[650px] md:h-[400px]">
              {/* Sidebar */}
              <div className="w-56 border-r border-[#232734] bg-[#0B0D12] hidden md:block p-4 space-y-1">
                <div className="text-xs font-semibold text-[#98A2B3] mb-3 mt-2 px-2 tracking-wider">NOTES</div>
-               <div className="px-2 py-1.5 text-sm rounded bg-[#232734] text-[#F4F7FA]">📝 All Notes</div>
+               <div className="px-2 py-1.5 text-sm rounded bg-[#232734] text-[#F4F7FA] flex justify-between">📝 All Notes</div>
                <div className="px-2 py-1.5 text-sm rounded hover:bg-[#232734]/50 text-[#98A2B3] flex justify-between">
                   <span>📄 Project Alpha</span>
                </div>
@@ -859,7 +859,7 @@ function Footer() {
             <li><Link href="#features" className="hover:text-[#7C5CFF] transition-colors">Features</Link></li>
             <li><Link href="#pricing" className="hover:text-[#7C5CFF] transition-colors">Pricing</Link></li>
             <li><Link href="#" className="hover:text-[#7C5CFF] transition-colors">Roadmap</Link></li>
-            <li><Link href="#" className="hover:text-[#7C5CFF] transition-colors">Changelog</Link></li>
+            <li><Link href="/docs/changelog/1.1.0" className="hover:text-[#7C5CFF] transition-colors">Changelog</Link></li>
           </ul>
         </div>
 

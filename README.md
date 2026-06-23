@@ -1,8 +1,8 @@
-# <p align="center"> <img width="32" src="https://github.com/chemitha/AtticNote/blob/main/public/logo_curved.svg"> <a href="https://atticnote.vercel.app">AtticNote</a> </p>
+# <p align="center"> <img width="32" src="https://github.com/chemitha/AtticNote/blob/main/public/logo_curved.svg"> <a href="https://atticnote.chemitha.com">AtticNote</a> </p>
 
 > <p align="center"> Your personal digital backpack. A lightweight, keyboard-first markdown workspace built for speed, multi-device access, and seamless deployment. </p>
-> 
-<br>
+>
+> <br>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Framework-Next.js-000000?style=flat-square&logo=next.js" alt="Framework: Next.js" />
@@ -28,9 +28,9 @@ Most powerful workspace tools feel like a trap when strict security policies, he
 
 - **Block-Based Architecture:** Every line is a distinct block. Rearrange, transform, and structure content naturally.
 - **Keyboard-Driven Navigation:** Designed entirely for speed. Format, structure, and navigate your thoughts without touching a mouse.
-    - `/` to open command palettes.
-    - `Ctrl + K` to trigger global search.
-    - `Tab` / `Shift + Tab` to nest and indent blocks.
+  - `/` to open command palettes.
+  - `Ctrl + K` to trigger global search.
+  - `Tab` / `Shift + Tab` to nest and indent blocks.
 - **Native Markdown:** Writing shortcuts map instantly to clean markdown styling.
 
 ### 🌐 Light, Frictionless & Connected
@@ -60,12 +60,12 @@ AtticNote is built using a modern, scalable web stack optimized for performance 
 
 ## 🗺️ Product Roadmap
 
-- [x]  Dashboard MVP & Workspace Layout
-- [x]  Block-based editor & layout core
-- [x]  Rich Embed components (Figma, YouTube, PDFs)
-- [ ]  Direct GitHub Markdown sync pipeline
-- [ ]  Automated Google Drive ZIP export engine
-- [ ]  Notion workspace page generator api
+- [x] Dashboard MVP & Workspace Layout
+- [x] Block-based editor & layout core
+- [x] Rich Embed components (Figma, YouTube, PDFs)
+- [ ] Direct GitHub Markdown sync pipeline
+- [ ] Automated Google Drive ZIP export engine
+- [ ] Notion workspace page generator api
 
 ---
 
@@ -78,12 +78,12 @@ Ensure you have **Node.js** (v18+ recommended) and **npm/pnpm/yarn** installed.
 ### Installation
 
 1. **Clone the repository:**
-    
-    ```bash
-    git clone [<https://github.com/your-username/atticnote.git>](<https://github.com/your-username/atticnote.git>)
-    cd atticnote
-    ```
-    
+
+   ```bash
+   git clone [<https://github.com/your-username/atticnote.git>](<https://github.com/your-username/atticnote.git>)
+   cd atticnote
+   ```
+
 2. **Install dependencies:**
 
 ```bash
@@ -95,7 +95,7 @@ yarn install
 ```
 
 1. **Set up environment variables:**
-Create a `.env.local` file in the root directory and add your integration credentials:
+   Create a `.env.local` file in the root directory and add your integration credentials:
 
 ```
 NEXT_PUBLIC_APP_URL=http://localhost:3000

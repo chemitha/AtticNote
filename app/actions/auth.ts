@@ -8,12 +8,14 @@ import { cookies } from "next/headers";
 export async function registerAction(formData: FormData) {
   try {
     const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
+    const rawEmail = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    if (!name || !email || !password) {
+    if (!name || !rawEmail || !password) {
       return { error: "All fields are required" };
     }
+
+    const email = rawEmail.toLowerCase().trim()
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -48,22 +50,24 @@ export async function registerAction(formData: FormData) {
 
 export async function loginAction(formData: FormData) {
   try {
-    const email = formData.get("email") as string;
+    const rawEmail = formData.get("email") as string;
     const password = formData.get("password") as string;
     const remember = formData.get("remember") === "on";
 
-    if (!email || !password) {
+    if (!rawEmail || !password) {
       return { error: "All fields are required" };
     }
 
+    const email = rawEmail.toLowerCase().trim()
+
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      return { error: "Invalid credentials" };
+      return { error: "Incorrect email or password" };
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
-      return { error: "Invalid credentials" };
+      return { error: "Incorrect email or password" };
     }
 
     const expiresIn = remember ? "7d" : "24h";

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://atticnote.vercel.app';
+  const baseUrl = 'https://atticnote.chemitha.com';
   
   return [
     {
@@ -18,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/register`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/docs/changelog/1.1.0`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,

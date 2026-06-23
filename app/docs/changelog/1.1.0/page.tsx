@@ -3,7 +3,7 @@ import { getUser } from "@/lib/auth";
 import ChangelogClient from "./ChangelogClient";
 
 export const metadata: Metadata = {
-  title: 'Changelog v1.1.0 | AtticNote',
+  title: 'Changelog v1.1.0',
   description: 'See the latest updates, features, and improvements in AtticNote version 1.1.0. Nestable sub-pages, block storage dynamic API integration, layout changes, and user experience enhancements.',
 };
 

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/dashboard/', '/api/', '/_next/'],
     },
-    sitemap: 'https://atticnote.vercel.app/sitemap.xml',
+    sitemap: 'https://atticnote.chemitha.com/sitemap.xml',
   };
 }

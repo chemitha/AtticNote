@@ -41,7 +41,7 @@
   *, ::before, ::after, input, textarea, button, select {
     font-family: inherit !important;
     scrollbar-width: thin;
-    scrollbar-color: #3c414e transparent;
+    scrollbar-color: #3c414e #000000;
   }
 
   /* Custom Scrollbar configurations */
@@ -51,13 +51,13 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: #000000;
   }
 
   ::-webkit-scrollbar-thumb {
     background: #3c414e;
     border-radius: 20px;
-    border: 2px solid transparent;
+    border: 2px solid #000000;
     background-clip: content-box;
   }
 

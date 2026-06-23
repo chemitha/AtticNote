@@ -125,11 +125,7 @@ export default function ChangelogClient({ user }: ChangelogClientProps) {
           {/* Feature 1: Nestable Sub-Pages */}
           <motion.section variants={itemVariants} className="p-8 rounded-2xl bg-[#12151C] border border-[#232734] hover:border-[#7C5CFF]/30 transition-all duration-300 relative group overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#7C5CFF]/10 to-transparent blur-md pointer-events-none" />
-            
-            <div className="flex items-start gap-5">
-              <div className="w-12 h-12 rounded-xl bg-[#7C5CFF]/10 flex items-center justify-center text-[#7C5CFF] shrink-0">
-                <FolderTree className="w-6 h-6" />
-              </div>
+
               <div className="space-y-3 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-xl md:text-2xl font-semibold text-[#F4F7FA]">Nestable Sub-Pages</h2>
@@ -172,17 +168,12 @@ export default function ChangelogClient({ user }: ChangelogClientProps) {
                   </li>
                 </ul>
               </div>
-            </div>
           </motion.section>
 
           {/* Feature 2: Block Storage API */}
           <motion.section variants={itemVariants} className="p-8 rounded-2xl bg-[#12151C] border border-[#232734] hover:border-[#7C5CFF]/30 transition-all duration-300 relative group overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#7C5CFF]/10 to-transparent blur-md pointer-events-none" />
             
-            <div className="flex items-start gap-5">
-              <div className="w-12 h-12 rounded-xl bg-[#7C5CFF]/10 flex items-center justify-center text-[#7C5CFF] shrink-0">
-                <Database className="w-6 h-6" />
-              </div>
               <div className="space-y-3 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-xl md:text-2xl font-semibold text-[#F4F7FA]">Persistent Block Storage API</h2>
@@ -202,17 +193,12 @@ export default function ChangelogClient({ user }: ChangelogClientProps) {
                   </li>
                 </ul>
               </div>
-            </div>
           </motion.section>
 
           {/* Feature 3: Redesigned Dashboard Sidebar & Breadcrumbs */}
           <motion.section variants={itemVariants} className="p-8 rounded-2xl bg-[#12151C] border border-[#232734] hover:border-[#7C5CFF]/30 transition-all duration-300 relative group overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#7C5CFF]/10 to-transparent blur-md pointer-events-none" />
             
-            <div className="flex items-start gap-5">
-              <div className="w-12 h-12 rounded-xl bg-[#7C5CFF]/10 flex items-center justify-center text-[#7C5CFF] shrink-0">
-                <LayoutDashboard className="w-6 h-6" />
-              </div>
               <div className="space-y-3 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-xl md:text-2xl font-semibold text-[#F4F7FA]">Improved Sidebar & Breadcrumbs Layout</h2>
@@ -232,17 +218,12 @@ export default function ChangelogClient({ user }: ChangelogClientProps) {
                   </li>
                 </ul>
               </div>
-            </div>
           </motion.section>
 
           {/* Feature 4: Security & Authentication UI */}
           <motion.section variants={itemVariants} className="p-8 rounded-2xl bg-[#12151C] border border-[#232734] hover:border-[#7C5CFF]/30 transition-all duration-300 relative group overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#7C5CFF]/10 to-transparent blur-md pointer-events-none" />
             
-            <div className="flex items-start gap-5">
-              <div className="w-12 h-12 rounded-xl bg-[#7C5CFF]/10 flex items-center justify-center text-[#7C5CFF] shrink-0">
-                <Lock className="w-6 h-6" />
-              </div>
               <div className="space-y-3 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-xl md:text-2xl font-semibold text-[#F4F7FA]">Auth Flow Refinement & Remember Settings</h2>
@@ -266,7 +247,6 @@ export default function ChangelogClient({ user }: ChangelogClientProps) {
                   </li>
                 </ul>
               </div>
-            </div>
           </motion.section>
 
           {/* Developer Improvements / Housekeeping */}

@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { logoutAction } from "@/app/actions/auth";
 
 export default function IdleTimeout() {
   const router = useRouter();
+  const isRemembered = useRef<boolean | null>(null);
+  const isInitialized = useRef<boolean>(false);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -16,14 +18,32 @@ export default function IdleTimeout() {
     };
 
     const resetTimer = () => {
+      if (!isInitialized.current) return;
+      if (isRemembered.current === true) return;
+
       clearTimeout(timeout);
-      // 15 minutes idle timeout
       timeout = setTimeout(logoutUser, 15 * 60 * 1000);
     };
 
-    resetTimer();
+    const init = async () => {
+      try {
+        const res = await fetch("/api/session/remember", { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          isRemembered.current = data.remember === true;
+        } else {
+          isRemembered.current = false;
+        }
+      } catch {
+        isRemembered.current = false;
+      }
 
-    // Reset the timer on any user interaction
+      isInitialized.current = true;
+      resetTimer();
+    };
+
+    init();
+
     window.addEventListener("mousemove", resetTimer);
     window.addEventListener("keypress", resetTimer);
     window.addEventListener("click", resetTimer);

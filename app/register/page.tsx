@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { registerAction } from "@/app/actions/auth";
 import { useLoading } from "@/hooks/use-loading";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, ArrowRightLeft } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -48,7 +48,8 @@ export default function RegisterPage() {
       <div className="w-full max-w-md bg-[#181A20] border border-white/5 p-8 rounded-2xl">
         <h1 className="text-3xl font-bold mb-6">Create Account</h1>
         
-        {error && <div className="bg-red-500/10 text-red-400 p-3 rounded-lg mb-6 text-sm">{error}</div>}
+        {error && <div className="flex justify-between items-center bg-red-500/10 text-red-400 p-3 rounded-lg mb-6 text-sm"><span>{error} </span>
+        <a href="/login" className="flex items-center gap-1.5 bg-[#7C5CFF]/15 text-[#7C5CFF] border border-[#7C5CFF]/30 px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-[#7C5CFF]/20 transition-all"><ArrowRightLeft className="w-3.5 h-3.5 rotate-180"></ArrowRightLeft>Login</a> </div>}
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -86,7 +87,7 @@ export default function RegisterPage() {
       </div>
       
       <p className="mt-8 text-xs text-gray-500 max-w-sm text-center">
-        Security Note: Passwords are securely hashed using bcrypt. This MVP uses simple authentication without 2FA, allowing login globally from any device.
+        Security Note: Passwords are securely hashed using bcrypt. This app uses simple authentication without 2FA, allowing login globally from any device.
       </p>
     </div>
   );
