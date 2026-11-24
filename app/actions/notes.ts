@@ -1,25 +1,34 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { getUser } from "@/lib/auth";
+import { getActiveWorkspace, getUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function createNoteAction(parentId?: string) {
   const user = await getUser();
   if (!user) return { error: "Unauthorized" };
 
-  // If parentId is provided, verify it belongs to the user
+  let workspaceId: string | null = null;
+
+  // If parentId is provided, verify it belongs to the user and inherit its workspace
   if (parentId) {
     const parentNote = await prisma.note.findUnique({ where: { id: parentId } });
     if (!parentNote || parentNote.user_id !== user.id) {
       return { error: "Parent note not found or unauthorized" };
     }
+    workspaceId = parentNote.workspace_id;
+  }
+
+  if (!workspaceId) {
+    const activeWorkspace = await getActiveWorkspace(user.id);
+    workspaceId = activeWorkspace.id;
   }
 
   const note = await prisma.note.create({
     data: {
       title: "Untitled",
       user_id: user.id,
+      workspace_id: workspaceId,
       parent_id: parentId || null,
     },
   });
@@ -69,6 +78,7 @@ export async function duplicateNoteAction(noteId: string) {
     data: {
       title: `${originalNote.title} (Copy)`,
       user_id: user.id,
+      workspace_id: originalNote.workspace_id,
       banner_url: originalNote.banner_url,
       is_favorite: originalNote.is_favorite,
       parent_id: originalNote.parent_id,
@@ -109,8 +119,10 @@ export async function getRecentNotes() {
   const user = await getUser();
   if (!user) return [];
 
+  const activeWorkspace = await getActiveWorkspace(user.id);
+
   return prisma.note.findMany({
-    where: { user_id: user.id, parent_id: null },
+    where: { user_id: user.id, workspace_id: activeWorkspace.id, parent_id: null },
     orderBy: { updated_at: "desc" },
     take: 5
   });
@@ -120,8 +132,10 @@ export async function getAllNotes() {
   const user = await getUser();
   if (!user) return [];
 
+  const activeWorkspace = await getActiveWorkspace(user.id);
+
   return prisma.note.findMany({
-    where: { user_id: user.id, parent_id: null },
+    where: { user_id: user.id, workspace_id: activeWorkspace.id, parent_id: null },
     orderBy: { updated_at: "desc" }
   });
 }
@@ -131,8 +145,10 @@ export async function getAllNotesIncludingSubpages() {
   const user = await getUser();
   if (!user) return [];
 
+  const activeWorkspace = await getActiveWorkspace(user.id);
+
   return prisma.note.findMany({
-    where: { user_id: user.id },
+    where: { user_id: user.id, workspace_id: activeWorkspace.id },
     include: { parent: { select: { id: true, title: true } } },
     orderBy: { updated_at: "desc" }
   });
@@ -191,8 +207,10 @@ export async function getNotesWithSubpageCounts() {
   const user = await getUser();
   if (!user) return [];
 
+  const activeWorkspace = await getActiveWorkspace(user.id);
+
   return prisma.note.findMany({
-    where: { user_id: user.id, parent_id: null },
+    where: { user_id: user.id, workspace_id: activeWorkspace.id, parent_id: null },
     include: { _count: { select: { subpages: true } } },
     orderBy: { updated_at: "desc" }
   });
@@ -219,8 +237,10 @@ export async function getFavoriteNotes() {
   const user = await getUser();
   if (!user) return [];
 
+  const activeWorkspace = await getActiveWorkspace(user.id);
+
   return prisma.note.findMany({
-    where: { user_id: user.id, is_favorite: true },
+    where: { user_id: user.id, workspace_id: activeWorkspace.id, is_favorite: true },
     orderBy: { updated_at: "desc" }
   });
 }

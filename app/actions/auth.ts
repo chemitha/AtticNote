@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { signToken } from "@/lib/auth";
+import { ACTIVE_WORKSPACE_COOKIE, signToken } from "@/lib/auth";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 
@@ -29,6 +29,16 @@ export async function registerAction(formData: FormData) {
         name,
         email,
         password_hash,
+        workspaces: {
+          create: {
+            name: "Personal Workspace",
+            color: "#7C5CFF",
+            is_default: true,
+          },
+        },
+      },
+      include: {
+        workspaces: true,
       },
     });
 
@@ -40,6 +50,14 @@ export async function registerAction(formData: FormData) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax"
     });
+    if (user.workspaces[0]) {
+      cookieStore.set(ACTIVE_WORKSPACE_COOKIE, user.workspaces[0].id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 365 * 24 * 60 * 60,
+      });
+    }
 
     return { success: true };
   } catch (error: any) {
@@ -91,5 +109,6 @@ export async function loginAction(formData: FormData) {
 export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete("token");
+  cookieStore.delete(ACTIVE_WORKSPACE_COOKIE);
   return { success: true };
 }

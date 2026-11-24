@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  output: 'standalone',
+  output: 'export',
   async headers() {
     return [
       {

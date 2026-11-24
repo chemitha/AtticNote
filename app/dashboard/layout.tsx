@@ -5,6 +5,7 @@ import IdleTimeout from "@/components/IdleTimeout";
 import GlobalSearch from "@/components/GlobalSearch";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { getNotesWithSubpageCounts } from "@/app/actions/notes";
+import { getWorkspacesAction } from "@/app/actions/workspaces";
 import DashboardBanner from "@/components/DashboardBanner";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -14,18 +15,32 @@ export default async function DashboardLayout({ children }: { children: React.Re
     redirect("/login");
   }
 
-  const initialNotes = await getNotesWithSubpageCounts();
+  const [{ workspaces, activeWorkspaceId }, initialNotes] = await Promise.all([
+    getWorkspacesAction(),
+    getNotesWithSubpageCounts(),
+  ]);
+
+  const activeWorkspace = workspaces.find((w) => w.id === activeWorkspaceId) || workspaces[0];
 
   return (
     <div className="flex h-screen w-full bg-[#0F1115] text-[#F5F7FA] overflow-hidden" style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
       <IdleTimeout />
       <GlobalSearch />
-      <Sidebar user={user} initialNotes={initialNotes as any} />
+      <Sidebar
+        user={user}
+        initialNotes={initialNotes as any}
+        activeWorkspace={activeWorkspace}
+        workspaces={workspaces}
+      />
       <main className="flex-1 overflow-y-auto pb-16 md:pb-0">
         <DashboardBanner />
         {children}
       </main>
-      <MobileBottomNav userInitial={user?.name?.charAt(0) || "U"} />
+      <MobileBottomNav
+        user={user}
+        activeWorkspace={activeWorkspace}
+        workspaces={workspaces}
+      />
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import LoadingLink from "./LoadingLink";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, FileText, Settings, LogOut, Star, Plus } from "lucide-react";
+import { Home, FileText, Settings, LogOut, Star, Plus, UserCog, Layers } from "lucide-react";
 import { logoutAction } from "@/app/actions/auth";
 import { GoogleDriveIcon, NotionIcon, GitHubIcon } from "@/components/Icons";
 import { useLoading } from "@/hooks/use-loading";
@@ -11,12 +11,28 @@ import { useState, useEffect, useRef } from "react";
 import { SidebarNoteTree } from "./SidebarNoteTree";
 import { createNoteAction } from "@/app/actions/notes";
 import { NoteContextMenu, NoteDropdownMenu } from "@/components/NoteContextMenu";
+import UserAvatar from "./UserAvatar";
+import ManageAccountModal from "./ManageAccountModal";
+import SwitchWorkspaceModal from "./SwitchWorkspaceModal";
+import { WorkspaceSummary } from "@/app/actions/workspaces";
 
-export default function Sidebar({ user, initialNotes }: { user: any, initialNotes: any[] }) {
+export default function Sidebar({
+  user,
+  initialNotes,
+  activeWorkspace,
+  workspaces = [],
+}: {
+  user: any;
+  initialNotes: any[];
+  activeWorkspace?: { id: string; name: string; color?: string };
+  workspaces?: WorkspaceSummary[];
+}) {
   const pathname = usePathname();
   const router = useRouter();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isManageAccountOpen, setIsManageAccountOpen] = useState(false);
+  const [isSwitchWorkspaceOpen, setIsSwitchWorkspaceOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
   const [rememberEnabled, setRememberEnabled] = useState(false);
@@ -226,23 +242,28 @@ export default function Sidebar({ user, initialNotes }: { user: any, initialNote
                 <div className="text-[10px] text-[#9CA3AF] uppercase font-bold tracking-widest px-2">
                   Profile Hub
                 </div>
-                <span className="text-[10px] px-2 py-0.5 bg-[#7C5CFF20] text-[#7C5CFF] font-bold tracking-wider uppercase rounded-full border border-[#7C5CFF]/20">
-                  WIP
-                </span>
               </div>
               <hr className="my-3 w-full border-[#2A2E37]" />
               <div className="space-y-1.5">
                 <button 
-                  onClick={() => alert("Profile customization is currently under construction!")}
-                  className="w-full text-left text-xs px-2.5 py-2 text-[#9CA3AF] hover:bg-[#181A20] hover:text-[#F5F7FA] rounded-md transition-colors"
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    setIsManageAccountOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2.5 text-left text-xs px-2.5 py-2 text-[#9CA3AF] hover:bg-[#181A20] hover:text-[#F5F7FA] rounded-md transition-colors cursor-pointer"
                 >
-                  Manage Account
+                  <UserCog className="w-3.5 h-3.5" />
+                  <span>Manage Account</span>
                 </button>
                 <button 
-                  onClick={() => alert("Switching workspaces is a feature in progress!")}
-                  className="w-full text-left text-xs px-2.5 py-2 text-[#9CA3AF] hover:bg-[#181A20] hover:text-[#F5F7FA] rounded-md transition-colors"
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    setIsSwitchWorkspaceOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2.5 text-left text-xs px-2.5 py-2 text-[#9CA3AF] hover:bg-[#181A20] hover:text-[#F5F7FA] rounded-md transition-colors cursor-pointer"
                 >
-                  Switch Workspace
+                  <Layers className="w-3.5 h-3.5" />
+                  <span>Switch Workspace</span>
                 </button>
               </div>
             </div>
@@ -252,12 +273,16 @@ export default function Sidebar({ user, initialNotes }: { user: any, initialNote
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="flex items-center gap-3 px-3 py-2 bg-[#7C5CFF15] hover:bg-[#7C5CFF25] transition-colors rounded-xl cursor-pointer select-none"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#7C5CFF] to-blue-400 flex items-center justify-center text-white font-medium text-xs">
-              {user?.name?.charAt(0) || "U"}
-            </div>
+            <UserAvatar
+              name={user?.name}
+              avatarUrl={user?.avatar_url}
+              avatarColor={user?.avatar_color}
+              sizeClass="w-8 h-8"
+              textClass="text-xs"
+            />
             <div className="flex-1 overflow-hidden">
               <p className="text-xs font-semibold truncate text-[#F5F7FA]">{user?.name || "User"}</p>
-              <p className="text-[10px] text-[#9CA3AF] truncate">Personal Workspace</p>
+              <p className="text-[10px] text-[#9CA3AF] truncate">{activeWorkspace?.name || "Personal Workspace"}</p>
             </div>
           </div>
         </div>
@@ -367,6 +392,18 @@ export default function Sidebar({ user, initialNotes }: { user: any, initialNote
           </div>
         </div>
       )}
+      <ManageAccountModal
+        isOpen={isManageAccountOpen}
+        onClose={() => setIsManageAccountOpen(false)}
+        user={user}
+      />
+
+      <SwitchWorkspaceModal
+        isOpen={isSwitchWorkspaceOpen}
+        onClose={() => setIsSwitchWorkspaceOpen(false)}
+        workspaces={workspaces}
+        activeWorkspaceId={activeWorkspace?.id || ""}
+      />
     </aside>
   );
 }
