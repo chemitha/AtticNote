@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect } from "react";
 import { UserCog, Layers, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   AnimatePresence,
+  animate,
   motion,
   PanInfo,
   useMotionValue,
@@ -52,15 +54,21 @@ function MobileProfileSheetContent({
   onOpenSwitchWorkspace,
 }: Omit<MobileProfileSheetProps, "isOpen">) {
   const router = useRouter();
-  const dragY = useMotionValue(0);
+  const y = useMotionValue(380);
 
-  // Smoothly reduce overlay opacity and blur as the user drags the sheet down
-  const overlayOpacity = useTransform(dragY, [0, 260], [1, 0]);
-  const overlayBlur = useTransform(
-    dragY,
-    [0, 260],
-    ["blur(4px)", "blur(0px)"]
-  );
+  // Interconnect overlay opacity & blur directly with sheet vertical position `y`
+  const overlayOpacity = useTransform(y, [0, 320], [1, 0]);
+  const overlayBlur = useTransform(y, [0, 320], ["blur(4px)", "blur(0px)"]);
+
+  useEffect(() => {
+    const controls = animate(y, 0, {
+      type: "spring",
+      damping: 32,
+      stiffness: 360,
+      mass: 0.8,
+    });
+    return () => controls.stop();
+  }, [y]);
 
   const handleLogout = async () => {
     await logoutAction();
@@ -75,17 +83,19 @@ function MobileProfileSheetContent({
   ) => {
     if (info.offset.y > 90 || info.velocity.y > 400) {
       onClose();
+    } else {
+      animate(y, 0, {
+        type: "spring",
+        damping: 30,
+        stiffness: 380,
+      });
     }
   };
 
   return (
     <div className="fixed inset-0 z-50 md:hidden overflow-hidden">
-      {/* Dark Overlay Backdrop — fades & unblurs dynamically as sheet is dragged down */}
+      {/* Dark Overlay Backdrop — interconnected with `y` for slide-up, drag, and slide-down */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
         style={{
           opacity: overlayOpacity,
           backdropFilter: overlayBlur,
@@ -95,23 +105,18 @@ function MobileProfileSheetContent({
         onClick={onClose}
       />
 
-      {/* Bottom Sheet Panel with Physics Drag & Upward Friction */}
+      {/* Bottom Sheet Panel with Physics Drag, Snap-Back & Upward Friction */}
       <motion.div
-        initial={{ y: "100%" }}
-        animate={{ y: 0 }}
-        exit={{ y: "100%" }}
-        transition={{
-          type: "spring",
-          damping: 32,
-          stiffness: 360,
-          mass: 0.8,
+        exit={{
+          y: 380,
+          transition: { type: "spring", damping: 34, stiffness: 380 },
         }}
         drag="y"
-        dragConstraints={{ top: 0 }}
-        dragElastic={{ top: 0.08, bottom: 0.6 }}
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={{ top: 0.08, bottom: 0.85 }}
         dragMomentum={false}
         onDragEnd={handleDragEnd}
-        style={{ y: dragY, touchAction: "none" }}
+        style={{ y, touchAction: "none" }}
         className="fixed bottom-0 left-0 right-0 bg-[#111318] border-t border-[#2A2E37] rounded-t-2xl p-5 pb-8 shadow-2xl flex flex-col text-left cursor-grab active:cursor-grabbing"
       >
         {/* Pull Handle Indicator */}
