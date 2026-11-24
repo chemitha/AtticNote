@@ -219,7 +219,7 @@ function SwitchWorkspaceModalContent({
         {/* Body */}
         <div className="p-5 space-y-3 max-h-[70vh] overflow-y-auto">
           {error && (
-            <div className="text-xs px-3 py-2 rounded-lg border bg-red-500/10 border-red-500/30 text-red-400">
+            <div className="p-3 rounded-lg bg-red-500/10 text-red-400 text-xs">
               {error}
             </div>
           )}

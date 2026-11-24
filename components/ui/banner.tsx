@@ -135,10 +135,10 @@ function BannerWithLink({ onClose }: BannerWithLinkProps) {
     >
       <div className="flex grow flex-row flex-col justify-between gap-2 md:flex-row md:items-center w-full">
         <p className="text-sm text-[#9CA3AF]">
-          <span className="font-semibold text-white mr-1.5">AtticNote v1.1.1 is here!</span>
-          <span className="hidden md:inline">Experience nested sub-pages, secure remember sessions, and persistent block editing.</span>
+          <span className="font-semibold text-white mr-1.5">AtticNote v1.2.0 is here!</span>
+          <span className="hidden md:inline">Manage your account, customize your avatar, and organize notes across workspaces.</span>
         </p>
-        <Link href="/docs/changelog/1.1.1" className="group whitespace-nowrap text-sm font-medium text-[#7C5CFF] hover:text-[#A890FF] transition-colors flex items-center gap-1">
+        <Link href="/docs/changelog/1.2.0" className="group whitespace-nowrap text-sm font-medium text-[#7C5CFF] hover:text-[#A890FF] transition-colors flex items-center gap-1">
           Learn more
           <ArrowRight
             className="-mt-0.5 ms-1 inline-flex opacity-80 transition-transform group-hover:translate-x-0.5"

@@ -286,10 +286,10 @@ function ManageAccountModalContent({
 
               {profileMessage && (
                 <div
-                  className={`text-xs px-3 py-2 rounded-lg border ${
+                  className={`p-3 rounded-lg text-xs ${
                     profileMessage.type === "success"
-                      ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                      : "bg-red-500/10 border-red-500/30 text-red-400"
+                      ? "bg-emerald-500/10 text-emerald-400"
+                      : "bg-red-500/10 text-red-400"
                   }`}
                 >
                   {profileMessage.text}
@@ -361,10 +361,10 @@ function ManageAccountModalContent({
 
               {passwordMessage && (
                 <div
-                  className={`text-xs px-3 py-2 rounded-lg border ${
+                  className={`p-3 rounded-lg text-xs ${
                     passwordMessage.type === "success"
-                      ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                      : "bg-red-500/10 border-red-500/30 text-red-400"
+                      ? "bg-emerald-500/10 text-emerald-400"
+                      : "bg-red-500/10 text-red-400"
                   }`}
                 >
                   {passwordMessage.text}
@@ -392,7 +392,7 @@ function ManageAccountModalContent({
 
           {activeTab === "danger" && (
             <form onSubmit={handleDeleteAccount} className="space-y-4">
-              <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-300 leading-relaxed">
+              <div className="p-3 rounded-lg bg-red-500/10 text-xs text-red-400 leading-relaxed">
                 Deleting your account permanently removes your profile, all workspaces, notes, blocks, and integrations. This action cannot be undone.
               </div>
 
@@ -425,7 +425,7 @@ function ManageAccountModalContent({
               </div>
 
               {deleteError && (
-                <div className="text-xs px-3 py-2 rounded-lg border bg-red-500/10 border-red-500/30 text-red-400">
+                <div className="p-3 rounded-lg bg-red-500/10 text-red-400 text-xs">
                   {deleteError}
                 </div>
               )}
